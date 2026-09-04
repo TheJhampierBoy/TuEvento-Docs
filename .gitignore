@@ -1,0 +1,44 @@
+# Archivos temporales de Microsoft Office
+~$*.doc
+~$*.docx
+~$*.xls
+~$*.xlsx
+~$*.ppt
+~$*.pptx
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+
+# Node.js (por si existe código fuente en 05_Codigo_Fuente)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build / dist
+build/
+dist/
+out/
+
+# Variables de entorno y credenciales
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets.*
+
+# IDE / editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
