@@ -7,17 +7,19 @@ generated_on: 2026-10-24
 status: borrador
 reviewed_by: ""
 translation_of: es/06_Base_Datos/Diccionario_Datos.md
-es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
+es_sha256: d26956fadb060794223d49992c2a985ce2430671f49bb743e850c2a2513ab199
 ---
 # Data dictionary — Tu Evento
 
 > **Draft generated from the implemented schema.** This dictionary was generated on 2026-10-24 from [`Script_BD_implementado.sql`](Script_BD_implementado.sql): the 171 Liquibase 4.31.1 changesets of `lozano2303/TuEvento` (`origin/develop` / `2d259e7`) applied to a temporary PostgreSQL 17.10. Names, types, nullability, keys and default values come from the schema. Descriptions come from database comments and code comments (Javadoc); where there is none, it says **PENDING** for the team to complete. Each table's module comes from the JPA entity that maps it.
 >
-> Summary: 75 tables, 570 columns, 555 pending column descriptions.
+> Summary: 75 tables, 570 columns, 254 pending column descriptions.
 >
 > The previous version of this document (design dictionary converted from the XLSX `04_Diseno_Software/Diccionario de datos Tu-Evento.xlsx`) is kept in the Git history: `git show 5e68501:en/06_Base_Datos/Diccionario_Datos.md`.
 
 **Key column legend:** PK = primary key · FK → `table.column` = foreign key · UQ = part of a UNIQUE constraint.
+
+**Rule-generated descriptions.** Descriptions marked *[R1]*–*[R4]* do not come from comments: they are derived from the schema structure without interpretation. Unmarked descriptions come from database or code comments. *[R1]* PK column with `IDENTITY` → "Unique identifier of the table (PK, IDENTITY)." · *[R2]* `created_at`, `created_by`, `updated_at` and `updated_by` columns → standard audit description (in entities extending `JpaAuditingEntity`, `created_by` and `updated_by` store the authenticated user's name or `system`, according to `shared/infrastructure/config/JpaConfig.java`) · *[R3]* foreign key column → "Reference to table.column." · *[R4]* column with a list CHECK constraint → "Allowed values: …".
 
 **Contents**
 
@@ -49,16 +51,16 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `category_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `category_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `name` | `character varying(50)` | NO | UQ | — | PENDING |
 | `description` | `character varying(100)` | NO | — | — | PENDING |
 | `active` | `boolean` | NO | — | `true` | PENDING |
 | `visible` | `boolean` | NO | — | `true` | PENDING |
 | `dad_id` | `integer` | YES | FK → `category.category_id` | — | Parent category; null for a root category. |
-| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_by` | `character varying(100)` | NO | — | — | PENDING |
-| `updated_by` | `character varying(100)` | NO | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | NO | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(100)` | NO | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(100)` | NO | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 1.2 `category_event`
 
@@ -68,7 +70,7 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `category_event_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `category_event_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `category_id` | `integer` | NO | UQ, FK → `category.category_id` | — | Category linked to the event. |
 | `event_id` | `integer` | NO | UQ, FK → `event.event_id` | — | Event linked to the category. |
 
@@ -84,20 +86,20 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `event_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_id` | `bigint` | NO | FK → `app_user.user_id` | — | PENDING |
-| `site_id` | `bigint` | NO | UQ, FK → `site.site_id` | — | PENDING |
+| `event_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_id` | `bigint` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
+| `site_id` | `bigint` | NO | UQ, FK → `site.site_id` | — | Reference to `site.site_id`. *[R3]* |
 | `event_name` | `character varying(100)` | NO | UQ | — | PENDING |
 | `description` | `character varying(255)` | NO | — | — | PENDING |
 | `start_date` | `date` | NO | UQ | — | PENDING CHECK constraint: `CHECK ((finish_date > start_date))`. |
 | `finish_date` | `date` | NO | — | — | PENDING CHECK constraint: `CHECK ((finish_date > start_date))`. |
-| `status` | `character varying(20)` | NO | — | `'DRAFT'::character varying` | PENDING Allowed values (CHECK): `DRAFT`, `PENDING_REVIEW`, `PUBLISHED`, `REJECTED`, `CANCELLED`, `COMPLETED`. |
+| `status` | `character varying(20)` | NO | — | `'DRAFT'::character varying` | Allowed values: `DRAFT`, `PENDING_REVIEW`, `PUBLISHED`, `REJECTED`, `CANCELLED`, `COMPLETED`. *[R4]* |
 | `is_public` | `boolean` | NO | — | `true` | PENDING |
 | `available_seats` | `integer` | NO | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_by` | `character varying(100)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(100)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(100)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 | `rejection_reason` | `text` | YES | — | — | Rejection reason; filled when the status is REJECTED and cleared when it returns to DRAFT. |
 
 ### 2.2 `event_layout`
@@ -108,8 +110,8 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `event_layout_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
+| `event_layout_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | Reference to `event.event_id`. *[R3]* |
 | `layout_data` | `jsonb` | NO | — | — | PENDING |
 
 ### 2.3 `event_log`
@@ -120,8 +122,8 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
+| `log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | Reference to `event.event_id`. *[R3]* |
 | `action` | `character varying(100)` | NO | — | — | PENDING |
 | `old_value` | `text` | YES | — | — | PENDING |
 | `new_value` | `text` | YES | — | — | PENDING |
@@ -135,8 +137,8 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `media_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
+| `media_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | Reference to `event.event_id`. *[R3]* |
 | `img_url` | `character varying(255)` | NO | — | — | PENDING |
 
 ### 2.5 `event_media_log`
@@ -147,9 +149,9 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `media_log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
-| `media_id` | `bigint` | NO | FK → `event_media.media_id` | — | PENDING |
+| `media_log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | Reference to `event.event_id`. *[R3]* |
+| `media_id` | `bigint` | NO | FK → `event_media.media_id` | — | Reference to `event_media.media_id`. *[R3]* |
 | `img_url` | `character varying(255)` | NO | — | — | PENDING |
 | `version` | `integer` | NO | — | — | PENDING |
 | `is_visible` | `boolean` | NO | — | `true` | PENDING |
@@ -162,13 +164,13 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `rating_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
-| `user_id` | `bigint` | NO | FK → `app_user.user_id` | — | PENDING |
+| `rating_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | Reference to `event.event_id`. *[R3]* |
+| `user_id` | `bigint` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `rating` | `integer` | YES | — | — | PENDING CHECK constraint: `CHECK (((rating IS NULL) OR ((rating >= 1) AND (rating <= 5))))`. |
 | `comment` | `character varying()` | NO | — | — | PENDING |
 | `is_visible` | `boolean` | NO | — | `true` | PENDING |
-| `created_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | `now()` | Date and time the record was created (audit). *[R2]* |
 | `parent_rating_id` | `bigint` | YES | FK → `event_rating.rating_id` | — | Comment being replied to; null for a top-level comment (cascade delete). |
 | `edited_at` | `timestamp without time zone` | YES | — | — | Date and time of the last comment edit. |
 | `reply_to_user_id` | `bigint` | YES | — | — | ID of the user being replied to directly (for mentions). |
@@ -182,12 +184,12 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `status_log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
+| `status_log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | Reference to `event.event_id`. *[R3]* |
 | `old_status` | `character varying(20)` | YES | — | — | PENDING |
 | `new_status` | `character varying(20)` | NO | — | — | PENDING |
 | `changed_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
-| `changed_by` | `bigint` | YES | FK → `app_user.user_id` | — | PENDING |
+| `changed_by` | `bigint` | YES | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `reason` | `text` | YES | — | — | Administrator rejection reason when the new status is REJECTED; null otherwise. |
 
 <a id="mod-geolocation"></a>
@@ -202,14 +204,14 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `city_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `department_id` | `integer` | NO | FK → `department.department_id` | — | PENDING |
+| `city_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `department_id` | `integer` | NO | FK → `department.department_id` | — | Reference to `department.department_id`. *[R3]* |
 | `name` | `character varying(100)` | NO | — | — | PENDING |
 | `code` | `character varying(10)` | NO | UQ | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_by` | `character varying(50)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(50)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(50)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 3.2 `department`
 
@@ -219,13 +221,13 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `department_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `department_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `name` | `character varying(100)` | NO | — | — | PENDING |
 | `code` | `character varying(10)` | NO | UQ | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_by` | `character varying(50)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(50)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(50)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 3.3 `site`
 
@@ -235,17 +237,17 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `site_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `city_id` | `integer` | NO | FK → `city.city_id` | — | PENDING |
+| `site_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `city_id` | `integer` | NO | FK → `city.city_id` | — | Reference to `city.city_id`. *[R3]* |
 | `name` | `character varying(150)` | NO | — | — | PENDING |
 | `address` | `character varying(200)` | NO | — | — | PENDING |
 | `capacity` | `integer` | NO | — | — | PENDING |
 | `latitude` | `numeric(9,6)` | NO | — | — | PENDING |
 | `longitude` | `numeric(9,6)` | NO | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_by` | `character varying(50)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(50)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(50)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 <a id="mod-language"></a>
 
@@ -259,9 +261,9 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `action` | `character varying(100)` | NO | UQ | — | PENDING |
-| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | Reference to `language.language_id`. *[R3]* |
 | `translated_description` | `character varying(255)` | NO | — | — | PENDING |
 | `source` | `character varying(50)` | NO | — | — | PENDING |
 | `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
@@ -274,17 +276,17 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `translation_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `category_id` | `integer` | NO | UQ, FK → `category.category_id` | — | PENDING |
-| `language_id` | `bigint` | NO | UQ, FK → `language.language_id` | — | PENDING |
+| `translation_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `category_id` | `integer` | NO | UQ, FK → `category.category_id` | — | Reference to `category.category_id`. *[R3]* |
+| `language_id` | `bigint` | NO | UQ, FK → `language.language_id` | — | Reference to `language.language_id`. *[R3]* |
 | `translated_name` | `character varying(100)` | NO | — | — | PENDING |
 | `translated_description` | `character varying(255)` | YES | — | — | PENDING |
 | `source` | `character varying(50)` | NO | — | — | PENDING |
-| `status` | `character varying(20)` | NO | — | `'DRAFT'::character varying` | PENDING Allowed values (CHECK): `DRAFT`, `PUBLISHED`, `PENDING_REVIEW`. |
-| `created_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
-| `updated_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
-| `created_by` | `character varying(255)` | NO | — | `'system'::character varying` | PENDING |
-| `updated_by` | `character varying(255)` | NO | — | `'system'::character varying` | PENDING |
+| `status` | `character varying(20)` | NO | — | `'DRAFT'::character varying` | Allowed values: `DRAFT`, `PUBLISHED`, `PENDING_REVIEW`. *[R4]* |
+| `created_at` | `timestamp without time zone` | NO | — | `now()` | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | NO | — | `now()` | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(255)` | NO | — | `'system'::character varying` | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(255)` | NO | — | `'system'::character varying` | User or process that last modified the record (audit). *[R2]* |
 
 ### 4.3 `channel_translation`
 
@@ -294,9 +296,9 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `channel_id` | `integer` | NO | UQ | — | PENDING |
-| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | Reference to `language.language_id`. *[R3]* |
 | `translated_name` | `character varying(100)` | YES | — | — | PENDING |
 | `translated_description` | `character varying(255)` | NO | — | — | PENDING |
 | `source` | `character varying(50)` | NO | — | — | PENDING |
@@ -310,9 +312,9 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `reply_id` | `integer` | NO | UQ | — | PENDING |
-| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | Reference to `language.language_id`. *[R3]* |
 | `translated_reply_text` | `character varying(255)` | YES | — | — | PENDING |
 | `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
 
@@ -324,9 +326,9 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `rating_id` | `integer` | NO | UQ | — | PENDING |
-| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | Reference to `language.language_id`. *[R3]* |
 | `translated_comment` | `character varying(255)` | YES | — | — | PENDING |
 | `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
 
@@ -338,17 +340,17 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `translation_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `event_id` | `bigint` | NO | UQ, FK → `event.event_id` | — | PENDING |
-| `language_id` | `bigint` | NO | UQ, FK → `language.language_id` | — | PENDING |
+| `translation_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `event_id` | `bigint` | NO | UQ, FK → `event.event_id` | — | Reference to `event.event_id`. *[R3]* |
+| `language_id` | `bigint` | NO | UQ, FK → `language.language_id` | — | Reference to `language.language_id`. *[R3]* |
 | `translated_name` | `character varying(100)` | YES | — | — | PENDING |
 | `translated_description` | `character varying(255)` | YES | — | — | PENDING |
 | `source` | `character varying(50)` | NO | — | — | PENDING |
-| `status` | `character varying(20)` | NO | — | `'DRAFT'::character varying` | PENDING Allowed values (CHECK): `DRAFT`, `PUBLISHED`, `PENDING_REVIEW`. |
-| `created_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
-| `updated_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
-| `created_by` | `character varying(255)` | NO | — | `'system'::character varying` | PENDING |
-| `updated_by` | `character varying(255)` | NO | — | `'system'::character varying` | PENDING |
+| `status` | `character varying(20)` | NO | — | `'DRAFT'::character varying` | Allowed values: `DRAFT`, `PUBLISHED`, `PENDING_REVIEW`. *[R4]* |
+| `created_at` | `timestamp without time zone` | NO | — | `now()` | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | NO | — | `now()` | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(255)` | NO | — | `'system'::character varying` | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(255)` | NO | — | `'system'::character varying` | User or process that last modified the record (audit). *[R2]* |
 
 ### 4.7 `language`
 
@@ -358,15 +360,15 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `language_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `language_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `code` | `character varying(10)` | NO | UQ | — | PENDING |
 | `name` | `character varying(50)` | NO | — | — | PENDING |
 | `is_active` | `boolean` | NO | — | `true` | PENDING |
 | `is_default` | `boolean` | NO | — | `false` | PENDING |
-| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_by` | `character varying(50)` | NO | — | — | PENDING |
-| `updated_by` | `character varying(50)` | NO | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | NO | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(50)` | NO | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(50)` | NO | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 4.8 `module_translation`
 
@@ -376,9 +378,9 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `module` | `character varying(50)` | NO | UQ | — | PENDING |
-| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | Reference to `language.language_id`. *[R3]* |
 | `translated_name` | `character varying(100)` | NO | — | — | PENDING |
 | `source` | `character varying(50)` | NO | — | — | PENDING |
 | `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
@@ -391,9 +393,9 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `notification_id` | `integer` | NO | UQ | — | PENDING |
-| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | Reference to `language.language_id`. *[R3]* |
 | `translated_subject` | `text` | YES | — | — | PENDING |
 | `translated_body` | `text` | YES | — | — | PENDING |
 | `source` | `character varying(50)` | NO | — | — | PENDING |
@@ -407,9 +409,9 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `notification_type_id` | `integer` | NO | UQ | — | PENDING |
-| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | Reference to `language.language_id`. *[R3]* |
 | `translated_name` | `character varying(100)` | NO | — | — | PENDING |
 | `translated_description` | `character varying(255)` | NO | — | — | PENDING |
 | `source` | `character varying(50)` | NO | — | — | PENDING |
@@ -423,9 +425,9 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `profile_id` | `integer` | NO | UQ | — | PENDING |
-| `language_id` | `integer` | NO | UQ, FK → `language.language_id` | — | PENDING |
+| `language_id` | `integer` | NO | UQ, FK → `language.language_id` | — | Reference to `language.language_id`. *[R3]* |
 | `translated_bio` | `character varying(255)` | NO | — | — | PENDING |
 | `source` | `character varying(50)` | NO | — | — | PENDING |
 | `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
@@ -438,9 +440,9 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `review_id` | `integer` | NO | UQ | — | PENDING |
-| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | Reference to `language.language_id`. *[R3]* |
 | `translated_comment` | `character varying(255)` | NO | — | — | PENDING |
 | `source` | `character varying(50)` | NO | — | — | PENDING |
 | `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
@@ -453,9 +455,9 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `seat_block_id` | `integer` | NO | UQ | — | PENDING |
-| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | Reference to `language.language_id`. *[R3]* |
 | `translated_name` | `character varying(100)` | NO | — | — | PENDING |
 | `source` | `character varying(50)` | NO | — | — | PENDING |
 | `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
@@ -468,9 +470,9 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `section_type_id` | `integer` | NO | UQ | — | PENDING |
-| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | Reference to `language.language_id`. *[R3]* |
 | `translated_name` | `character varying(100)` | NO | — | — | PENDING |
 | `source` | `character varying(50)` | NO | — | — | PENDING |
 | `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
@@ -483,9 +485,9 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `theme_id` | `integer` | NO | UQ | — | PENDING |
-| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | Reference to `language.language_id`. *[R3]* |
 | `translated_name` | `character varying(100)` | NO | — | — | PENDING |
 | `translated_description` | `character varying(255)` | NO | — | — | PENDING |
 | `source` | `character varying(50)` | NO | — | — | PENDING |
@@ -499,22 +501,22 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `job_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `job_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `entity_type` | `character varying(50)` | NO | UQ | — | PENDING |
 | `entity_id` | `bigint` | NO | UQ | — | PENDING |
-| `source_language_id` | `bigint` | NO | FK → `language.language_id` | — | PENDING |
-| `target_language_id` | `bigint` | NO | UQ, FK → `language.language_id` | — | PENDING |
+| `source_language_id` | `bigint` | NO | FK → `language.language_id` | — | Reference to `language.language_id`. *[R3]* |
+| `target_language_id` | `bigint` | NO | UQ, FK → `language.language_id` | — | Reference to `language.language_id`. *[R3]* |
 | `source_hash` | `character varying(64)` | NO | — | — | PENDING |
-| `status` | `character varying(20)` | NO | — | — | PENDING Allowed values (CHECK): `PENDING`, `PROCESSING`, `COMPLETED`, `FAILED`. |
+| `status` | `character varying(20)` | NO | — | — | Allowed values: `PENDING`, `PROCESSING`, `COMPLETED`, `FAILED`. *[R4]* |
 | `provider` | `character varying(20)` | NO | — | — | PENDING |
 | `attempts` | `integer` | NO | — | `0` | PENDING |
 | `last_error` | `character varying(1000)` | YES | — | — | PENDING |
 | `next_retry_at` | `timestamp without time zone` | YES | — | — | PENDING |
 | `completed_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
-| `updated_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
-| `created_by` | `character varying(255)` | NO | — | `'system'::character varying` | PENDING |
-| `updated_by` | `character varying(255)` | NO | — | `'system'::character varying` | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | `now()` | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | NO | — | `now()` | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(255)` | NO | — | `'system'::character varying` | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(255)` | NO | — | `'system'::character varying` | User or process that last modified the record (audit). *[R2]* |
 
 <a id="mod-notification"></a>
 
@@ -528,15 +530,15 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `channel_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `channel_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `name` | `character varying(50)` | NO | UQ | — | PENDING |
 | `description` | `character varying(100)` | NO | — | — | PENDING |
 | `active` | `boolean` | NO | — | `true` | PENDING |
 | `config` | `jsonb` | YES | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_by` | `character varying(100)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | NO | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(100)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(100)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 5.2 `notification`
 
@@ -546,19 +548,19 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `notification_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `channel_id` | `bigint` | NO | FK → `channel.channel_id` | — | PENDING |
-| `notification_type_id` | `bigint` | NO | FK → `notification_type.notification_type_id` | — | PENDING |
+| `notification_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `channel_id` | `bigint` | NO | FK → `channel.channel_id` | — | Reference to `channel.channel_id`. *[R3]* |
+| `notification_type_id` | `bigint` | NO | FK → `notification_type.notification_type_id` | — | Reference to `notification_type.notification_type_id`. *[R3]* |
 | `entity_type` | `character varying(30)` | NO | — | — | PENDING |
 | `entity_id` | `bigint` | NO | — | — | PENDING |
 | `subject` | `character varying(150)` | NO | — | — | PENDING |
 | `body` | `text` | NO | — | — | PENDING |
 | `sent_at` | `timestamp without time zone` | YES | — | — | PENDING |
 | `idempotency_key` | `character varying(150)` | NO | UQ | — | PENDING |
-| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_by` | `character varying(100)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | NO | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(100)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(100)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 5.3 `notification_type`
 
@@ -568,14 +570,14 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `notification_type_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `notification_type_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `name` | `character varying(50)` | NO | UQ | — | PENDING |
 | `description` | `character varying(100)` | NO | — | — | PENDING |
 | `active` | `boolean` | NO | — | `true` | PENDING |
-| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_by` | `character varying(100)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | NO | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(100)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(100)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 5.4 `notification_user`
 
@@ -585,17 +587,17 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `notification_user_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `notification_id` | `bigint` | NO | UQ, FK → `notification.notification_id` | — | PENDING |
-| `user_id` | `integer` | NO | UQ, FK → `app_user.user_id` | — | PENDING |
+| `notification_user_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `notification_id` | `bigint` | NO | UQ, FK → `notification.notification_id` | — | Reference to `notification.notification_id`. *[R3]* |
+| `user_id` | `integer` | NO | UQ, FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `email_address` | `character varying(255)` | YES | — | — | PENDING |
-| `delivered_status` | `character varying(20)` | NO | — | — | PENDING Allowed values (CHECK): `PENDING`, `SENT`, `DELIVERED`, `FAILED`. |
+| `delivered_status` | `character varying(20)` | NO | — | — | Allowed values: `PENDING`, `SENT`, `DELIVERED`, `FAILED`. *[R4]* |
 | `error_message` | `text` | YES | — | — | PENDING |
 | `read_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_by` | `character varying(100)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | NO | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(100)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(100)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 <a id="mod-payment"></a>
 
@@ -609,21 +611,21 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `payment_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `order_id` | `bigint` | NO | FK → `order.order_id` | — | PENDING |
-| `gateway` | `character varying(20)` | NO | — | — | PENDING Allowed values (CHECK): `FAKE`, `WOMPI`. |
+| `payment_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `order_id` | `bigint` | NO | FK → `order.order_id` | — | Reference to `order.order_id`. *[R3]* |
+| `gateway` | `character varying(20)` | NO | — | — | Allowed values: `FAKE`, `WOMPI`. *[R4]* |
 | `gateway_transaction_id` | `character varying(100)` | NO | UQ | — | PENDING |
-| `status` | `character varying(20)` | NO | — | `'PENDING'::character varying` | PENDING Allowed values (CHECK): `PENDING`, `APPROVED`, `REJECTED`, `ERROR`, `REFUNDED`. |
+| `status` | `character varying(20)` | NO | — | `'PENDING'::character varying` | Allowed values: `PENDING`, `APPROVED`, `REJECTED`, `ERROR`, `REFUNDED`. *[R4]* |
 | `amount` | `numeric(19,4)` | NO | — | — | PENDING |
 | `currency` | `character varying(3)` | NO | — | `'COP'::character varying` | PENDING |
-| `payment_method` | `character varying(20)` | YES | — | — | PENDING Allowed values (CHECK): `CARD`, `PSE`, `NEQUI`, `CASH`, `QR`. |
+| `payment_method` | `character varying(20)` | YES | — | — | Allowed values: `CARD`, `PSE`, `NEQUI`, `CASH`, `QR`. *[R4]* |
 | `processed_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_by` | `character varying(100)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | NO | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(100)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(100)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 | `wallet_amount_applied` | `numeric(19,4)` | NO | — | `0` | PENDING CHECK constraint: `CHECK ((wallet_amount_applied >= (0)::numeric))`. |
-| `wallet_transaction_id` | `bigint` | YES | FK → `wallet_transaction.transaction_id` | — | PENDING |
+| `wallet_transaction_id` | `bigint` | YES | FK → `wallet_transaction.transaction_id` | — | Reference to `wallet_transaction.transaction_id`. *[R3]* |
 
 ### 6.2 `payment_log`
 
@@ -633,8 +635,8 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `payment_log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `payment_id` | `bigint` | NO | FK → `payment.payment_id` | — | PENDING |
+| `payment_log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `payment_id` | `bigint` | NO | FK → `payment.payment_id` | — | Reference to `payment.payment_id`. *[R3]* |
 | `old_status` | `character varying(20)` | NO | — | — | PENDING |
 | `new_status` | `character varying(20)` | NO | — | — | PENDING |
 | `changed_at` | `timestamp without time zone` | NO | — | — | PENDING |
@@ -648,16 +650,16 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `refund_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `payment_id` | `bigint` | NO | FK → `payment.payment_id` | — | PENDING |
-| `status` | `character varying(20)` | NO | — | `'REQUESTED'::character varying` | PENDING Allowed values (CHECK): `REQUESTED`, `APPROVED`, `PROCESSED`, `FAILED`. |
+| `refund_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `payment_id` | `bigint` | NO | FK → `payment.payment_id` | — | Reference to `payment.payment_id`. *[R3]* |
+| `status` | `character varying(20)` | NO | — | `'REQUESTED'::character varying` | Allowed values: `REQUESTED`, `APPROVED`, `PROCESSED`, `FAILED`. *[R4]* |
 | `reason` | `character varying(500)` | YES | — | — | PENDING |
 | `requested_at` | `timestamp without time zone` | NO | — | — | PENDING |
 | `processed_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_by` | `character varying(100)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | NO | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(100)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(100)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 6.4 `transaction_webhook`
 
@@ -667,8 +669,8 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `webhook_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `payment_id` | `bigint` | NO | FK → `payment.payment_id` | — | PENDING |
+| `webhook_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `payment_id` | `bigint` | NO | FK → `payment.payment_id` | — | Reference to `payment.payment_id`. *[R3]* |
 | `gateway_event_id` | `character varying(100)` | NO | UQ | — | PENDING |
 | `payload` | `text` | NO | — | — | PENDING |
 | `received_at` | `timestamp without time zone` | NO | — | — | PENDING |
@@ -685,16 +687,16 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `profile_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_id` | `integer` | NO | FK → `app_user.user_id`, UQ | — | PENDING |
-| `city_id` | `integer` | YES | FK → `city.city_id` | — | PENDING |
+| `profile_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_id` | `integer` | NO | FK → `app_user.user_id`, UQ | — | Reference to `app_user.user_id`. *[R3]* |
+| `city_id` | `integer` | YES | FK → `city.city_id` | — | Reference to `city.city_id`. *[R3]* |
 | `stored_file_id` | `integer` | YES | FK → `stored_file.stored_file_id` | — | Profile picture file (integer, no JPA relation to the storage module). |
 | `full_name` | `character varying(30)` | NO | — | — | PENDING |
 | `bio` | `character varying(255)` | YES | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_by` | `character varying(50)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(50)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(50)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 | `name_changed_at` | `timestamp without time zone` | YES | — | — | PENDING |
 | `preferred_language_id` | `bigint` | YES | FK → `language.language_id` | — | User's preferred language for displaying content. |
 
@@ -706,8 +708,8 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `profile_id` | `bigint` | NO | FK → `profile.profile_id` | — | PENDING |
+| `log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `profile_id` | `bigint` | NO | FK → `profile.profile_id` | — | Reference to `profile.profile_id`. *[R3]* |
 | `action` | `character varying(50)` | YES | — | — | PENDING |
 | `old_value` | `character varying(255)` | YES | — | — | PENDING |
 | `new_value` | `character varying(255)` | YES | — | — | PENDING |
@@ -725,15 +727,15 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `seat_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `seat_block_id` | `integer` | NO | FK → `seat_block.seat_block_id` | — | PENDING |
-| `event_section_id` | `integer` | NO | UQ, FK → `event_section.event_section_id` | — | PENDING |
+| `seat_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `seat_block_id` | `integer` | NO | FK → `seat_block.seat_block_id` | — | Reference to `seat_block.seat_block_id`. *[R3]* |
+| `event_section_id` | `integer` | NO | UQ, FK → `event_section.event_section_id` | — | Reference to `event_section.event_section_id`. *[R3]* |
 | `code` | `character varying(20)` | NO | UQ | — | PENDING |
 | `row` | `integer` | NO | — | — | PENDING |
 | `position` | `integer` | NO | — | — | PENDING |
-| `type` | `character varying(20)` | NO | — | — | PENDING Allowed values (CHECK): `REGULAR`, `COURTESY`. |
-| `status` | `character varying(20)` | NO | — | `'available'::character varying` | PENDING Allowed values (CHECK): `AVAILABLE`, `RESERVED`, `SOLD`, `COURTESY`. |
-| `reserved_by` | `integer` | YES | FK → `app_user.user_id` | — | PENDING |
+| `type` | `character varying(20)` | NO | — | — | Allowed values: `REGULAR`, `COURTESY`. *[R4]* |
+| `status` | `character varying(20)` | NO | — | `'available'::character varying` | Allowed values: `AVAILABLE`, `RESERVED`, `SOLD`, `COURTESY`. *[R4]* |
+| `reserved_by` | `integer` | YES | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `reserved_until` | `timestamp without time zone` | YES | — | — | PENDING |
 
 ### 8.2 `seat_block`
@@ -744,8 +746,8 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `seat_block_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `event_section_id` | `integer` | NO | FK → `event_section.event_section_id` | — | PENDING |
+| `seat_block_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `event_section_id` | `integer` | NO | FK → `event_section.event_section_id` | — | Reference to `event_section.event_section_id`. *[R3]* |
 | `name` | `character varying(100)` | NO | — | — | PENDING |
 | `capacity` | `integer` | NO | — | — | PENDING CHECK constraint: `CHECK ((capacity > 0))`. |
 
@@ -757,12 +759,12 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `seat_log_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `seat_id` | `integer` | NO | FK → `seat.seat_id` | — | PENDING |
-| `old_status` | `character varying(20)` | YES | — | — | PENDING Allowed values (CHECK): `AVAILABLE`, `RESERVED`, `SOLD`, `COURTESY`. |
-| `new_status` | `character varying(20)` | NO | — | — | PENDING Allowed values (CHECK): `AVAILABLE`, `RESERVED`, `SOLD`, `COURTESY`. |
+| `seat_log_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `seat_id` | `integer` | NO | FK → `seat.seat_id` | — | Reference to `seat.seat_id`. *[R3]* |
+| `old_status` | `character varying(20)` | YES | — | — | Allowed values: `AVAILABLE`, `RESERVED`, `SOLD`, `COURTESY`. *[R4]* |
+| `new_status` | `character varying(20)` | NO | — | — | Allowed values: `AVAILABLE`, `RESERVED`, `SOLD`, `COURTESY`. *[R4]* |
 | `changed_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
-| `changed_by` | `integer` | YES | FK → `app_user.user_id` | — | PENDING |
+| `changed_by` | `integer` | YES | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `reason` | `character varying(255)` | YES | — | — | PENDING |
 
 <a id="mod-section"></a>
@@ -777,9 +779,9 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `event_section_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `event_id` | `integer` | NO | FK → `event.event_id`, UQ | — | PENDING |
-| `section_type_id` | `integer` | NO | UQ, FK → `section_type.section_type_id` | — | PENDING |
+| `event_section_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `event_id` | `integer` | NO | FK → `event.event_id`, UQ | — | Reference to `event.event_id`. *[R3]* |
+| `section_type_id` | `integer` | NO | UQ, FK → `section_type.section_type_id` | — | Reference to `section_type.section_type_id`. *[R3]* |
 | `capacity` | `integer` | NO | — | — | PENDING CHECK constraint: `CHECK ((capacity > 0))`. CHECK constraint: `CHECK ((available_seats <= capacity))`. |
 | `available_seats` | `integer` | NO | — | — | PENDING CHECK constraint: `CHECK ((available_seats <= capacity))`. |
 | `price` | `numeric(10,2)` | NO | — | — | PENDING CHECK constraint: `CHECK ((price >= (0)::numeric))`. |
@@ -793,7 +795,7 @@ es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `section_type_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `section_type_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `name` | `character varying(100)` | NO | — | — | PENDING |
 | `active` | `boolean` | NO | — | `true` | PENDING |
 
@@ -815,12 +817,12 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `account_activation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `account_activation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `activation_code` | `character varying(8)` | NO | — | — | PENDING |
 | `expires_at` | `timestamp without time zone` | NO | — | — | PENDING |
 | `activated` | `boolean` | NO | — | `false` | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
 
 ### 11.2 `account_lockout`
 
@@ -830,8 +832,8 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `account_lockout_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `account_lockout_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `failed_attempts` | `integer` | NO | — | `0` | PENDING |
 | `window_started_at` | `timestamp without time zone` | YES | — | — | PENDING |
 | `locked_until` | `timestamp without time zone` | YES | — | — | PENDING |
@@ -844,12 +846,12 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `reactivation_token_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `reactivation_token_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `token` | `character varying(8)` | NO | — | — | PENDING |
 | `token_status` | `boolean` | NO | — | `false` | PENDING |
 | `expires_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
 
 ### 11.4 `app_user`
 
@@ -859,15 +861,15 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `user_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_status_id` | `integer` | NO | FK → `user_status.user_status_id` | — | PENDING |
-| `role_id` | `integer` | NO | FK → `role.role_id` | — | PENDING |
+| `user_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_status_id` | `integer` | NO | FK → `user_status.user_status_id` | — | Reference to `user_status.user_status_id`. *[R3]* |
+| `role_id` | `integer` | NO | FK → `role.role_id` | — | Reference to `role.role_id`. *[R3]* |
 | `alias` | `character varying(50)` | NO | UQ | — | PENDING |
 | `activated` | `boolean` | NO | — | `false` | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_by` | `character varying(50)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(50)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(50)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 11.5 `auth_session`
 
@@ -877,8 +879,8 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `auth_session_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `auth_session_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `access_token` | `character varying(512)` | NO | — | — | PENDING |
 | `issued_at` | `timestamp without time zone` | NO | — | — | PENDING |
 | `expires_at` | `timestamp without time zone` | NO | — | — | PENDING |
@@ -895,8 +897,8 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `login_credentials_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `login_credentials_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `password_hash` | `character varying(255)` | NO | — | — | PENDING |
 | `email` | `character varying(255)` | NO | UQ | — | PENDING |
 | `last_login_at` | `timestamp without time zone` | YES | — | — | PENDING |
@@ -909,8 +911,8 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `oauth_account_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_id` | `integer` | NO | UQ, FK → `app_user.user_id` | — | PENDING |
+| `oauth_account_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_id` | `integer` | NO | UQ, FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `provider` | `character varying(30)` | NO | UQ | — | PENDING |
 | `provider_user_id` | `character varying(100)` | NO | UQ | — | PENDING |
 | `email` | `character varying(255)` | YES | — | — | PENDING |
@@ -924,15 +926,15 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `organizer_petition_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `organizer_petition_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `application_date` | `timestamp without time zone` | NO | — | — | PENDING |
 | `status` | `character varying(20)` | NO | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_by` | `character varying(50)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
-| `stored_file_id` | `integer` | YES | FK → `stored_file.stored_file_id` | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(50)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(50)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
+| `stored_file_id` | `integer` | YES | FK → `stored_file.stored_file_id` | — | Reference to `stored_file.stored_file_id`. *[R3]* |
 | `document_type` | `character varying(50)` | YES | — | — | PENDING |
 
 ### 11.9 `password_history`
@@ -943,8 +945,8 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `password_history_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `password_history_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `password_hash` | `character varying(255)` | NO | — | — | PENDING |
 | `changed_at` | `timestamp without time zone` | NO | — | — | PENDING |
 
@@ -956,14 +958,14 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `permission_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `permission_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `code` | `character varying(50)` | NO | UQ | — | PENDING |
 | `name` | `character varying(80)` | NO | — | — | PENDING |
 | `description` | `character varying(150)` | NO | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_by` | `character varying(50)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(50)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(50)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 11.11 `recover_password`
 
@@ -973,12 +975,12 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `recover_password_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `recover_password_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `code` | `character varying(8)` | NO | — | — | PENDING |
 | `code_status` | `boolean` | NO | — | `false` | PENDING |
 | `expires_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
 | `last_password_hash` | `character varying(255)` | YES | — | — | PENDING |
 
 ### 11.12 `refresh_token`
@@ -989,9 +991,9 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `refresh_token_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
-| `auth_session_id` | `integer` | NO | FK → `auth_session.auth_session_id` | — | PENDING |
+| `refresh_token_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
+| `auth_session_id` | `integer` | NO | FK → `auth_session.auth_session_id` | — | Reference to `auth_session.auth_session_id`. *[R3]* |
 | `token` | `character varying(512)` | NO | — | — | PENDING |
 | `issued_at` | `timestamp without time zone` | NO | — | — | PENDING |
 | `expires_at` | `timestamp without time zone` | NO | — | — | PENDING |
@@ -1006,14 +1008,14 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `role_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `role_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `code` | `character varying(50)` | NO | UQ | — | PENDING |
 | `name` | `character varying(80)` | NO | — | — | PENDING |
 | `description` | `character varying(150)` | NO | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_by` | `character varying(50)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(50)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(50)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 11.14 `role_permission`
 
@@ -1023,9 +1025,9 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `role_permission_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `role_id` | `integer` | NO | FK → `role.role_id` | — | PENDING |
-| `permission_id` | `integer` | NO | FK → `permission.permission_id` | — | PENDING |
+| `role_permission_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `role_id` | `integer` | NO | FK → `role.role_id` | — | Reference to `role.role_id`. *[R3]* |
+| `permission_id` | `integer` | NO | FK → `permission.permission_id` | — | Reference to `permission.permission_id`. *[R3]* |
 
 ### 11.15 `user_status`
 
@@ -1035,14 +1037,14 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `user_status_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_status_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `code` | `character varying(30)` | NO | UQ | — | PENDING |
 | `name` | `character varying(80)` | NO | — | — | PENDING |
 | `description` | `character varying(150)` | NO | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_by` | `character varying(50)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(50)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(50)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 11.16 `user_status_history`
 
@@ -1052,9 +1054,9 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `user_status_history_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
-| `user_status_id` | `integer` | NO | FK → `user_status.user_status_id` | — | PENDING |
+| `user_status_history_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
+| `user_status_id` | `integer` | NO | FK → `user_status.user_status_id` | — | Reference to `user_status.user_status_id`. *[R3]* |
 | `reason` | `character varying(150)` | NO | — | — | PENDING |
 
 <a id="mod-storage"></a>
@@ -1069,17 +1071,17 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `file_category_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `storage_provider_id` | `integer` | NO | FK → `storage_provider.storage_provider_id` | — | PENDING |
+| `file_category_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `storage_provider_id` | `integer` | NO | FK → `storage_provider.storage_provider_id` | — | Reference to `storage_provider.storage_provider_id`. *[R3]* |
 | `name` | `character varying(100)` | NO | — | — | PENDING |
 | `code` | `character varying(50)` | NO | UQ | — | PENDING |
 | `is_public` | `boolean` | NO | — | `false` | PENDING |
 | `allowed_extensions` | `character varying(100)` | NO | — | — | PENDING |
 | `max_size_mb` | `integer` | NO | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_by` | `character varying(50)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(50)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(50)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 12.2 `storage_operation_log`
 
@@ -1089,9 +1091,9 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `log_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `stored_file_id` | `integer` | NO | FK → `stored_file.stored_file_id` | — | PENDING |
-| `performed_by` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `log_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `stored_file_id` | `integer` | NO | FK → `stored_file.stored_file_id` | — | Reference to `stored_file.stored_file_id`. *[R3]* |
+| `performed_by` | `integer` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 | `operation` | `character varying(20)` | NO | — | — | PENDING |
 | `status` | `character varying(20)` | NO | — | — | PENDING |
 | `error_message` | `character varying(500)` | YES | — | — | PENDING |
@@ -1105,15 +1107,15 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `storage_provider_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `storage_provider_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `name` | `character varying(100)` | NO | — | — | PENDING |
 | `code` | `character varying(20)` | NO | UQ | — | PENDING |
 | `is_active` | `boolean` | NO | — | `false` | PENDING |
 | `config` | `jsonb` | NO | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_by` | `character varying(50)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(50)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(50)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 12.4 `stored_file`
 
@@ -1123,8 +1125,8 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `stored_file_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `file_category_id` | `integer` | NO | FK → `file_category.file_category_id` | — | PENDING |
+| `stored_file_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `file_category_id` | `integer` | NO | FK → `file_category.file_category_id` | — | Reference to `file_category.file_category_id`. *[R3]* |
 | `uploaded_by` | `integer` | NO | FK → `app_user.user_id` | — | ID of the user who uploaded the file. |
 | `s3_key` | `character varying(512)` | NO | — | — | PENDING |
 | `original_filename` | `character varying(255)` | NO | — | — | PENDING |
@@ -1135,10 +1137,10 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 | `owner_entity_type` | `character varying(50)` | YES | — | — | PENDING |
 | `deleted` | `boolean` | NO | — | `false` | PENDING |
 | `uploaded_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `created_by` | `character varying(50)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(50)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(50)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 <a id="mod-theme"></a>
 
@@ -1152,7 +1154,7 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `theme_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `theme_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `name` | `character varying(100)` | NO | UQ | — | PENDING |
 | `description` | `character varying(255)` | NO | — | — | PENDING |
 | `default_palette` | `jsonb` | NO | — | — | PENDING |
@@ -1165,12 +1167,12 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `customization_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `customization_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `user_theme_id` | `bigint` | NO | UQ, FK → `user_theme.user_theme_id` | — | Customized user theme. |
 | `property` | `character varying(100)` | NO | UQ | — | PENDING |
 | `value` | `character varying(255)` | NO | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
 
 ### 13.3 `theme_log`
 
@@ -1180,13 +1182,13 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_theme_id` | `bigint` | NO | FK → `user_theme.user_theme_id` | — | PENDING |
+| `log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_theme_id` | `bigint` | NO | FK → `user_theme.user_theme_id` | — | Reference to `user_theme.user_theme_id`. *[R3]* |
 | `action` | `character varying(50)` | NO | — | — | PENDING |
 | `property` | `character varying(100)` | YES | — | — | PENDING |
 | `old_value` | `character varying(255)` | YES | — | — | PENDING |
 | `new_value` | `character varying(255)` | YES | — | — | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
 
 ### 13.4 `user_theme`
 
@@ -1196,12 +1198,12 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `user_theme_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_theme_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `user_id` | `integer` | NO | UQ, FK → `app_user.user_id` | — | User the theme belongs to. |
 | `theme_id` | `integer` | NO | UQ, FK → `theme.theme_id` | — | Selected theme. |
 | `is_active` | `boolean` | NO | — | `true` | PENDING |
-| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | YES | — | — | Date and time the record was last modified (audit). *[R2]* |
 
 <a id="mod-ticket"></a>
 
@@ -1215,16 +1217,16 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `order_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `user_id` | `bigint` | NO | FK → `app_user.user_id` | — | PENDING |
-| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
+| `order_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `user_id` | `bigint` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | Reference to `event.event_id`. *[R3]* |
 | `total_amount` | `numeric(19,4)` | NO | — | — | PENDING |
 | `currency` | `character varying(3)` | NO | — | `'COP'::character varying` | PENDING |
-| `status` | `character varying(20)` | NO | — | `'DRAFT'::character varying` | PENDING Allowed values (CHECK): `DRAFT`, `PAYMENT_PENDING`, `PAID`, `CANCELLED`, `REFUNDED`, `USED`. |
-| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_by` | `character varying(100)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'DRAFT'::character varying` | Allowed values: `DRAFT`, `PAYMENT_PENDING`, `PAID`, `CANCELLED`, `REFUNDED`, `USED`. *[R4]* |
+| `created_at` | `timestamp without time zone` | NO | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | NO | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(100)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(100)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 14.2 `seat_ticket`
 
@@ -1234,9 +1236,9 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `seat_ticket_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `seat_id` | `integer` | NO | UQ, FK → `seat.seat_id` | — | PENDING |
-| `ticket_id` | `bigint` | NO | UQ, FK → `ticket.ticket_id` | — | PENDING |
+| `seat_ticket_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `seat_id` | `integer` | NO | UQ, FK → `seat.seat_id` | — | Reference to `seat.seat_id`. *[R3]* |
+| `ticket_id` | `bigint` | NO | UQ, FK → `ticket.ticket_id` | — | Reference to `ticket.ticket_id`. *[R3]* |
 | `price` | `numeric(19,4)` | NO | — | — | PENDING |
 
 ### 14.3 `ticket`
@@ -1247,20 +1249,20 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `ticket_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
-| `user_id` | `bigint` | NO | FK → `app_user.user_id` | — | PENDING |
-| `order_id` | `bigint` | NO | FK → `order.order_id` | — | PENDING |
+| `ticket_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | Reference to `event.event_id`. *[R3]* |
+| `user_id` | `bigint` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
+| `order_id` | `bigint` | NO | FK → `order.order_id` | — | Reference to `order.order_id`. *[R3]* |
 | `code` | `character varying(50)` | NO | UQ | — | PENDING |
 | `qr_code` | `character varying(500)` | NO | — | — | PENDING |
-| `status` | `character varying(20)` | NO | — | `'PENDING'::character varying` | PENDING Allowed values (CHECK): `PENDING`, `PROCESSING`, `PAID`, `REFUNDED`, `USED`, `CANCELLED`. |
+| `status` | `character varying(20)` | NO | — | `'PENDING'::character varying` | Allowed values: `PENDING`, `PROCESSING`, `PAID`, `REFUNDED`, `USED`, `CANCELLED`. *[R4]* |
 | `expiration_date` | `timestamp without time zone` | YES | — | — | PENDING |
 | `total_price` | `numeric(19,4)` | NO | — | — | PENDING |
 | `currency` | `character varying(3)` | NO | — | `'COP'::character varying` | PENDING |
-| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_by` | `character varying(100)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | NO | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(100)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(100)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 14.4 `ticket_checkin`
 
@@ -1270,10 +1272,10 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `checkin_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `ticket_id` | `bigint` | NO | FK → `ticket.ticket_id`, UQ | — | PENDING |
+| `checkin_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `ticket_id` | `bigint` | NO | FK → `ticket.ticket_id`, UQ | — | Reference to `ticket.ticket_id`. *[R3]* |
 | `checkin_time` | `timestamp without time zone` | NO | — | — | PENDING |
-| `validated_by` | `bigint` | NO | FK → `app_user.user_id` | — | PENDING |
+| `validated_by` | `bigint` | NO | FK → `app_user.user_id` | — | Reference to `app_user.user_id`. *[R3]* |
 
 ### 14.5 `ticket_log`
 
@@ -1283,10 +1285,10 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `ticket_log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `ticket_id` | `bigint` | NO | FK → `ticket.ticket_id` | — | PENDING |
-| `old_status` | `character varying(20)` | YES | — | — | PENDING Allowed values (CHECK): `PENDING`, `PROCESSING`, `PAID`, `REFUNDED`, `USED`, `CANCELLED`. |
-| `new_status` | `character varying(20)` | NO | — | — | PENDING Allowed values (CHECK): `PENDING`, `PROCESSING`, `PAID`, `REFUNDED`, `USED`, `CANCELLED`. |
+| `ticket_log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `ticket_id` | `bigint` | NO | FK → `ticket.ticket_id` | — | Reference to `ticket.ticket_id`. *[R3]* |
+| `old_status` | `character varying(20)` | YES | — | — | Allowed values: `PENDING`, `PROCESSING`, `PAID`, `REFUNDED`, `USED`, `CANCELLED`. *[R4]* |
+| `new_status` | `character varying(20)` | NO | — | — | Allowed values: `PENDING`, `PROCESSING`, `PAID`, `REFUNDED`, `USED`, `CANCELLED`. *[R4]* |
 | `changed_at` | `timestamp without time zone` | NO | — | — | PENDING |
 | `changed_by` | `character varying(100)` | YES | — | — | PENDING |
 | `reason` | `character varying(255)` | YES | — | — | PENDING |
@@ -1303,15 +1305,15 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `wallet_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `wallet_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
 | `user_id` | `bigint` | NO | UQ | — | PENDING |
 | `balance` | `numeric(19,4)` | NO | — | `0` | PENDING CHECK constraint: `CHECK ((balance >= (0)::numeric))`. |
-| `currency` | `character varying(3)` | NO | — | `'COP'::character varying` | PENDING Allowed values (CHECK): `COP`. |
+| `currency` | `character varying(3)` | NO | — | `'COP'::character varying` | Allowed values: `COP`. *[R4]* |
 | `version` | `bigint` | NO | — | `0` | PENDING |
-| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_by` | `character varying(100)` | YES | — | — | PENDING |
-| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | Date and time the record was created (audit). *[R2]* |
+| `updated_at` | `timestamp without time zone` | NO | — | — | Date and time the record was last modified (audit). *[R2]* |
+| `created_by` | `character varying(100)` | YES | — | — | User or process that created the record (audit). *[R2]* |
+| `updated_by` | `character varying(100)` | YES | — | — | User or process that last modified the record (audit). *[R2]* |
 
 ### 15.2 `wallet_reference`
 
@@ -1321,9 +1323,9 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `wallet_reference_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `transaction_id` | `bigint` | NO | FK → `wallet_transaction.transaction_id` | — | PENDING |
-| `entity_type` | `character varying(30)` | NO | — | — | PENDING Allowed values (CHECK): `EVENT_CANCELLATION`, `ORDER`, `TICKET`, `ADMIN_ADJUSTMENT`. |
+| `wallet_reference_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `transaction_id` | `bigint` | NO | FK → `wallet_transaction.transaction_id` | — | Reference to `wallet_transaction.transaction_id`. *[R3]* |
+| `entity_type` | `character varying(30)` | NO | — | — | Allowed values: `EVENT_CANCELLATION`, `ORDER`, `TICKET`, `ADMIN_ADJUSTMENT`. *[R4]* |
 | `entity_id` | `bigint` | YES | — | — | PENDING |
 
 ### 15.3 `wallet_transaction`
@@ -1334,12 +1336,12 @@ The `sectiontype` module has no tables of its own: the section type is stored in
 
 | Column | Type | Null | Key | Default value | Description |
 |---|---|---|---|---|---|
-| `transaction_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
-| `wallet_id` | `bigint` | NO | FK → `wallet.wallet_id` | — | PENDING |
-| `type` | `character varying(20)` | NO | — | — | PENDING Allowed values (CHECK): `CREDIT`, `PAYMENT`, `REVERSAL`, `ADJUSTMENT`. |
+| `transaction_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | Unique identifier of the table (PK, IDENTITY). *[R1]* |
+| `wallet_id` | `bigint` | NO | FK → `wallet.wallet_id` | — | Reference to `wallet.wallet_id`. *[R3]* |
+| `type` | `character varying(20)` | NO | — | — | Allowed values: `CREDIT`, `PAYMENT`, `REVERSAL`, `ADJUSTMENT`. *[R4]* |
 | `amount` | `numeric(19,4)` | NO | — | — | PENDING CHECK constraint: `CHECK ((amount > (0)::numeric))`. |
-| `status` | `character varying(20)` | NO | — | `'PENDING'::character varying` | PENDING Allowed values (CHECK): `PENDING`, `COMPLETED`, `FAILED`. |
+| `status` | `character varying(20)` | NO | — | `'PENDING'::character varying` | Allowed values: `PENDING`, `COMPLETED`, `FAILED`. *[R4]* |
 | `balance_after` | `numeric(19,4)` | YES | — | — | PENDING |
 | `idempotency_key` | `character varying(100)` | NO | UQ | — | PENDING |
-| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
-| `created_by` | `character varying(100)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | Date and time the record was created (audit). *[R2]* |
+| `created_by` | `character varying(100)` | YES | — | — | User or process that created the record (audit). *[R2]* |
