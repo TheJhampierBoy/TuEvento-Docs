@@ -21,7 +21,7 @@ sequenceDiagram
   participant CF as ConfirmOrderPaymentUseCaseImpl
   participant NL as PaymentEventListener
 
-  Note over U,FE: Las sillas ya están en RESERVED por el usuario (ver la secuencia de reserva de asientos)
+  Note over U,FE: Las sillas ya están en RESERVED por el usuario<br/>(ver la secuencia de reserva de asientos)
   U->>FE: Abre el checkout
   FE->>OC: POST /api/v1/orders {eventId, seatIds}
   OC->>CO: execute(request, userId)

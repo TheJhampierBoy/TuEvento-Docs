@@ -39,6 +39,7 @@ status: borrador
 27. [Diagrama de clases — service/oauth](#doc-te-0074-te-0075)
 28. [Diagramas de estados](#doc-te-0021)
 29. [Diagramas de secuencia](#doc-te-0078)
+30. [Diagramas de secuencia de la implementación](#secuencias-implementacion)
 
 > **Diagramas de actividades.** Los diagramas de actividades por módulo, que completan las vistas dinámicas de este análisis, están en [05_Diseno_Software.md — Diagramas de actividades por módulo](05_Diseno_Software.md#doc-te-0082-te-0083-te-0084-te-0085-te-0086-te-0087-te-0088-te-0089-te-0090-te-0091-te-0092-te-0093).
 
@@ -6789,3 +6790,35 @@ Retry payment
 ## Página 5
 
 *Página en blanco en el original (todos los píxeles son blancos); no se incluye imagen.*
+
+---
+
+<a id="secuencias-implementacion"></a>
+
+# Diagramas de secuencia de la implementación
+
+> Sección agregada el 2026-10-24. A diferencia de las secuencias conceptuales anteriores, estas usan las clases y los endpoints reales, con el orden de llamadas confirmado en el código (`lozano2303/TuEvento`, `origin/develop` / `2d259e7`). Ver C13 en `Registro_de_Contradicciones.md`.
+
+## Compra de entradas
+
+Desde la creación de la orden hasta la confirmación del pago por el webhook de la pasarela simulada, incluido el pago con saldo de la billetera.
+
+![Secuencia de compra de entradas](../_assets/diagramas/es/secuencia_compra_entradas.png)
+
+Fuente: [`secuencia_compra_entradas.mmd`](../_assets/diagramas/es/secuencia_compra_entradas.mmd) · versión vectorial: [`secuencia_compra_entradas.svg`](../_assets/diagramas/es/secuencia_compra_entradas.svg)
+
+## Reserva de asientos en tiempo real
+
+Reserva y liberación de sillas con difusión por WebSocket a todos los clientes que ven el evento, y vencimiento automático de las reservas a los 10 minutos.
+
+![Secuencia de reserva de asientos en tiempo real](../_assets/diagramas/es/secuencia_reserva_asientos.png)
+
+Fuente: [`secuencia_reserva_asientos.mmd`](../_assets/diagramas/es/secuencia_reserva_asientos.mmd) · versión vectorial: [`secuencia_reserva_asientos.svg`](../_assets/diagramas/es/secuencia_reserva_asientos.svg)
+
+## Moderación de eventos
+
+Envío del evento a revisión por el organizador, aprobación o rechazo por el administrador y notificación al organizador.
+
+![Secuencia de moderación de eventos](../_assets/diagramas/es/secuencia_moderacion_eventos.png)
+
+Fuente: [`secuencia_moderacion_eventos.mmd`](../_assets/diagramas/es/secuencia_moderacion_eventos.mmd) · versión vectorial: [`secuencia_moderacion_eventos.svg`](../_assets/diagramas/es/secuencia_moderacion_eventos.svg)

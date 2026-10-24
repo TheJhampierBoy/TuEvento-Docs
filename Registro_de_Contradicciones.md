@@ -6,7 +6,7 @@
 | Repositorio de código consultado | lozano2303/TuEvento |
 | Rama / commit verificado | `develop` / `5a64c1b` (C1–C8, 2026-10-23); `origin/develop` / `2d259e7` (C9–C15, 2026-10-24) |
 | Fecha de registro | 2026-10-23 |
-| Estado | C1–C6 y C10–C12 resueltas; C9, C13 y C14 rotuladas en los documentos (decisión de rehacer pendiente); C15 en borrador (faltan descripciones); C7 y C8 pendientes de decisión del equipo |
+| Estado | C1–C6, C10–C12 y C14 resueltas; C9 y C13 rotuladas (C13 complementada con secuencias nuevas; falta decidir si se rehacen los diagramas de clases y las evidencias); C15 en borrador (faltan descripciones); C7 y C8 pendientes de decisión del equipo |
 
 Las contradicciones C1–C8 se detectaron durante el inventario de `TuEvento-Docs`, cuando todavía existían los archivos originales; sus rutas (`00_Informes/…` … `11_Anexos/…`) son las de esa estructura. C9–C13 se detectaron tras la reestructuración del 2026-10-24.
 
@@ -35,8 +35,8 @@ Las contradicciones C1–C8 se detectaron durante el inventario de `TuEvento-Doc
 | C10 | ✅ Resuelta (2026-10-24, aprobada por el equipo): en `06_Base_Datos/Modelo_ER.md` el título pasó de «Wallet module» a «Storage module»; el enlace y el resto del contenido no cambiaron. |
 | C11 | ✅ Resuelta (2026-10-24, aprobada por el equipo): los enlaces apuntan a la estructura nueva en `main` (`es/` en la versión española y `en/` en la inglesa) y el repositorio de código a `lozano2303/TuEvento`. Funcionarán cuando la reestructuración se fusione en `main`. |
 | C12 | ✅ Resuelta (2026-10-24, aprobada por el equipo): se agregó `06_Base_Datos/Script_BD_implementado.sql` (es/ y en/) con el esquema real; `Script_BD.sql` se conserva sin cambios como diseño. |
-| C13 | 🏷 Rotulada (2026-10-24, aprobada por el equipo): los 18 diagramas de clases de `03_Analisis_Software.md` llevan una nota de «Documento histórico». Las imágenes no se modificaron. Pendiente: decidir si se rehacen. |
-| C14 | 🏷 Rotulada (2026-10-24, aprobada por el equipo): los diagramas de arquitectura y de paquetes de `05_Diseno_Software.md` llevan una nota de «Propuesta inicial de diseño». Las imágenes no se modificaron. Pendiente: decidir si se rehacen. |
+| C13 | 🏷 Rotulada (2026-10-24, aprobada por el equipo): los 18 diagramas de clases de `03_Analisis_Software.md` llevan una nota de «Documento histórico». Las imágenes no se modificaron. Pendiente: decidir si se rehacen. Complemento (2026-10-24): `03_Analisis_Software.md` agrega la sección «Diagramas de secuencia de la implementación» con 3 secuencias verificadas en el código actual (compra de entradas, reserva de asientos en tiempo real y moderación de eventos); los diagramas de clases históricos no se rehicieron. |
+| C14 | ✅ Resuelta (2026-10-24, aprobada por el equipo): los diagramas de arquitectura y de paquetes de `05_Diseno_Software.md` llevan una nota de «Propuesta inicial de diseño» y se conservan sin cambios; la nueva sección «Arquitectura implementada» agrega el diagrama de arquitectura real y el de dependencias entre módulos (fuentes Mermaid en `_assets/diagramas/`), verificados en `origin/develop` / `2d259e7`. |
 
 ## Nuevas contradicciones (2026-10-24, tras la reestructuración)
 

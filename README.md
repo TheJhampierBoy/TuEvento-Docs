@@ -22,7 +22,7 @@ The documentation is written in Markdown and published in two languages. Every f
 |---|---|
 | `es/` | Documentation in Spanish |
 | `en/` | Documentation in English (translation of `es/`) |
-| `_assets/` | Images used by the Markdown documents |
+| `_assets/` | Images used by the Markdown documents; new diagrams with their Mermaid source in `_assets/diagramas/` |
 | `MANIFEST.csv` | Inventory of the documents: original file, Markdown path in each language and status |
 | `GLOSARIO_ES_EN.md` | Spanish–English glossary used in the translations |
 | `REGLAS_CONVERSION.md` | Rules followed to convert the original documents to Markdown |
@@ -78,7 +78,7 @@ La documentación está escrita en Markdown y se publica en dos idiomas. Cada ar
 |---|---|
 | `es/` | Documentación en español |
 | `en/` | Documentación en inglés (traducción de `es/`) |
-| `_assets/` | Imágenes que usan los documentos Markdown |
+| `_assets/` | Imágenes que usan los documentos Markdown; los diagramas nuevos, con su fuente Mermaid, están en `_assets/diagramas/` |
 | `MANIFEST.csv` | Inventario de los documentos: archivo original, ruta del Markdown en cada idioma y estado |
 | `GLOSARIO_ES_EN.md` | Glosario español–inglés usado en las traducciones |
 | `REGLAS_CONVERSION.md` | Reglas seguidas para convertir los documentos originales a Markdown |

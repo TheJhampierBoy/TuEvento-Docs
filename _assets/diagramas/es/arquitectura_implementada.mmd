@@ -18,18 +18,21 @@ flowchart LR
     IN -. "implementa los puertos" .-> AP
   end
 
-  WEB -- "HTTP + JWT" --> IF
-  MOV -- "HTTP + JWT" --> IF
-  WEB <-- "STOMP" --> IF
-  MOV <-- "STOMP" --> IF
+  WEB <-- "HTTP + JWT · STOMP" --> IF
+  MOV <-- "HTTP + JWT · STOMP" --> IF
 
-  IN --> PG[("PostgreSQL 17<br/>esquema con Liquibase")]
-  IN --> RD[("Redis 7<br/>nonces de QR")]
-  IN --> S3[("MinIO / RustFS<br/>almacenamiento S3")]
-  IN --> NS["nsfw-service<br/>FastAPI + OpenNSFW2"]
-  IN --> SE["Sightengine<br/>API externa"]
-  IN --> LT["LibreTranslate 1.9.6"]
-  IN --> FG["fake-payment-gateway<br/>pasarela simulada"]
   FG -- "webhook POST /api/v1/webhooks/payment" --> IF
-  IN --> SMTP["Servidor SMTP<br/>correo"]
-  IN --> GO["Google OAuth<br/>verificación del ID token"]
+
+  subgraph EXT["Datos y servicios"]
+    direction TB
+    PG[("PostgreSQL 17<br/>esquema con Liquibase")]
+    RD[("Redis 7<br/>nonces de QR")]
+    S3[("MinIO / RustFS<br/>almacenamiento S3")]
+    NS["nsfw-service<br/>FastAPI + OpenNSFW2"]
+    SE["Sightengine<br/>API externa"]
+    LT["LibreTranslate 1.9.6"]
+    FG["fake-payment-gateway<br/>pasarela simulada"]
+    SMTP["Servidor SMTP<br/>correo"]
+    GO["Google OAuth<br/>verificación del ID token"]
+  end
+  IN --> EXT

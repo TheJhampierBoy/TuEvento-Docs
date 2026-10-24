@@ -39,6 +39,7 @@ status: borrador
 27. [Class diagram — service/oauth](#doc-te-0074-te-0075)
 28. [State diagrams](#doc-te-0021)
 29. [Sequence diagrams](#doc-te-0078)
+30. [Implementation sequence diagrams](#secuencias-implementacion)
 
 > **Activity diagrams.** The per-module activity diagrams, which complete the dynamic views of this analysis, are in [05_Diseno_Software.md — Activity diagrams by module](05_Diseno_Software.md#doc-te-0082-te-0083-te-0084-te-0085-te-0086-te-0087-te-0088-te-0089-te-0090-te-0091-te-0092-te-0093).
 
@@ -6860,3 +6861,35 @@ Retry payment
 ## Page 5
 
 *Blank page in the original (all pixels are white); no image is included.*
+
+---
+
+<a id="secuencias-implementacion"></a>
+
+# Implementation sequence diagrams
+
+> Section added on 2026-10-24. Unlike the earlier conceptual sequences, these use the real classes and endpoints, with the call order confirmed in the code (`lozano2303/TuEvento`, `origin/develop` / `2d259e7`). See C13 in `Registro_de_Contradicciones.md`.
+
+## Ticket purchase
+
+From order creation to payment confirmation through the simulated gateway webhook, including payment with wallet balance.
+
+![Ticket purchase sequence](../_assets/diagramas/en/secuencia_compra_entradas.png)
+
+Source: [`secuencia_compra_entradas.mmd`](../_assets/diagramas/en/secuencia_compra_entradas.mmd) · vector version: [`secuencia_compra_entradas.svg`](../_assets/diagramas/en/secuencia_compra_entradas.svg)
+
+## Real-time seat reservation
+
+Seat reservation and release broadcast over WebSocket to every client viewing the event, and automatic expiry of reservations after 10 minutes.
+
+![Real-time seat reservation sequence](../_assets/diagramas/en/secuencia_reserva_asientos.png)
+
+Source: [`secuencia_reserva_asientos.mmd`](../_assets/diagramas/en/secuencia_reserva_asientos.mmd) · vector version: [`secuencia_reserva_asientos.svg`](../_assets/diagramas/en/secuencia_reserva_asientos.svg)
+
+## Event moderation
+
+The organizer submits the event for review, the administrator approves or rejects it, and the organizer is notified.
+
+![Event moderation sequence](../_assets/diagramas/en/secuencia_moderacion_eventos.png)
+
+Source: [`secuencia_moderacion_eventos.mmd`](../_assets/diagramas/en/secuencia_moderacion_eventos.mmd) · vector version: [`secuencia_moderacion_eventos.svg`](../_assets/diagramas/en/secuencia_moderacion_eventos.svg)

@@ -12,6 +12,7 @@ status: borrador
 
 1. [Design patterns](#doc-te-0098)
 2. [Architecture, package and ER diagrams](#doc-te-0081-te-0094-te-0095)
+   - [Implemented architecture](#arquitectura-implementada)
 3. [Process diagram](#doc-te-0096)
 4. [Flow diagrams](#doc-te-0128)
 5. [Activity diagrams by module](#doc-te-0082-te-0083-te-0084-te-0085-te-0086-te-0087-te-0088-te-0089-te-0090-te-0091-te-0092-te-0093)
@@ -1557,6 +1558,30 @@ es_sha256: 7de4ff5396c3879580ffa21a3528d601520fd20875d85c9f3acc8770afce61a9
 | Transcription | Not transcribed |
 
 ![Diagrama de paquetes](../_assets/originales/04_Diseno_Software/Diagrama%20de%20paquetes.png)
+
+---
+
+<a id="arquitectura-implementada"></a>
+
+# Implemented architecture
+
+> Section added on 2026-10-24. The diagrams were made from the verified code (`lozano2303/TuEvento`, `origin/develop` / `2d259e7`) and describe the architecture that is implemented. The earlier architecture and package diagrams are kept above as the initial design proposal. See C14 in `Registro_de_Contradicciones.md`.
+
+## Overview
+
+Modular monolith with hexagonal architecture: 14 domain modules plus the auxiliary `sectiontype` package, each module with the `domain`, `application`, `infrastructure` and `interfaces` layers. The web and mobile clients use REST with JWT and STOMP over `/ws`; the infrastructure implements the ports to PostgreSQL, Redis, S3 storage and the external services.
+
+![Tu Evento implemented architecture](../_assets/diagramas/en/arquitectura_implementada.png)
+
+Source: [`arquitectura_implementada.mmd`](../_assets/diagramas/en/arquitectura_implementada.mmd) · vector version: [`arquitectura_implementada.svg`](../_assets/diagramas/en/arquitectura_implementada.svg)
+
+## Dependencies between modules
+
+Number of `import` statements between backend modules; only dependencies with 5 or more are shown. In red, the cycle among `event`, `language`, `profile` and `category`: each of those arrows is part of some cycle.
+
+![Dependencies between backend modules](../_assets/diagramas/en/dependencias_modulos.png)
+
+Source: [`dependencias_modulos.mmd`](../_assets/diagramas/en/dependencias_modulos.mmd) · vector version: [`dependencias_modulos.svg`](../_assets/diagramas/en/dependencias_modulos.svg)
 
 ---
 
