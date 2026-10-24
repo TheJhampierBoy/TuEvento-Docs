@@ -5,18 +5,21 @@
 --     PostgreSQL 17.10 temporal y extraido con pg_dump 17.10 --schema-only
 --     --no-owner --no-privileges, sin las tablas internas databasechangelog*.
 --     75 tablas. Solo estructura, sin datos. El diseno original esta en Script_BD.sql.
+--     Limpieza: se quitaron las lineas \restrict y \unrestrict que agrega pg_dump
+--     (meta-comandos de psql que pgAdmin y DBeaver no reconocen).
 -- EN: Generated on 2026-10-24 from lozano2303/TuEvento, origin/develop, commit
 --     2d259e7: Liquibase 4.31.1 (171 changesets from db/changelog) applied to a
 --     temporary PostgreSQL 17.10 and extracted with pg_dump 17.10 --schema-only
 --     --no-owner --no-privileges, excluding the internal databasechangelog* tables.
 --     75 tables. Structure only, no data. The original design is in Script_BD.sql.
+--     Cleanup: the \restrict and \unrestrict lines added by pg_dump were removed
+--     (psql meta-commands not recognized by pgAdmin or DBeaver).
 -- ============================================================
 
 --
 -- PostgreSQL database dump
 --
 
-\restrict 9hIPkiNzxlV8AxV0t4afMZQflwSMP3jhWsJvs3AEMymAakyLIAcDxNWK4eFSczC
 
 -- Dumped from database version 17.10
 -- Dumped by pg_dump version 17.10
@@ -4209,5 +4212,3 @@ ALTER TABLE ONLY public.wallet_transaction
 --
 -- PostgreSQL database dump complete
 --
-
-\unrestrict 9hIPkiNzxlV8AxV0t4afMZQflwSMP3jhWsJvs3AEMymAakyLIAcDxNWK4eFSczC
