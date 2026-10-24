@@ -82,7 +82,7 @@ The patterns are identified as P-01 to P-27 and are grouped by affinity into six
 
 # 2. Architectural summary
 
-TuEvento is a **modular monolith** with 15 domain modules (security, profile, event, section, sectiontype, seat, ticket, payment, wallet, notification, storage, geolocation, category, language and theme) organized under **Domain-Driven Design (DDD)** and **Hexagonal Architecture (ports and adapters).** Each module has four internal layers:
+TuEvento is a **modular monolith** with 14 domain modules (security, profile, event, section, seat, ticket, payment, wallet, notification, storage, geolocation, category, language and theme) organized under **Domain-Driven Design (DDD)** and **Hexagonal Architecture (ports and adapters).** There is also the auxiliary `sectiontype` package, which is not a full module: it only contains `SectionTypeTranslationController` (section type translations) and uses data from the `section` and `language` modules. Each module has four internal layers:
 
 - **domain:** models, repository interfaces and domain events.
 - **application:** use cases, input and output ports, DTOs, mappers and application services.
@@ -248,7 +248,7 @@ Category: Architectural Layer: Backend
 
 ### Problem it solves
 
-The project has a broad scope (15 modules) and a small team. Clear boundaries between domains are needed to avoid coupling, but without the operational cost of a microservice architecture.
+The project has a broad scope (14 modules) and a small team. Clear boundaries between domains are needed to avoid coupling, but without the operational cost of a microservice architecture.
 
 ### Where it is implemented
 

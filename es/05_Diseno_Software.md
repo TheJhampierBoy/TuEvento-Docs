@@ -79,7 +79,7 @@ Los patrones se identifican como P-01 a P-27 y se agrupan por afinidad en seis s
 
 # 2. Resumen arquitectónico
 
-TuEvento es un **monolito modular** con 15 módulos de dominio (security, profile, event, section, sectiontype, seat, ticket, payment, wallet, notification, storage, geolocation, category, language y theme) organizados bajo **Domain-Driven Design (DDD)** y **Arquitectura Hexagonal (puertos y adaptadores).** Cada módulo tiene cuatro capas internas:
+TuEvento es un **monolito modular** con 14 módulos de dominio (security, profile, event, section, seat, ticket, payment, wallet, notification, storage, geolocation, category, language y theme) organizados bajo **Domain-Driven Design (DDD)** y **Arquitectura Hexagonal (puertos y adaptadores).** Además existe el paquete auxiliar `sectiontype`, que no es un módulo completo: solo contiene `SectionTypeTranslationController` (traducciones de los tipos de sección) y usa los datos de los módulos `section` y `language`. Cada módulo tiene cuatro capas internas:
 
 - **domain:** modelos, interfaces de repositorio y eventos de dominio.
 - **application:** casos de uso, puertos de entrada y salida, DTOs, mappers y servicios de aplicación.
@@ -245,7 +245,7 @@ Categoría: Arquitectónico Capa: Backend
 
 ### Problema que resuelve
 
-El proyecto tiene un alcance amplio (15 módulos) y un equipo reducido. Se necesitan fronteras claras entre dominios para evitar el acoplamiento, pero sin el costo operativo de una arquitectura de microservicios.
+El proyecto tiene un alcance amplio (14 módulos) y un equipo reducido. Se necesitan fronteras claras entre dominios para evitar el acoplamiento, pero sin el costo operativo de una arquitectura de microservicios.
 
 ### Dónde está implementado
 

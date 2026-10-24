@@ -1,0 +1,35 @@
+%% Tu Evento — Arquitectura implementada
+%% Verificado en lozano2303/TuEvento, origin/develop / 2d259e7 (2026-10-24)
+flowchart LR
+  subgraph CLI["Clientes"]
+    WEB["Aplicación web<br/>React 18 · Vite 5"]
+    MOV["Aplicación móvil<br/>Expo 54 · React Native 0.81"]
+  end
+
+  subgraph BE["Backend · Spring Boot 3.5.12 · Java 17 · monolito modular hexagonal"]
+    direction TB
+    IF["interfaces<br/>REST /api/v1/** · STOMP /ws (SockJS)"]
+    AP["application<br/>casos de uso y puertos"]
+    DO["domain<br/>modelos y eventos de dominio"]
+    IN["infrastructure<br/>JPA, adaptadores, listeners, schedulers"]
+    SH["shared<br/>seguridad JWT, WebSocket, configuración, errores"]
+    MODS["14 módulos de dominio: category · event · geolocation · language ·<br/>notification · payment · profile · seat · section · security · storage ·<br/>theme · ticket · wallet<br/>+ paquete auxiliar sectiontype (solo un controlador de traducciones)"]
+    IF --> AP --> DO
+    IN -. "implementa los puertos" .-> AP
+  end
+
+  WEB -- "HTTP + JWT" --> IF
+  MOV -- "HTTP + JWT" --> IF
+  WEB <-- "STOMP" --> IF
+  MOV <-- "STOMP" --> IF
+
+  IN --> PG[("PostgreSQL 17<br/>esquema con Liquibase")]
+  IN --> RD[("Redis 7<br/>nonces de QR")]
+  IN --> S3[("MinIO / RustFS<br/>almacenamiento S3")]
+  IN --> NS["nsfw-service<br/>FastAPI + OpenNSFW2"]
+  IN --> SE["Sightengine<br/>API externa"]
+  IN --> LT["LibreTranslate 1.9.6"]
+  IN --> FG["fake-payment-gateway<br/>pasarela simulada"]
+  FG -- "webhook POST /api/v1/webhooks/payment" --> IF
+  IN --> SMTP["Servidor SMTP<br/>correo"]
+  IN --> GO["Google OAuth<br/>verificación del ID token"]

@@ -1,0 +1,65 @@
+%% Tu Evento — Secuencia: compra de entradas (pasarela simulada)
+%% Verificado en lozano2303/TuEvento, origin/develop / 2d259e7 (2026-10-24):
+%% Checkout.jsx, PaymentPending.jsx, OrderController, CreateOrderWithTicketsUseCaseImpl,
+%% PaymentController, CreatePaymentUseCaseImpl, ChargeOrderViaGatewayUseCase,
+%% FakePaymentGatewayAdapter, fake-payment-gateway (pay.html, AdminPaymentController,
+%% ApprovePaymentUseCase), WebhookController, ProcessWebhookUseCaseImpl,
+%% ConfirmOrderPaymentUseCaseImpl, PaymentEventListener.
+sequenceDiagram
+  autonumber
+  actor U as Usuario
+  participant FE as Web (Checkout / PaymentPending)
+  participant OC as OrderController
+  participant CO as CreateOrderWithTicketsUseCaseImpl
+  participant PC as PaymentController
+  participant CP as CreatePaymentUseCaseImpl
+  participant CG as ChargeOrderViaGatewayUseCase
+  participant FA as FakePaymentGatewayAdapter
+  participant GW as fake-payment-gateway
+  participant WC as WebhookController
+  participant PW as ProcessWebhookUseCaseImpl
+  participant CF as ConfirmOrderPaymentUseCaseImpl
+  participant NL as PaymentEventListener
+
+  Note over U,FE: Las sillas ya están en RESERVED por el usuario (ver la secuencia de reserva de asientos)
+  U->>FE: Abre el checkout
+  FE->>OC: POST /api/v1/orders {eventId, seatIds}
+  OC->>CO: execute(request, userId)
+  CO->>CO: Valida que cada silla siga reservada por el usuario y calcula el precio por sección
+  CO->>CO: Guarda Order (DRAFT), Tickets (PENDING), SeatTicket y TicketLog
+  CO-->>FE: 201 OrderResponse
+  U->>FE: Pagar
+  FE->>PC: POST /api/v1/payments {orderId, paymentMethod, applyWalletCredit}
+  PC->>CP: execute(request)
+  CP->>CP: Order → PAYMENT_PENDING (InitiateOrderPaymentUseCase)
+  alt Sin crédito de billetera o saldo insuficiente
+    opt Saldo parcial
+      CP->>CP: ReserveWalletPaymentUseCaseImpl (reserva el saldo disponible)
+    end
+    CP->>CG: execute(monto a cobrar)
+    CG->>FA: createPayment(command)
+    FA->>GW: POST /public/payments
+    GW-->>FA: pago creado
+    CG->>CG: Guarda Payment (PENDING)
+    CP-->>FE: PaymentResponse (PENDING)
+    FE->>GW: Abre pay.html?id=… en una ventana emergente
+    U->>GW: Aprueba el pago simulado
+    GW->>GW: POST /admin/payments/{id}/approve (ApprovePaymentUseCase)
+    GW->>WC: POST /api/v1/webhooks/payment (cabecera X-Signature)
+    WC->>PW: execute(payload, signature)
+    PW->>PW: Verifica la firma HMAC y la idempotencia, guarda TransactionWebhook, Payment → APPROVED
+    PW->>CF: confirmOrderPayment(orderId)
+    CF->>CF: Order → PAID, Tickets → PAID, sillas → SOLD
+    opt Había reserva de billetera
+      PW->>PW: ConfirmWalletPaymentUseCaseImpl (descuenta el saldo)
+    end
+    PW-)NL: PaymentApprovedEvent (después del commit, @Async)
+    NL->>NL: SendNotificationUseCase
+    loop Consulta periódica hasta APPROVED
+      FE->>PC: GET /api/v1/payments/{id}
+    end
+    FE->>OC: GET /api/v1/orders/{orderId}/tickets
+  else El saldo de la billetera cubre el total
+    CP->>CP: CreateWalletOnlyPaymentUseCase (APPROVED sin pasarela)
+    CP-->>FE: PaymentResponse (APPROVED)
+  end

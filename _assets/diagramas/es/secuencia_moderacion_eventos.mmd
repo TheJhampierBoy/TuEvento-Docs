@@ -1,0 +1,44 @@
+%% Tu Evento — Secuencia: moderación de eventos (revisión del administrador)
+%% Verificado en lozano2303/TuEvento, origin/develop / 2d259e7 (2026-10-24):
+%% EventService.js (web), EventController, ChangeEventStatusService, AdminController,
+%% AdminChangeEventStatusUseCase, EventStatusChangedEvent, EventStatusChangedListener,
+%% SendNotificationUseCase, AdminPendingCountsWebSocketListener.
+sequenceDiagram
+  autonumber
+  actor O as Organizador
+  actor AD as Administrador
+  participant FE as Web (panel del organizador / panel de administración)
+  participant EC as EventController
+  participant CS as ChangeEventStatusService
+  participant AC as AdminController
+  participant AU as AdminChangeEventStatusUseCase
+  participant DB as EventRepository / EventStatusLogRepository
+  participant PL as AdminPendingCountsWebSocketListener
+  participant NL as EventStatusChangedListener
+  participant SN as SendNotificationUseCase
+
+  O->>FE: Envía el evento a revisión
+  FE->>EC: PATCH /api/v1/events/{eventId}/status {newStatus: PENDING_REVIEW}
+  EC->>CS: execute(eventId, request, organizerId)
+  CS->>CS: Verifica que sea el dueño y que la transición DRAFT → PENDING_REVIEW sea válida
+  CS->>CS: Valida fecha de inicio futura, entre 3 y 9 imágenes y al menos una sección con sillas
+  CS->>DB: save(evento PENDING_REVIEW) y save(EventStatusLog)
+  CS-)PL: EventStatusChangedEvent (después del commit)
+  PL->>PL: Envía conteos a /topic/admin/pending-counts
+  Note over NL: EventStatusChangedListener ignora DRAFT → PENDING_REVIEW
+
+  AD->>FE: Revisa el evento
+  FE->>AC: PATCH /api/v1/admin/events/{eventId}/status {newStatus, reason}
+  AC->>AU: execute(eventId, request, adminId)
+  AU->>AU: Verifica la transición (sin comprobar dueño)
+  alt Aprobar (PENDING_REVIEW → PUBLISHED)
+    AU->>AU: Vuelve a validar fecha, imágenes y secciones
+  else Rechazar (PENDING_REVIEW → REJECTED)
+    AU->>AU: Exige un motivo no vacío
+  end
+  AU->>DB: save(evento con el nuevo estado y motivo) y save(EventStatusLog con el motivo)
+  AU-)NL: EventStatusChangedEvent (después del commit, @Async)
+  AU-)PL: EventStatusChangedEvent (después del commit)
+  PL->>PL: Envía conteos a /topic/admin/pending-counts
+  NL->>SN: Notificación EVENT_PUBLISHED o EVENT_REJECTED al organizador
+  SN->>SN: Canal IN_APP por WebSocket antes del commit y EMAIL después del commit

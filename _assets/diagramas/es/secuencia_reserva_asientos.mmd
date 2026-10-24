@@ -1,0 +1,48 @@
+%% Tu Evento — Secuencia: reserva de asientos en tiempo real
+%% Verificado en lozano2303/TuEvento, origin/develop / 2d259e7 (2026-10-24):
+%% EventDetail.jsx y SeatService.js (web), websocketService.js y seatService.js (móvil),
+%% WebSocketConfig, JwtHandshakeInterceptor, SeatReservationController,
+%% SeatReservationService (RESERVATION_TTL_MINUTES = 10), SeatStatusChangedEvent,
+%% SeatStatusWebSocketListener, SeatReservationExpirationScheduler (cron cada 10 s).
+sequenceDiagram
+  autonumber
+  actor A as Usuario A
+  participant FA as Cliente A (web o móvil)
+  participant FB as Cliente B (otro usuario viendo el mismo evento)
+  participant WS as WebSocketConfig /ws (STOMP + SockJS)
+  participant SC as SeatReservationController
+  participant SS as SeatReservationService
+  participant DB as SeatRepository / EventSectionRepository
+  participant WL as SeatStatusWebSocketListener
+  participant EX as SeatReservationExpirationScheduler
+
+  FA->>WS: Conexión STOMP (JwtHandshakeInterceptor valida el token)
+  FA->>WS: SUBSCRIBE /topic/events/{eventId}/seats
+  FB->>WS: SUBSCRIBE /topic/events/{eventId}/seats
+  A->>FA: Elige una silla en el mapa
+  FA->>SC: POST /api/v1/seats/{seatId}/reserve
+  SC->>SS: reserveSeat(seatId, userId)
+  SS->>DB: findById(seatId)
+  alt La silla no está AVAILABLE
+    SS-->>FA: BusinessException SEAT_NOT_AVAILABLE
+  else Silla disponible
+    SS->>DB: save(silla RESERVED, reservedBy = usuario, reservedUntil = ahora + 10 min)
+    SS->>DB: findById(eventSectionId) para obtener eventId
+    SS->>WL: publishEvent(SeatStatusChangedEvent AVAILABLE → RESERVED)
+    WL->>WS: convertAndSend(/topic/events/{eventId}/seats)
+    WS-->>FA: cambio de estado de la silla
+    WS-->>FB: cambio de estado de la silla
+    SS-->>FA: SeatResponse
+  end
+  opt El usuario libera la silla
+    FA->>SC: POST /api/v1/seats/{seatId}/release
+    SC->>SS: releaseSeat(seatId, userId, isAdmin)
+    SS->>DB: save(silla AVAILABLE, sin reserva)
+    SS->>WL: publishEvent(SeatStatusChangedEvent RESERVED → AVAILABLE)
+    WL->>WS: convertAndSend(/topic/events/{eventId}/seats)
+  end
+  loop Cada 10 segundos
+    EX->>DB: Busca reservas vencidas y las pasa a AVAILABLE
+    EX->>WL: publishEvent(SeatStatusChangedEvent → AVAILABLE)
+    WL->>WS: convertAndSend(/topic/events/{eventId}/seats)
+  end
