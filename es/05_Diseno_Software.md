@@ -79,7 +79,7 @@ Los patrones se identifican como P-01 a P-27 y se agrupan por afinidad en seis s
 
 # 2. Resumen arquitectónico
 
-TuEvento es un **monolito modular** con 14 módulos de dominio (security, profile, event, section, seat, ticket, payment, wallet, notification, storage, geolocation, category, language y theme) organizados bajo **Domain-Driven Design (DDD)** y **Arquitectura Hexagonal (puertos y adaptadores).** Cada módulo tiene cuatro capas internas:
+TuEvento es un **monolito modular** con 15 módulos de dominio (security, profile, event, section, sectiontype, seat, ticket, payment, wallet, notification, storage, geolocation, category, language y theme) organizados bajo **Domain-Driven Design (DDD)** y **Arquitectura Hexagonal (puertos y adaptadores).** Cada módulo tiene cuatro capas internas:
 
 - **domain:** modelos, interfaces de repositorio y eventos de dominio.
 - **application:** casos de uso, puertos de entrada y salida, DTOs, mappers y servicios de aplicación.
@@ -245,7 +245,7 @@ Categoría: Arquitectónico Capa: Backend
 
 ### Problema que resuelve
 
-El proyecto tiene un alcance amplio (14 módulos) y un equipo reducido. Se necesitan fronteras claras entre dominios para evitar el acoplamiento, pero sin el costo operativo de una arquitectura de microservicios.
+El proyecto tiene un alcance amplio (15 módulos) y un equipo reducido. Se necesitan fronteras claras entre dominios para evitar el acoplamiento, pero sin el costo operativo de una arquitectura de microservicios.
 
 ### Dónde está implementado
 
@@ -1796,6 +1796,8 @@ reviewed_by: ""
 ![Cartera digital  Wallet](../_assets/originales/04_Diseno_Software/Diagrama%20de%20actividades%20%28en%20modulos/Cartera%20digital%20%20Wallet.png)
 
 ## 2. Compra de boletas + Wompi.png
+
+> **Pasarela implementada.** El código actual (`lozano2303/TuEvento`, `origin/develop` / `2d259e7`) usa una pasarela de pago simulada (`FakePaymentGatewayAdapter`, servicio `fake-payment-gateway`). Wompi no está integrado: solo aparece como valor del enum `PaymentGateway` y de la restricción CHECK de `payment.gateway`, sin ningún adaptador. Ver C14 en `Registro_de_Contradicciones.md`.
 
 | Campo | Valor |
 |---|---|

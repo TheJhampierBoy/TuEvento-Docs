@@ -102,6 +102,8 @@ A los organizadores:
 
 - Gestionar usuarios, eventos y configuraciones generales
 
+> **Alcance de plataformas.** Tu Evento se entrega como aplicación web (React) y aplicación móvil (React Native con Expo), ambas conectadas al mismo backend. No se desarrolla una aplicación de escritorio: la aplicación web funciona en los navegadores de escritorio y cubre a los usuarios que trabajan desde un computador, por lo que una aplicación de escritorio aparte duplicaría funciones sin aportar al alcance del proyecto.
+
 4.  **Tecnologías a utilizar**
 
 > **4.1 Backend**

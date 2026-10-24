@@ -104,6 +104,8 @@ Organizers to:
 
 - Manage users, events and general settings
 
+> **Platform scope.** Tu Evento is delivered as a web application (React) and a mobile application (React Native with Expo), both connected to the same backend. No desktop application is developed: the web application runs in desktop browsers and serves users who work from a computer, so a separate desktop application would duplicate features without adding to the project scope.
+
 4.  **Technologies to be used**
 
 > **4.1 Backend**

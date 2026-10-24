@@ -82,7 +82,7 @@ The patterns are identified as P-01 to P-27 and are grouped by affinity into six
 
 # 2. Architectural summary
 
-TuEvento is a **modular monolith** with 14 domain modules (security, profile, event, section, seat, ticket, payment, wallet, notification, storage, geolocation, category, language and theme) organized under **Domain-Driven Design (DDD)** and **Hexagonal Architecture (ports and adapters).** Each module has four internal layers:
+TuEvento is a **modular monolith** with 15 domain modules (security, profile, event, section, sectiontype, seat, ticket, payment, wallet, notification, storage, geolocation, category, language and theme) organized under **Domain-Driven Design (DDD)** and **Hexagonal Architecture (ports and adapters).** Each module has four internal layers:
 
 - **domain:** models, repository interfaces and domain events.
 - **application:** use cases, input and output ports, DTOs, mappers and application services.
@@ -248,7 +248,7 @@ Category: Architectural Layer: Backend
 
 ### Problem it solves
 
-The project has a broad scope (14 modules) and a small team. Clear boundaries between domains are needed to avoid coupling, but without the operational cost of a microservice architecture.
+The project has a broad scope (15 modules) and a small team. Clear boundaries between domains are needed to avoid coupling, but without the operational cost of a microservice architecture.
 
 ### Where it is implemented
 
@@ -1809,6 +1809,8 @@ es_sha256: 8069536739293f29b654a1bf49f79759c371f76a4fe0c5b3346cfcc873705549
 ![Cartera digital  Wallet](../_assets/originales/04_Diseno_Software/Diagrama%20de%20actividades%20%28en%20modulos/Cartera%20digital%20%20Wallet.png)
 
 ## 2. Compra de boletas + Wompi.png
+
+> **Implemented gateway.** The current code (`lozano2303/TuEvento`, `origin/develop` / `2d259e7`) uses a simulated payment gateway (`FakePaymentGatewayAdapter`, `fake-payment-gateway` service). Wompi is not integrated: it only appears as a value of the `PaymentGateway` enum and of the CHECK constraint on `payment.gateway`, with no adapter. See C14 in `Registro_de_Contradicciones.md`.
 
 | Field | Value |
 |---|---|
