@@ -37,7 +37,7 @@ Inside `es/` and `en/` (structure requested by the instructor):
 | `03_Analisis_Software.md` | Software analysis, requirements, risk matrix, use cases, class, state and sequence diagrams |
 | `04_Propuesta_Tecnica.md` | Technical proposal and technical sheet |
 | `05_Diseno_Software.md` | Design patterns, architecture, package, process, flow and activity diagrams, checklist |
-| `06_Base_Datos/` | `Modelo_ER.md` (ERD and per-module ERMs), `Diccionario_Datos.md` and `Script_BD.sql` |
+| `06_Base_Datos/` | `Modelo_ER.md` (ERD and per-module ERMs), `Diccionario_Datos.md` (draft generated from the implemented schema), `Script_BD.sql` (design) and `Script_BD_implementado.sql` (implemented schema) |
 | `07_Pruebas/` | `Plan_Pruebas.md` and `Evidencias/` (test cases, backend and mobile tests) |
 | `08_Calidad_Mejoras.md` | Software quality and corrective, preventive and improvement actions |
 | `09_Implementacion.md` | Implementation manual |
@@ -93,7 +93,7 @@ Dentro de `es/` y `en/` (estructura pedida por el instructor):
 | `03_Analisis_Software.md` | Análisis del software, requisitos, matriz de riesgos, casos de uso y diagramas de clases, estados y secuencia |
 | `04_Propuesta_Tecnica.md` | Propuesta técnica y ficha técnica |
 | `05_Diseno_Software.md` | Patrones de diseño, diagramas de arquitectura, paquetes, procesos, flujo y actividades, lista de chequeo |
-| `06_Base_Datos/` | `Modelo_ER.md` (DER y MER por módulo), `Diccionario_Datos.md` y `Script_BD.sql` |
+| `06_Base_Datos/` | `Modelo_ER.md` (DER y MER por módulo), `Diccionario_Datos.md` (borrador generado del esquema implementado), `Script_BD.sql` (diseño) y `Script_BD_implementado.sql` (esquema implementado) |
 | `07_Pruebas/` | `Plan_Pruebas.md` y `Evidencias/` (casos de prueba, pruebas del backend y de la app móvil) |
 | `08_Calidad_Mejoras.md` | Calidad de software y acciones correctivas, preventivas y de mejora |
 | `09_Implementacion.md` | Manual de implementación |

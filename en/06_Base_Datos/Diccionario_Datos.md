@@ -1,728 +1,1345 @@
 ---
-id: TE-0097
-title: "Diccionario de datos Tu-Evento"
+title: "Data dictionary"
 lang: en
-source: 04_Diseno_Software/Diccionario de datos Tu-Evento.xlsx
-source_sha256: 55e048637ab5260300cba10304b9cabffcf35f93612b8fc6af685a766436cc7d
-conversion: "openpyxl 3.1.5 (data_only + formulas); without manual review. English translation of md/es: Claude Opus 5.5 (claude-opus-5-5); without manual review"
-converted_on: 2026-10-23
-fidelity: parcial
-losses:
-  - "Visual formatting (colours, borders, widths, fonts and conditional formatting styles) is not kept."
-  - "Merged cells are listed but not reproduced as a single cell."
-  - "The formula values are the ones cached by Excel; they were not recalculated."
-  - "Translation: the sheet names, entity and field names, data types and the enumeration values written in English in the original (for example «Pending, Approved, Rejected») are kept as in the original; «SI» is translated as «YES»."
+source: "06_Base_Datos/Script_BD_implementado.sql"
+generated_from: "lozano2303/TuEvento origin/develop 2d259e7 (Liquibase 4.31.1, PostgreSQL 17.10)"
+generated_on: 2026-10-24
 status: borrador
 reviewed_by: ""
 translation_of: es/06_Base_Datos/Diccionario_Datos.md
-es_sha256: 5388e7b80ee129f754f792e284baba32763cfdfbfa2e0eff01af4875daa05518
+es_sha256: a6d54774e148d7cdd0ac760e679834e0ed8d615dddd4b091a4c9f193a2453994
 ---
-# Data dictionary Tu-Evento
-
-> Conversion of `04_Diseno_Software/Diccionario de datos Tu-Evento.xlsx`: 13 sheets (Seguridad, Cartera, Categorias, Geolocalizacion, Secciones, Sillas, Temas, Lenguaje, Notificaciones, Pagos, Perfil, Eventos, Tickets), 0 formulas. The columns are named with the Excel letter and each row with its original number.
-
-## Sheet: Seguridad
-
-Used range: `A1:G126` · 126 rows × 7 columns · merged cells: 13
-
-| Row | A | B | C | D | E | F | G |
-|---|---|---|---|---|---|---|---|
-| 1 | SECURITY MODULE |  |  |  |  |  |  |
-| 2 |  | Entity: account_lockout |  |  |  |  |  |
-| 3 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 4 |  | account_lockout_id | INT | NO | Unique positive integers | — | Unique identifier of the account lockout record. (PK) |
-| 5 |  | user_id | INT | NO | Existing user ID | — | Identifier of the user to whom the lockout record belongs. (FK) |
-| 6 |  | failed_attempts | INT | NO | Integer ≥ 0 | — | Number of failed login attempts. |
-| 7 |  | window_started_at | TIMESTAMP | NO | Valid date and time | — | Moment when the counting window of failed attempts starts. |
-| 8 |  | locked_until | TIMESTAMP | YES | Valid date and time | — | Date and time until which the account remains locked. |
-| 11 |  | Entity: account_activation |  |  |  |  |  |
-| 12 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 13 |  | account_activation_id | INT | NO | Unique positive integers | — | Identifier of the account activation record. (PK) |
-| 14 |  | user_id | INT | NO | Existing user ID | — | User to whom the activation process belongs. (FK) |
-| 15 |  | activation_code | VARCHAR | NO | Alphanumeric code | 6 | Code used to activate the user's account. |
-| 16 |  | activated | BOOLEAN | NO | TRUE / FALSE | — | Indicates whether the account has already been activated. |
-| 17 |  | expires_at | TIMESTAMP | NO | Valid date and time | — | Moment when the activation code expires. |
-| 18 |  | created_at | TIMESTAMP | NO | Valid date and time | — | Date and time when the activation record was created. |
-| 20 |  | Entity: refresh_token |  |  |  |  |  |
-| 21 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 22 |  | refresh_token_id | INT | NO | Unique positive integers | — | Unique identifier of the refresh token. (PK) |
-| 23 |  | user_id | INT | NO | Existing user ID | — | User who owns the token. (FK) |
-| 24 |  | auth_session_id | INT | NO | Existing session ID | — | Authentication session associated with the token. (FK) |
-| 25 |  | token | VARCHAR | NO | Secure alphanumeric string | 512 | Token used to renew the authentication session. |
-| 26 |  | issued_at | TIMESTAMP | NO | Valid date and time | — | Moment when the token was issued. |
-| 27 |  | expires_at | TIMESTAMP | NO | Valid date and time | — | Moment when the token expires. |
-| 28 |  | revoked | BOOLEAN | NO | TRUE / FALSE | — | Indicates whether the token has been revoked. |
-| 29 |  | revoked_at | TIMESTAMP | YES | Valid date and time | — | Moment when the token was revoked. |
-| 31 |  | Entity: user |  |  |  |  |  |
-| 32 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 33 |  | user_id | INT | NO | Unique positive integers | — | Unique identifier of the user. (PK) |
-| 34 |  | user_status_id | INT | NO | Existing status ID | — | Current status of the user within the system. (FK) |
-| 35 |  | role_id | INT | NO | Existing role ID | — | Role assigned to the user within the system. (FK) |
-| 36 |  | alias | VARCHAR | NO | Unique text | 50 | Alias or user name used to identify the user in the system. |
-| 37 |  | activated | BOOLEAN | NO | TRUE / FALSE | — | Indicates whether the user's account is activated. |
-| 40 |  | Entity: auth_session |  |  |  |  |  |
-| 41 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 42 |  | auth_session_id | INT | NO | Unique positive integers | — | Unique identifier of the authentication session. (PK) |
-| 43 |  | user_id | INT | NO | Existing user ID | — | User who owns the session. (FK) |
-| 44 |  | access_token | VARCHAR | NO | Alphanumeric token | 512 | Access token used to authenticate requests. |
-| 45 |  | issued_at | TIMESTAMP | NO | Valid date and time | — | Date and time of issuance of the access token. |
-| 46 |  | expires_at | TIMESTAMP | NO | Valid date and time | — | Date and time of expiry of the session. |
-| 47 |  | ip_address | VARCHAR | NO | Valid IP address | 45 | IP address from which the session originated. |
-| 48 |  | user_agent | VARCHAR | NO | Descriptive text | 200 | Information about the user's browser or device. |
-| 49 |  | revoked | BOOLEAN | NO | TRUE / FALSE | — | Indicates whether the session was revoked. |
-| 50 |  | revoked_at | TIMESTAMP | YES | Valid date and time | — | Date on which the session was revoked. |
-| 52 |  | Entity: user_status |  |  |  |  |  |
-| 53 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 54 |  | user_status_id | INT | NO | Unique positive integers | — | Unique identifier of the user status. (PK) |
-| 55 |  | code | VARCHAR | NO | Identifier code | 30 | Internal code of the user status. |
-| 56 |  | name | VARCHAR | NO | Descriptive text | 60 | Name of the user status. |
-| 57 |  | description | VARCHAR | NO | Descriptive text | 150 | Description of the meaning of the user status. |
-| 59 |  | Entity: user_status_history |  |  |  |  |  |
-| 60 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 61 |  | user_status_history_id | INT | NO | Unique positive integers | — | Identifier of the historical status record. (PK) |
-| 62 |  | user_id | INT | NO | Existing user ID | — | User to whom the status change corresponds. (FK) |
-| 63 |  | user_status_id | INT | NO | Existing status ID | — | Status assigned to the user at that moment. (FK) |
-| 64 |  | reason | VARCHAR | NO | Descriptive text | 150 | Reason for which the change of the user's status occurred. |
-| 66 |  | Entity: oauth_account |  |  |  |  |  |
-| 67 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 68 |  | oauth_account_id | INT | NO | Unique positive integers | — | Identifier of the external authentication record. (PK) |
-| 69 |  | user_id | INT | NO | Existing user ID | — | User who owns the OAuth account. (FK) |
-| 70 |  | provider | VARCHAR | NO | Name of the OAuth provider | 40 | External authentication provider (Google, Facebook, etc.). |
-| 71 |  | provider_user_id | VARCHAR | YES | External identifier | 100 | Identifier of the user within the OAuth provider. |
-| 72 |  | email | VARCHAR | YES | Email address | 255 | Email associated with the OAuth account. |
-| 73 |  | linked_at | TIMESTAMP | YES | Valid date and time | — | Date on which the external account was linked to the system. |
-| 75 |  | Entity: organizer_petition |  |  |  |  |  |
-| 76 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 77 |  | organizer_petition_id | INT | NO | Unique positive integers | — | Identifier of the request to become an organizer. (PK) |
-| 78 |  | user_id | INT | NO | Existing user ID | — | User who makes the request. (FK) |
-| 79 |  | document | BYTEA | NO | Binary file | — | Document sent by the user as support for the request. |
-| 80 |  | applicationDate | TIMESTAMP | YES | Valid date and time | — | Date on which the user made the request. |
-| 81 |  | status | ENUM | NO | Pending, Approved, Rejected | — | Current status of the organizer request. |
-| 83 |  | Entity: permission |  |  |  |  |  |
-| 84 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 85 |  | permission_id | INT | NO | Unique positive integers | — | Unique identifier of the system permission. (PK) |
-| 86 |  | code | VARCHAR | NO | Internal code | 50 | Identifier code of the permission. |
-| 87 |  | name | VARCHAR | NO | Descriptive text | 80 | Name of the permission within the system. |
-| 88 |  | description | VARCHAR | NO | Descriptive text | 150 | Functional description of the permission. |
-| 90 |  | Entity: role |  |  |  |  |  |
-| 91 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 92 |  | role_id | INT | NO | Unique positive integers | — | Unique identifier of the system role. (PK) |
-| 93 |  | code | VARCHAR | NO | Internal code | 50 | Code that identifies the role. |
-| 94 |  | name | VARCHAR | NO | Descriptive text | 80 | Name of the role within the system. |
-| 95 |  | description | VARCHAR | NO | Descriptive text | 150 | Description of the role and its responsibilities. |
-| 97 |  | Entity: role_permission |  |  |  |  |  |
-| 98 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 99 |  | role_permission_id | INT | NO | Unique positive integers | — | Identifier of the role-permission relationship. (PK) |
-| 100 |  | permission_id | INT | NO | Existing permission ID | — | Permission associated with the role. (FK) |
-| 101 |  | role_id | INT | NO | Existing role ID | — | Role to which the permission is assigned. (FK) |
-| 103 |  | Entity: recover_password |  |  |  |  |  |
-| 104 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 105 |  | recover_password_id | INT | NO | Unique positive integers | — | Identifier of the password recovery process. (PK) |
-| 106 |  | user_id | INT | NO | Existing user ID | — | User who requests the password recovery. (FK) |
-| 107 |  | code | VARCHAR | NO | Alphanumeric code | 8 | Code used to validate the password recovery. |
-| 108 |  | code_status | BOOLEAN | NO | TRUE / FALSE | — | Indicates whether the code has already been used or validated. |
-| 109 |  | expires_at | TIMESTAMP | NO | Valid date and time | — | Moment when the code stops being valid. |
-| 110 |  | created_at | TIMESTAMP | NO | Valid date and time | — | Date on which the recovery code was generated. |
-| 111 |  | last_password_hash | VARCHAR | NO | Cryptographic hash | 255 | Last password registered by the user before the recovery. |
-| 113 |  | Entity: password_history |  |  |  |  |  |
-| 114 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 115 |  | password_history_id | INT | NO | Unique positive integers | — | Identifier of the password history record. (PK) |
-| 116 |  | user_id | INT | NO | Existing user ID | — | User to whom the stored password belongs. (FK) |
-| 117 |  | password_hash | VARCHAR | NO | Cryptographic hash | 255 | Encrypted password stored in the history. |
-| 118 |  | changed_at | TIMESTAMP | NO | Valid date and time | — | Moment when the user changed their password. |
-| 120 |  | Entity: login_credentials |  |  |  |  |  |
-| 121 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 122 |  | login_credentials_id | INT | NO | Unique positive integers | — | Identifier of the user's access credentials. (PK) |
-| 123 |  | user_id | INT | NO | Existing user ID | — | User who owns the credentials. (FK) |
-| 124 |  | password_hash | VARCHAR | NO | Cryptographic hash | 255 | Encrypted password used for authentication. |
-| 125 |  | email | VARCHAR | NO | Valid email address | 255 | Email used to log in. |
-| 126 |  | last_login_at | TIMESTAMP | YES | Valid date and time | — | Date and time of the user's last login. |
-
-**Merged cells** (the value appears only in the top-left cell): `B103:C103`, `B113:C113`, `B11:C11`, `B120:C120`, `B20:C20`, `B2:C2`, `B40:C40`, `B52:C52`, `B59:C59`, `B66:C66`, `B75:C75`, `B83:C83`, `B97:C97`
-
-
-## Sheet: Cartera
-
-Used range: `A1:G31` · 31 rows × 7 columns · merged cells: 2
-
-| Row | A | B | C | D | E | F | G |
-|---|---|---|---|---|---|---|---|
-| 1 | WALLET MODULE |  |  |  |  |  |  |
-| 2 |  | Entity: wallet |  |  |  |  |  |
-| 3 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 4 |  | wallet_id | INT | NO | Unique positive integers | — | Unique identifier of the user's digital wallet. (PK) |
-| 5 |  | user_id | INT | NO | Identifiers of existing users | — | Reference to the user who owns the wallet. (FK) |
-| 6 |  | balance | DECIMAL(10,2) | NO | Positive or zero monetary values | 10.2 | Current balance available in the user's wallet. Default value: 0. |
-| 7 |  | currency | STRING | NO | ISO currency codes (e.g.: COP, USD, EUR) | 3 | Currency in which the wallet operates. Default value: COP. |
-| 9 |  | Entity: wallet_transaction |  |  |  |  |  |
-| 10 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 11 |  | transaction_id | INT | NO | Unique integers | — | Unique identifier of the transaction carried out in the wallet. (PK) |
-| 12 |  | wallet_id | INT | NO | Identifiers of existing wallets | — | Reference to the wallet where the transaction is recorded. (FK) |
-| 13 |  | type | ENUM | NO | refund, top-up, withdrawal, payment | — | Type of operation carried out in the wallet. |
-| 14 |  | amount | DECIMAL(10,2) | NO | Positive monetary values | 10.2 | Amount of money involved in the transaction. |
-| 15 |  | status | ENUM | NO | pending, completed, failed | — | Current status of the transaction. |
-| 16 |  | created_at | TIMESTAMP | NO | Valid date and time | — | Moment when the transaction was recorded in the system. |
-| 18 |  | Entity: wallet_reference |  |  |  |  |  |
-| 19 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 20 |  | wallet_reference_id | INT | NO | Unique integers | — | Unique identifier of the reference of the transaction. (PK) |
-| 21 |  | transaction_id | INT | NO | Identifiers of existing transactions | — | Reference to the associated wallet transaction. (FK) |
-| 22 |  | entity_type | ENUM | YES | order, payment, refund | — | Type of system entity associated with the transaction. |
-| 23 |  | entity_id | INT | YES | Identifiers of related entities | — | Identifier of the specific entity linked to the transaction. |
-| 24 |  | created_at | TIMESTAMP | NO | Valid date and time | — | Moment when the transaction was recorded in the system. |
-
-**Merged cells** (the value appears only in the top-left cell): `B18:C18`, `B26:C26`
-
-
-## Sheet: Categorias
-
-Used range: `A1:G22` · 22 rows × 7 columns · merged cells: 2
-
-| Row | A | B | C | D | E | F | G |
-|---|---|---|---|---|---|---|---|
-| 1 | CATEGORIES MODULE |  |  |  |  |  |  |
-| 2 |  | Entity: category |  |  |  |  |  |
-| 3 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 4 |  | category_id | INT | NO | Unique positive integers | — | Unique identifier of the category within the system. (PK) |
-| 5 |  | name | VARCHAR | NO | Alphanumeric text | 50 | Name of the category used to classify events. |
-| 6 |  | description | VARCHAR | NO | Descriptive text | 100 | Detailed description of the category. |
-| 7 |  | active | BOOLEAN | NO | TRUE / FALSE | 1 | Indicates whether the category is active within the system. Default value: TRUE. |
-| 8 |  | visible | BOOLEAN | NO | TRUE / FALSE | 1 | Determines whether the category is visible to users on the platform. Default value: TRUE. |
-| 9 |  | dad_id | INT | YES | Identifiers of existing categories | — | Reference to the parent category in case there is a category hierarchy. (FK) |
-| 11 |  | Entity: category_event |  |  |  |  |  |
-| 12 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 13 |  | category_event_id | INT | NO | Unique positive integers | — | Unique identifier of the relationship between categories and events. (PK) |
-| 14 |  | category_id | INT | NO | Identifiers of existing categories | — | Identifier of the category associated with the event. (PK, FK) |
-| 15 |  | event_id | INT | NO | Identifiers of existing events | — | Identifier of the event associated with the category. (PK, FK) |
-
-**Merged cells** (the value appears only in the top-left cell): `B11:C11`, `B2:C2`
-
-
-## Sheet: Geolocalizacion
-
-Used range: `A1:G45` · 45 rows × 7 columns · merged cells: 5
-
-| Row | A | B | C | D | E | F | G |
-|---|---|---|---|---|---|---|---|
-| 1 | GEOLOCATION MODULE |  |  |  |  |  |  |
-| 2 |  | Entity: department |  |  |  |  |  |
-| 3 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 4 |  | department_id | INT | NO | Unique positive integers | — | Unique identifier of the department or administrative region. (PK) |
-| 5 |  | name | VARCHAR | NO | Alphanumeric text | 100 | Official name of the department or geographic region. |
-| 6 |  | code | VARCHAR | YES | Alphanumeric codes | 10 | Identifier code of the department according to the classification system used. |
-| 8 |  | Entity: city |  |  |  |  |  |
-| 9 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 10 |  | city_id | INT | NO | Unique positive integers | — | Unique identifier of the city registered in the system. (PK) |
-| 11 |  | department_id | INT | NO | Identifiers of existing departments | — | Reference to the department to which the city belongs. (FK) |
-| 12 |  | name | VARCHAR | NO | Alphanumeric text | 100 | Official name of the city. |
-| 13 |  | code | VARCHAR | YES | Alphanumeric codes | 10 | Identifier code of the city within the system or territorial standard. |
-| 15 |  | Entity: site |  |  |  |  |  |
-| 16 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 17 |  | site_id | INT | NO | Unique positive integers | — | Unique identifier of the site or place where an event takes place. (PK) |
-| 18 |  | city_id | INT | NO | Identifiers of existing cities | — | Reference to the city where the event site is located. (FK) |
-| 19 |  | name | VARCHAR | NO | Alphanumeric text | 150 | Name of the place or establishment where the event takes place. |
-| 20 |  | address | VARCHAR | NO | Alphanumeric text | 200 | Physical address of the site where the event takes place. |
-| 21 |  | capacity | INT | YES | Positive integers | — | Maximum capacity of people that the site can hold. |
-| 22 |  | latitude | DECIMAL | YES | Decimal values of geographic coordinates | 9.6 | Geographic latitude coordinate that indicates the location of the site. |
-| 23 |  | longitude | DECIMAL | YES | Decimal values of geographic coordinates | 9.6 | Geographic longitude coordinate that indicates the location of the site. |
-
-**Merged cells** (the value appears only in the top-left cell): `B15:C15`, `B25:C25`, `B2:C2`, `B34:C34`, `B8:C8`
-
-
-## Sheet: Secciones
-
-Used range: `A1:G15` · 15 rows × 7 columns · merged cells: 2
-
-| Row | A | B | C | D | E | F | G |
-|---|---|---|---|---|---|---|---|
-| 1 | SECTIONS MODULE |  |  |  |  |  |  |
-| 2 |  | Entity: section_type |  |  |  |  |  |
-| 3 |  | Field name | Data type | Accepts null values? | Acceptable values | Length | Description |
-| 4 |  | section_type_id | INT | NO | Unique positive integers | — | Unique identifier of the section type. (PK) |
-| 5 |  | name | VARCHAR | NO | Alphanumeric text | 100 | Name of the section type of the event (E.g.: VIP, General, Preferencial). |
-| 7 |  | Entity: event_section |  |  |  |  |  |
-| 8 |  | Field name | Data type | Accepts null values? | Acceptable values | Length | Description |
-| 9 |  | event_section_id | INT | NO | Unique positive integers | — | Unique identifier of the event section. (PK) |
-| 10 |  | event_id | INT | NO | Identifiers of existing events | — | Event to which the section belongs. (FK) |
-| 11 |  | section_type_id | INT | NO | Identifiers of existing section types | — | Assigned section type (VIP, General, etc.). (FK) |
-| 12 |  | capacity | INT | NO | Positive integers | — | Maximum capacity of people allowed in the section. |
-| 13 |  | available_seats | INT | NO | Positive integers | — | Number of seats available for reservation. |
-| 14 |  | price | DECIMAL(10,2) | NO | Positive decimal values | 10.2 | Price of the ticket for that section. |
-| 15 |  | is_active | BOOLEAN | NO | TRUE / FALSE | 1 | Indicates whether the section is available for sale. |
-
-**Merged cells** (the value appears only in the top-left cell): `B2:C2`, `B7:C7`
-
-
-## Sheet: Sillas
-
-Used range: `A1:G46` · 46 rows × 7 columns · merged cells: 4
-
-| Row | A | B | C | D | E | F | G |
-|---|---|---|---|---|---|---|---|
-| 1 | SEATS MODULE |  |  |  |  |  |  |
-| 2 |  | Entity: seat |  |  |  |  |  |
-| 3 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 4 |  | seat_id | INT | NO | Unique positive integers | — | Unique identifier of the seat within the system. (PK) |
-| 5 |  | seat_block_id | INT | NO | Positive integers that correspond to an existing seat block | — | Identifier of the seat block to which the seat belongs. (FK) |
-| 6 |  | event_section_id | INT | NO | Positive integers that correspond to an existing event section | — | Identifier of the event section where the seat is located. (FK) |
-| 7 |  | code | VARCHAR | NO | Alphanumeric seat identification codes (e.g.: A10, B5) | 20 | Unique code that identifies the seat within a section. |
-| 8 |  | row | INT | NO | Positive integers | — | Number of the row where the seat is located within the block. |
-| 9 |  | position | INT | NO | Positive integers | — | Position of the seat within the corresponding row. |
-| 10 |  | type | ENUM | YES | regular, courtesy | — | Type of seat available in the event (regular or courtesy). |
-| 11 |  | status | ENUM | YES | available, reserved, sold, courtesy | — | Current status of the seat within the reservation system. |
-| 13 |  | Entity: seat_block |  |  |  |  |  |
-| 14 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 15 |  | seat_block_id | INT | NO | Unique positive integers | — | Unique identifier of the seat block. (PK) |
-| 16 |  | event_section_id | INT | NO | Positive integers corresponding to existing event sections | — | Identifier of the event section to which the seat block belongs. (FK) |
-| 17 |  | name | VARCHAR | NO | Descriptive text of the seat block | 100 | Name of the block or seating zone within the event section. |
-| 18 |  | capacity | INT | NO | Positive integers | — | Maximum number of seats that the block can contain. |
-| 20 |  | Entity: seat_log |  |  |  |  |  |
-| 21 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 22 |  | seat_log_id | INT | NO | Unique positive integers | — | Unique identifier of the history record of seat status changes. (PK) |
-| 23 |  | seat_id | INT | NO | Positive integers corresponding to existing seats | — | Identifier of the seat on which the status change is recorded. (FK) |
-| 24 |  | old_status | ENUM | YES | available, reserved, sold, courtesy | — | Previous status of the seat before the change was recorded. |
-| 25 |  | new_status | ENUM | YES | available, reserved, sold, courtesy | — | New status assigned to the seat after the change. |
-| 26 |  | change_at | TIMESTAMP | YES | Valid system date and time | — | Date and time when the change of status of the seat was recorded. |
-| 27 |  | change_by | INT | YES | Positive integers corresponding to system users | — | Identifier of the user who made the status change. (FK) |
-| 28 |  | reason | VARCHAR | YES | Descriptive text | 255 | Reason or explanation of the status change recorded for the seat. |
-
-**Merged cells** (the value appears only in the top-left cell): `B13:C13`, `B20:C20`, `B2:C2`, `B40:C40`
-
-
-## Sheet: Temas
-
-Used range: `A1:G39` · 39 rows × 7 columns · merged cells: 5
-
-| Row | A | B | C | D | E | F | G |
-|---|---|---|---|---|---|---|---|
-| 1 | THEMES MODULE |  |  |  |  |  |  |
-| 2 |  | Entity: theme |  |  |  |  |  |
-| 3 |  | Field name | Data type | Accepts null values? | Acceptable values | Length | Description |
-| 4 |  | theme_id | INT | NO | Unique positive integers | — | Unique identifier of the visual theme of the system. (PK) |
-| 5 |  | name | VARCHAR | NO | Alphanumeric text | 100 | Name of the visual theme available for the interface. |
-| 6 |  | description | VARCHAR | NO | Descriptive text | 255 | Description of the style or appearance of the theme. |
-| 7 |  | default_palette | JSONB | YES | JSON object with colour configuration | — | Default colour palette of the theme (colours, backgrounds, etc.). |
-| 9 |  | Entity: user_theme |  |  |  |  |  |
-| 10 |  | Field name | Data type | Accepts null values? | Acceptable values | Length | Description |
-| 11 |  | user_theme_id | INT | NO | Unique positive integers | — | Identifier of the user's theme configuration record. (PK) |
-| 12 |  | user_id | INT | NO | Positive integers corresponding to existing users | — | Identifier of the user who uses the theme. (FK) |
-| 13 |  | theme_id | INT | NO | Positive integers corresponding to existing themes | — | Identifier of the theme selected by the user. (FK) |
-| 14 |  | is_active | BOOLEAN | YES | TRUE, FALSE | — | Indicates whether the theme is active for the user. |
-| 15 |  | created_at | TIMESTAMP | YES | Valid date and time | — | Date and time when the theme was assigned to the user. |
-| 16 |  | updated_at | TIMESTAMP | YES | Valid date and time | — | Date and time of the last update of the user's theme. |
-| 18 |  | Entity: theme_customization |  |  |  |  |  |
-| 19 |  | Field name | Data type | Accepts null values? | Acceptable values | Length | Description |
-| 20 |  | customization_id | INT | NO | Unique positive integers | — | Unique identifier of the theme customization. (PK) |
-| 21 |  | user_theme_id | INT | NO | Positive integers corresponding to user theme configurations | — | Identifier of the theme configuration associated with the user. (FK) |
-| 22 |  | property | VARCHAR | NO | Name of the visual property | 100 | Customized visual property of the theme (e.g.: color_header, background). |
-| 23 |  | value | VARCHAR | YES | Value associated with the property | 255 | Value assigned to the customization property. |
-| 24 |  | created_at | TIMESTAMP | YES | Valid date and time | — | Date on which the customization was created. |
-| 25 |  | updated_at | TIMESTAMP | YES | Valid date and time | — | Date of the last modification of the customization. |
-| 27 |  | Entity: theme_log |  |  |  |  |  |
-| 28 |  | Field name | Data type | Accepts null values? | Acceptable values | Length | Description |
-| 29 |  | log_id | INT | NO | Unique positive integers | — | Unique identifier of the theme change record. (PK) |
-| 30 |  | user_theme_id | INT | NO | Positive integers corresponding to user theme configurations | — | Identifier of the theme configured for the user. (FK) |
-| 31 |  | action | VARCHAR | YES | Descriptive text of the action | 50 | Action performed on the theme (create, update, activate, etc.). |
-
-**Merged cells** (the value appears only in the top-left cell): `B18:C18`, `B27:C27`, `B2:C2`, `B33:C33`, `B9:C9`
-
-
-## Sheet: Lenguaje
-
-Used range: `A1:G145` · 145 rows × 7 columns · merged cells: 16
-
-| Row | A | B | C | D | E | F | G |
-|---|---|---|---|---|---|---|---|
-| 1 | LANGUAGES MODULE |  |  |  |  |  |  |
-| 2 |  | Entity: language |  |  |  |  |  |
-| 3 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 4 |  | language_id | INT | NO | Positive integers | — | Unique identifier of the language in the system (PK) |
-| 5 |  | code | VARCHAR | NO | Language code (e.g.: es, en, fr) | 10 | Abbreviated code of the language used by the system |
-| 6 |  | name | VARCHAR | NO | Name of the language | 50 | Descriptive name of the language available in the system |
-| 7 |  | is_active | BOOLEAN | NO | TRUE / FALSE | — | Indicates whether the language is active within the system |
-| 9 |  | Entity: event_translation |  |  |  |  |  |
-| 10 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 11 |  | translation_id | INT | NO | Positive integers | — | Unique identifier of the translation of the event (PK) |
-| 12 |  | event_id | INT | NO | Existing event ID | — | Event to which the translation belongs (FK) |
-| 13 |  | language_id | INT | NO | Existing language ID | — | Language into which the translation is made (FK) |
-| 14 |  | translated_name | VARCHAR | NO | Text | 100 | Translated name of the event |
-| 15 |  | translated_description | VARCHAR | NO | Text | 255 | Translated description of the event |
-| 16 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation process |
-| 18 |  | Entity: event_rating_translation |  |  |  |  |  |
-| 19 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 20 |  | translation_id | INT | NO | Positive integers | — | Unique identifier of the translation of the rating (PK) |
-| 21 |  | rating_id | INT | NO | Existing rating ID | — | Rating associated with the translation (FK) |
-| 22 |  | language_id | INT | NO | Existing language ID | — | Language of the translation (FK) |
-| 23 |  | translated_comment | VARCHAR | NO | Text | 255 | Translated comment of the rating |
-| 24 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation process |
-| 26 |  | Entity: notification_translation |  |  |  |  |  |
-| 27 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 28 |  | translation_id | INT | NO | Positive integers | — | Unique identifier of the translation of the notification (PK) |
-| 29 |  | notification_id | INT | NO | Existing notification ID | — | Associated notification (FK) |
-| 30 |  | language_id | INT | NO | Existing language ID | — | Language in which the translation is (FK) |
-| 31 |  | translated_subject | VARCHAR | NO | Text | 100 | Translated subject of the notification |
-| 32 |  | translated_body | VARCHAR | NO | Text | 255 | Translated content of the notification |
-| 33 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation process |
-| 35 |  | Entity: event_comment_reply_translation |  |  |  |  |  |
-| 36 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 37 |  | translation_id | INT | NO | Positive integers | — | Unique identifier of the translation of a reply (PK) |
-| 38 |  | reply_id | INT | NO | Existing reply ID | — | Reply associated with the translation (FK) |
-| 39 |  | language_id | INT | NO | Existing language ID | — | Language of the translation (FK) |
-| 40 |  | translated_reply_text | VARCHAR | NO | Text | 255 | Translated text of the reply |
-| 41 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation process |
-| 43 |  | Entity: profile_translation |  |  |  |  |  |
-| 44 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 45 |  | translation_id | INT | NO | Positive integers | — | Unique identifier of the translation of the profile (PK) |
-| 46 |  | profile_id | INT | NO | Existing profile ID | — | Profile to which the translation belongs (FK) |
-| 47 |  | language_id | INT | NO | Existing language ID | — | Language in which the translation is (FK) |
-| 48 |  | translated_bio | VARCHAR | NO | Text | 255 | Translated biography of the user |
-| 49 |  | source | VARCHAR | NO | manual / automatic | 50 | Source of the translation made |
-| 50 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation process |
-| 52 |  | Entity: channel_translation |  |  |  |  |  |
-| 53 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 54 |  | translation_id | INT | NO | Positive integers | — | Identifier of the translation of the channel (PK) |
-| 55 |  | channel_id | INT | NO | Existing channel ID | — | Channel associated with the translation (FK) |
-| 56 |  | language_id | INT | NO | Existing language ID | — | Language of the translation (FK) |
-| 57 |  | translated_name | VARCHAR | NO | Text | 100 | Translated name of the channel |
-| 58 |  | translated_description | VARCHAR | NO | Text | 255 | Translated description of the channel |
-| 59 |  | source | VARCHAR | NO | manual / automatic | 50 | Source of the translation |
-| 60 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation |
-| 62 |  | Entity: section_type_translation |  |  |  |  |  |
-| 63 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 64 |  | translation_id | INT | NO | Positive integers | — | Translation identifier of the section type (PK) |
-| 65 |  | section_type_id | INT | NO | Existing section ID | — | Associated section type (FK) |
-| 66 |  | language_id | INT | NO | Existing language ID | — | Language of the translation (FK) |
-| 67 |  | translated_name | VARCHAR | NO | Text | 100 | Translated name of the section type |
-| 68 |  | source | VARCHAR | NO | manual / automatic | 50 | Source of the translation |
-| 69 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation process |
-| 71 |  | Entity: category_translation |  |  |  |  |  |
-| 72 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 73 |  | translation_id | INT | NO | Positive integers | — | Category translation identifier (PK) |
-| 74 |  | category_id | INT | NO | Existing category ID | — | Associated category (FK) |
-| 75 |  | language_id | INT | NO | Existing language ID | — | Language of the translation (FK) |
-| 76 |  | translated_name | VARCHAR | NO | Text | 100 | Translated name of the category |
-| 77 |  | translated_description | VARCHAR | NO | Text | 255 | Translated description of the category |
-| 78 |  | source | VARCHAR | NO | manual / automatic | 50 | Translation source |
-| 79 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation process |
-| 81 |  | Entity: category_translation |  |  |  |  |  |
-| 82 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 83 |  | translation_id | INT | NO | Positive integers | — | Category translation identifier (PK) |
-| 84 |  | category_id | INT | NO | Existing category ID | — | Associated category (FK) |
-| 85 |  | language_id | INT | NO | Existing language ID | — | Language of the translation (FK) |
-| 86 |  | translated_name | VARCHAR | NO | Text | 100 | Translated name of the category |
-| 87 |  | translated_description | VARCHAR | NO | Text | 255 | Translated description of the category |
-| 88 |  | source | VARCHAR | NO | manual / automatic | 50 | Translation source |
-| 89 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation process |
-| 91 |  | Entity: review_translation |  |  |  |  |  |
-| 92 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 93 |  | translation_id | INT | NO | Positive integers | — | Review translation identifier (PK) |
-| 94 |  | review_id | INT | NO | Existing review ID | — | Associated review (FK) |
-| 95 |  | language_id | INT | NO | Existing language ID | — | Language of the translation (FK) |
-| 96 |  | translated_comment | VARCHAR | NO | Text | 255 | Translated comment of the review |
-| 97 |  | source | VARCHAR | NO | manual / automatic | 50 | Translation source |
-| 98 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation process |
-| 100 |  | Entity: seat_block_translation |  |  |  |  |  |
-| 101 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 102 |  | translation_id | INT | NO | Positive integers | — | Translation identifier of the seat block (PK) |
-| 103 |  | seat_block_id | INT | NO | Existing block ID | — | Associated seat block (FK) |
-| 104 |  | language_id | INT | NO | Existing language ID | — | Language of the translation (FK) |
-| 105 |  | translated_name | VARCHAR | NO | Text | 100 | Translated name of the seat block |
-| 106 |  | source | VARCHAR | NO | manual / automatic | 50 | Translation source |
-| 107 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation process |
-| 109 |  | Entity: notification_type_translation |  |  |  |  |  |
-| 110 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 111 |  | translation_id | INT | NO | Positive integers | — | Translation identifier of the notification type (PK) |
-| 112 |  | notification_type_id | INT | NO | Existing notification type ID | — | Associated notification type (FK) |
-| 113 |  | language_id | INT | NO | Existing language ID | — | Language of the translation (FK) |
-| 114 |  | translated_name | VARCHAR | NO | Text | 100 | Translated name of the notification type |
-| 115 |  | translated_description | VARCHAR | NO | Text | 255 | Translated description of the notification type |
-| 116 |  | source | VARCHAR | NO | manual / automatic | 50 | Translation source |
-| 117 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation process |
-| 119 |  | Entity: theme_translation |  |  |  |  |  |
-| 120 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 121 |  | translation_id | INT | NO | Positive integers | — | Translation identifier of the theme (PK) |
-| 122 |  | theme_id | INT | NO | Existing theme ID | — | Theme associated with the translation (FK) |
-| 123 |  | language_id | INT | NO | Existing language ID | — | Language of the translation (FK) |
-| 124 |  | translated_name | VARCHAR | NO | Text | 100 | Translated name of the theme |
-| 125 |  | translated_description | VARCHAR | NO | Text | 255 | Translated description of the theme |
-| 126 |  | source | VARCHAR | NO | manual / automatic | 50 | Translation source |
-| 127 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation process |
-| 129 |  | Entity: module_translation |  |  |  |  |  |
-| 130 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 131 |  | translation_id | INT | NO | Positive integers | — | Translation identifier of the module (PK) |
-| 132 |  | module_string | VARCHAR | NO | Module identifier | 100 | String that identifies the module of the system |
-| 133 |  | language_id | INT | NO | Existing language ID | — | Language of the translation (FK) |
-| 134 |  | translated_name | VARCHAR | NO | Text | 100 | Translated name of the module |
-| 135 |  | source | VARCHAR | NO | manual / automatic | 50 | Source of the translation |
-| 136 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation process |
-| 138 |  | Entity: action_translation |  |  |  |  |  |
-| 139 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 140 |  | translation_id | INT | NO | Positive integers | — | Unique identifier of the translation of the event (PK) |
-| 141 |  | event_id | INT | NO | Existing event ID | — | Event to which the translation belongs (FK) |
-| 142 |  | language_id | INT | NO | Existing language ID | — | Language into which the translation is made (FK) |
-| 143 |  | translated_name | VARCHAR | NO | Text | 100 | Translated name of the event |
-| 144 |  | translated_description | VARCHAR | NO | Text | 255 | Translated description of the event |
-| 145 |  | status | ENUM | NO | automatic, reviewed, rejected | — | Status of the translation process |
-
-**Merged cells** (the value appears only in the top-left cell): `B100:E100`, `B109:D109`, `B119:C119`, `B129:D129`, `B138:C138`, `B18:D18`, `B26:D26`, `B2:C2`, `B35:E35`, `B43:C43`, `B52:C52`, `B62:D62`, `B71:D71`, `B81:D81`, `B91:D91`, `B9:C9`
-
-
-## Sheet: Notificaciones
-
-Used range: `A1:G35` · 35 rows × 7 columns · merged cells: 4
-
-| Row | A | B | C | D | E | F | G |
-|---|---|---|---|---|---|---|---|
-| 1 | NOTIFICATIONS MODULE |  |  |  |  |  |  |
-| 2 |  | Entity: notification |  |  |  |  |  |
-| 3 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 4 |  | notification_id | INT | NO | Positive integers | — | Unique identifier of the notification in the system (PK) |
-| 5 |  | channel_id | INT | NO | Existing channel ID | — | Channel through which the notification is sent (FK) |
-| 6 |  | notification_type_id | INT | NO | Existing notification type ID | — | Associated notification type (FK) |
-| 7 |  | event_id | INT | NO | Existing event ID | — | Event related to the notification (FK) |
-| 8 |  | subject | VARCHAR | NO | Text | 150 | Subject or title of the notification sent to the user |
-| 9 |  | body | TEXT | NO | Text | — | Content or message of the notification |
-| 10 |  | sent_at | TIMESTAMP | YES | Valid date and time | — | Date and time when the notification was sent |
-| 12 |  | Entity: notification_type |  |  |  |  |  |
-| 13 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 14 |  | notification_type_id | INT | NO | Positive integers | — | Identifier of the notification type (PK) |
-| 15 |  | name | VARCHAR | NO | Text | 50 | Name of the notification type |
-| 16 |  | description | VARCHAR | NO | Text | 100 | Description of the notification type |
-| 17 |  | active | BOOLEAN | NO | TRUE / FALSE | — | Indicates whether the notification type is active in the system |
-| 19 |  | Entity: channel |  |  |  |  |  |
-| 20 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 21 |  | channel_id | INT | NO | Positive integers | — | Unique identifier of the notification channel (PK) |
-| 22 |  | name | VARCHAR | NO | Text | 50 | Name of the notification channel (e.g.: Email, SMS) |
-| 23 |  | description | VARCHAR | NO | Text | 100 | Description of the channel |
-| 24 |  | active | BOOLEAN | NO | TRUE / FALSE | — | Indicates whether the channel is enabled in the system |
-| 25 |  | config | JSONB | YES | Configuration in JSON format | — | Technical configuration of the sending channel |
-| 27 |  | Entity: notification_user |  |  |  |  |  |
-| 28 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 29 |  | notification_user_id | INT | NO | Positive integers | — | Identifier of the notification record per user (PK) |
-| 30 |  | notification_id | INT | NO | Existing notification ID | — | Notification associated with the user (FK) |
-| 31 |  | user_id | INT | NO | Existing user ID | — | User who receives the notification (FK) |
-| 32 |  | email_address | VARCHAR | NO | Valid email address | 255 | Email of the recipient of the notification |
-| 33 |  | delivered_status | ENUM | NO | Pending, Sent, Delivered, Failed | — | Delivery status of the notification |
-| 34 |  | error_message | VARCHAR | YES | Text | 255 | Error message in case the sending fails |
-| 35 |  | read_at | TIMESTAMP | YES | Valid date and time | — | Date and time when the user read the notification |
-
-**Merged cells** (the value appears only in the top-left cell): `B12:C12`, `B19:C19`, `B27:D27`, `B2:D2`
-
-
-## Sheet: Pagos
-
-Used range: `A1:G47` · 47 rows × 7 columns · merged cells: 2
-
-| Row | A | B | C | D | E | F | G |
-|---|---|---|---|---|---|---|---|
-| 1 | PAYMENTS MODULE |  |  |  |  |  |  |
-| 2 |  | Entity: payment |  |  |  |  |  |
-| 3 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 4 |  | payment_id | INT | NO | Positive integers | — | Unique identifier of the payment registered in the system (PK) |
-| 5 |  | order_id | INT | NO | Existing order ID | — | Order associated with the payment made (FK) |
-| 6 |  | gateway | ENUM | NO | fake, wompi | — | Payment gateway used to process the transaction |
-| 7 |  | gateway_transaction_id | VARCHAR | NO | Gateway transaction identifier | 100 | Code of the transaction generated by the payment gateway |
-| 8 |  | status | ENUM | NO | pending, approved, rejected, error, refunded | — | Current status of the payment within the system |
-| 9 |  | amount | DECIMAL | NO | Positive numeric values | 10.2 | Total amount paid in the transaction |
-| 10 |  | payment_method | ENUM | NO | card, pse, nequi, cash | — | Payment method used by the user |
-| 11 |  | processed_at | TIMESTAMP | YES | Valid date and time | — | Date and time when the payment was processed |
-| 13 |  | Entity: payment_log |  |  |  |  |  |
-| 14 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 15 |  | payment_log_id | INT | NO | Positive integers | — | Unique identifier of the payment history record (PK) |
-| 16 |  | payment_id | INT | NO | Existing payment ID | — | Payment associated with the history record (FK) |
-| 17 |  | old_status | ENUM | NO | pending, processing, paid, failed, refunded | — | Previous status of the payment before the update |
-| 18 |  | new_status | ENUM | NO | pending, processing, paid, failed, refunded | — | New status of the payment after the change |
-| 19 |  | changed_at | TIMESTAMP | NO | Valid date and time | — | Moment when the status change occurred |
-| 20 |  | created_at | TIMESTAMP | NO | Valid date and time | — | Date on which the change was recorded in the history |
-| 21 |  | reason | VARCHAR | YES | Text | 255 | Reason for the change of status of the payment |
-| 23 |  | Entity: transaction_webhook |  |  |  |  |  |
-| 24 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 25 |  | webhook_id | INT | NO | Positive integers | — | Identifier of the webhook received from the payment gateway (PK) |
-| 26 |  | payment_id | INT | NO | Existing payment ID | — | Payment related to the received webhook (FK) |
-| 27 |  | payload | JSONB | NO | Data in JSON format | — | Information sent by the payment gateway |
-| 28 |  | received_at | TIMESTAMP | NO | Valid date and time | — | Date and time when the webhook was received |
-| 30 |  | Entity: refund |  |  |  |  |  |
-| 31 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 32 |  | refund_id | INT | NO | Positive integers | — | Unique identifier of the requested refund (PK) |
-| 33 |  | payment_id | INT | NO | Existing payment ID | — | Payment for which the refund is requested (FK) |
-| 34 |  | status | ENUM | NO | requested, approved, processed, failed | — | Status of the refund process |
-| 35 |  | reason | VARCHAR | YES | Text | 255 | Reason for the requested refund |
-| 36 |  | requested_at | TIMESTAMP | NO | Valid date and time | — | Date and time when the refund was requested |
-| 37 |  | processed_at | TIMESTAMP | YES | Valid date and time | — | Date and time when the refund was processed |
-| 39 |  | Entity: order |  |  |  |  |  |
-| 40 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 41 |  | order_id | INT | NO | Positive integers | — | Unique identifier of the purchase order (PK) |
-| 42 |  | user_id | INT | NO | Existing user ID | — | User who places the purchase order (FK) |
-| 43 |  | event_id | INT | NO | Existing event ID | — | Event associated with the purchase of tickets (FK) |
-| 44 |  | total_amount | DECIMAL | NO | Positive numeric values | 10.2 | Total amount of the order |
-| 45 |  | currency | VARCHAR | NO | Currency code | 3 | Currency used in the transaction (COP by default) |
-| 46 |  | status | ENUM | NO | pending, processing, paid, failed, refunded | — | Current status of the purchase order |
-| 47 |  | created_at | TIMESTAMP | NO | Valid date and time | — | Creation date of the order |
-
-**Merged cells** (the value appears only in the top-left cell): `B13:C13`, `B23:D23`
-
-
-## Sheet: Perfil
-
-Used range: `A1:G45` · 45 rows × 7 columns · merged cells: 2
-
-| Row | A | B | C | D | E | F | G |
-|---|---|---|---|---|---|---|---|
-| 1 | PROFILE MODULE |  |  |  |  |  |  |
-| 2 |  | Entity: profile |  |  |  |  |  |
-| 3 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 4 |  | profile_id | INT | NO | Positive integers | — | Unique identifier of the user's profile (PK) |
-| 5 |  | user_id | INT | NO | Existing user ID | — | User to whom the profile belongs (FK) |
-| 6 |  | city_id | INT | NO | Existing city ID | — | City registered in the user's profile (FK) |
-| 7 |  | full_name | VARCHAR | NO | Text | 100 | Full name of the user |
-| 8 |  | photo_url | VARCHAR | NO | Valid URL | 255 | Address of the user's profile picture |
-| 9 |  | bio | VARCHAR | YES | Text | 255 | Description or biography of the user |
-| 11 |  | Entity: profile_log |  |  |  |  |  |
-| 12 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 13 |  | log_id | INT | NO | Positive integers | — | Identifier of the profile change record (PK) |
-| 14 |  | profile_id | INT | NO | Existing profile ID | — | Profile to which the recorded change belongs (FK) |
-| 15 |  | action | VARCHAR | NO | Text | 50 | Action performed on the profile |
-| 16 |  | old_value | VARCHAR | YES | Text | 255 | Previous value before the modification |
-| 17 |  | new_value | VARCHAR | YES | Text | 255 | New value after the change |
-| 18 |  | occurred_at | TIMESTAMP | NO | Valid date and time | — | Date and time when the change was made |
-| 20 |  | Entity: activity_log |  |  |  |  |  |
-| 21 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 22 |  | log_id | INT | NO | Positive integers | — | Unique identifier of the activity record (PK) |
-| 23 |  | user_id | INT | NO | Existing user ID | — | User who performed the recorded action (FK) |
-| 24 |  | module | VARCHAR | NO | Text | 50 | Name of the module where the action occurred |
-| 25 |  | action | VARCHAR | NO | Text | 100 | Action performed by the user |
-| 26 |  | reference_id | INT | YES | ID related to the action | — | Identifier of the affected record |
-| 27 |  | occurred_at | TIMESTAMP | NO | Valid date and time | — | Date and time when the activity occurred |
-| 29 |  | Entity: wallet_summary |  |  |  |  |  |
-| 30 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 31 |  | summary_id | INT | NO | Positive integers | — | Identifier of the summary of wallet movements (PK) |
-| 32 |  | user_id | INT | NO | Existing user ID | — | User who owns the summary (FK) |
-| 33 |  | wallet_id | INT | NO | Existing wallet ID | — | Wallet associated with the summary (FK) |
-| 34 |  | transaction_id | INT | NO | Existing transaction ID | — | Transaction related to the summary (FK) |
-| 35 |  | type | ENUM | NO | recharge, payment, refund | — | Type of movement recorded in the wallet |
-| 36 |  | amount | DECIMAL | NO | Positive numeric values | 10.2 | Amount of the transaction |
-| 37 |  | occurred_at | TIMESTAMP | NO | Valid date and time | — | Date and time when the transaction occurred |
-| 39 |  | Entity: preferences |  |  |  |  |  |
-| 40 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 41 |  | preference_id | INT | NO | Positive integers | — | Unique identifier of the registered preference (PK) |
-| 42 |  | user_id | INT | NO | Existing user ID | — | User to whom the preferences belong (FK) |
-| 43 |  | language_id | INT | NO | Existing language ID | — | Language selected by the user (FK) |
-| 44 |  | theme_id | INT | NO | Existing theme ID | — | Visual theme selected by the user (FK) |
-| 45 |  | notifications | BOOLEAN | NO | TRUE / FALSE | — | Indicates whether the user has notifications enabled |
-
-**Merged cells** (the value appears only in the top-left cell): `B29:C29`, `B39:C39`
-
-
-## Sheet: Eventos
-
-Used range: `A1:G60` · 60 rows × 7 columns · merged cells: 7
-
-| Row | A | B | C | D | E | F | G |
-|---|---|---|---|---|---|---|---|
-| 1 | EVENTS MODULE |  |  |  |  |  |  |
-| 2 |  | Entity: event_layout |  |  |  |  |  |
-| 3 |  | Field name | Data type | Accepts null values? | Acceptable values | Length | Description |
-| 4 |  | event_layout_id | INT | NO | Positive integers | — | Unique identifier of the layout of the event (PK) |
-| 5 |  | event_id | INT | NO | Existing event ID | — | Event to which the layout belongs (FK) |
-| 6 |  | layout_data | JSONB | NO | Data in JSON format | — | Information on the design or distribution of the event |
-| 8 |  | Entity: event_media |  |  |  |  |  |
-| 9 |  | Field name | Data type | Accepts null values? | Acceptable values | Length | Description |
-| 10 |  | media_id | INT | NO | Positive integers | — | Unique identifier of the multimedia resource (PK) |
-| 11 |  | event_id | INT | NO | Existing event ID | — | Event to which the multimedia file belongs (FK) |
-| 12 |  | img_url | VARCHAR | NO | Valid URL | 255 | Address of the image or multimedia resource of the event |
-| 14 |  | Entity: event_media_log |  |  |  |  |  |
-| 15 |  | Field name | Data type | Accepts null values? | Acceptable values | Length | Description |
-| 16 |  | media_log_id | INT | NO | Positive integers | — | Identifier of the change history of the multimedia content (PK) |
-| 17 |  | event_id | INT | NO | Existing event ID | — | Event related to the record (FK) |
-| 18 |  | media_id | INT | NO | Multimedia resource ID | — | Related multimedia resource (FK) |
-| 19 |  | img_url | VARCHAR | NO | Valid URL | 255 | Address of the stored multimedia resource |
-| 20 |  | version | INT | NO | Positive integers | — | Version of the multimedia resource |
-| 21 |  | is_visible | BOOLEAN | NO | TRUE / FALSE | — | Indicates whether the multimedia resource is visible |
-| 23 |  | Entity: event_rating |  |  |  |  |  |
-| 24 |  | Field name | Data type | Accepts null values? | Acceptable values | Length | Description |
-| 25 |  | rating_id | INT | NO | Positive integers | — | Unique identifier of the rating of the event (PK) |
-| 26 |  | event_id | INT | NO | Existing event ID | — | Event that receives the rating (FK) |
-| 27 |  | user_id | INT | NO | Existing user ID | — | User who makes the rating (FK) |
-| 28 |  | rating | INT | NO | Values between 1 and 5 | — | Rating given to the event |
-| 29 |  | comment | VARCHAR | NO | Text | 255 | Comment associated with the rating |
-| 30 |  | is_visible | BOOLEAN | NO | TRUE / FALSE | — | Indicates whether the rating is visible |
-| 31 |  | created_at | TIMESTAMP | NO | Valid date and time | — | Date on which the rating was made |
-| 33 |  | Entity: event_comment_reply |  |  |  |  |  |
-| 34 |  | Field name | Data type | Accepts null values? | Acceptable values | Length | Description |
-| 35 |  | reply_id | INT | NO | Positive integers | — | Identifier of the reply to the comment (PK) |
-| 36 |  | parent_reply_id | INT | YES | Existing reply ID | — | Allows nested replies |
-| 37 |  | rating_id | INT | NO | Existing rating ID | — | Rating to which the reply belongs (FK) |
-| 38 |  | user_id | INT | NO | Existing user ID | — | User who makes the reply (FK) |
-| 39 |  | reply_text | VARCHAR | NO | Text | 255 | Content of the reply to the comment |
-| 40 |  | is_visible | BOOLEAN | NO | TRUE / FALSE | — | Indicates whether the reply is visible |
-| 41 |  | created_at | TIMESTAMP | NO | Valid date and time | — | Creation date of the reply |
-| 43 |  | Entity: event_status_log |  |  |  |  |  |
-| 44 |  | Field name | Data type | Accepts null values? | Acceptable values | Length | Description |
-| 45 |  | status_log_id | INT | NO | Positive integers | — | Identifier of the status history of the event (PK) |
-| 46 |  | event_id | INT | NO | Existing event ID | — | Event associated with the status change (FK) |
-| 47 |  | old_status | ENUM | NO | Draft, Published, Cancelled, Completed | — | Previous status of the event |
-| 48 |  | new_status | ENUM | NO | Draft, Published, Cancelled, Completed | — | New status of the event |
-| 49 |  | changed_at | TIMESTAMP | NO | Valid date and time | — | Date and time of the status change |
-| 50 |  | changed_by | INT | NO | Existing user ID | — | User who made the change |
-| 52 |  | Entity: event |  |  |  |  |  |
-| 53 |  | Field name | Data type | Accepts null values? | Acceptable values | Length | Description |
-| 54 |  | event_section_id | INT | NO | Unique positive integers | — | Unique identifier of the event section. (PK) |
-| 55 |  | event_id | INT | NO | Identifiers of existing events | — | Event to which the section belongs. (FK) |
-| 56 |  | section_type_id | INT | NO | Identifiers of existing section types | — | Assigned section type (VIP, General, etc.). (FK) |
-| 57 |  | capacity | INT | NO | Positive integers | — | Maximum capacity of people allowed in the section. |
-| 58 |  | available_seats | INT | NO | Positive integers | — | Number of seats available for reservation. |
-| 59 |  | price | DECIMAL(10,2) | NO | Positive decimal values | 10.2 | Price of the ticket for that section. |
-| 60 |  | is_active | BOOLEAN | NO | TRUE / FALSE | 1 | Indicates whether the section is available for sale. |
-
-**Merged cells** (the value appears only in the top-left cell): `B14:C14`, `B23:C23`, `B2:C2`, `B33:D33`, `B43:C43`, `B52:C52`, `B8:C8`
-
-
-## Sheet: Tickets
-
-Used range: `A1:G45` · 45 rows × 7 columns · merged cells: 1
-
-| Row | A | B | C | D | E | F | G |
-|---|---|---|---|---|---|---|---|
-| 1 | TICKETS MODULE |  |  |  |  |  |  |
-| 2 |  | Entity: seat_ticket |  |  |  |  |  |
-| 3 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 4 |  | seat_id | INT | NO | Positive integers existing in the seat table | N/A | Identifier of the seat associated with the ticket. (PK, FK) |
-| 5 |  | ticket_id | INT | NO | Positive integers existing in the ticket table | N/A | Identifier of the ticket associated with the seat. (PK, FK) |
-| 6 |  | price | DECIMAL | NO | Positive monetary values | 10.2 | Price assigned to the seat within the ticket. |
-| 8 |  | Entity: ticket_checkin |  |  |  |  |  |
-| 9 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 10 |  | checkin_id | INT | NO | Unique positive integers | N/A | Unique identifier of the check-in record. (PK) |
-| 11 |  | ticket_id | INT | NO | Positive integers existing in the ticket table | N/A | Ticket used to perform the check-in to the event. (FK) |
-| 12 |  | checkin_time | TIMESTAMP | YES | Valid date and time | N/A | Exact moment when the ticket was validated at the event. |
-| 13 |  | validated_by | INT | YES | Identifier of the user who validates the access | N/A | User responsible for validating the ticket during entry to the event. (FK) |
-| 15 |  | Entity: ticket_log |  |  |  |  |  |
-| 16 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 17 |  | ticket_log_id | INT | NO | Unique positive integers | N/A | Identifier of the historical record of ticket changes. (PK) |
-| 18 |  | ticket_id | INT | NO | Positive integers existing in ticket | N/A | Identifier of the ticket to which the record belongs. (FK) |
-| 19 |  | old_status | ENUM | YES | 'draft', 'payment pending', 'paid', 'cancelled', 'refunded', 'used' | N/A | Previous status of the ticket before the change. |
-| 20 |  | new_status | ENUM | YES | 'draft', 'payment pending', 'paid', 'cancelled', 'refunded', 'used' | N/A | New status assigned to the ticket after the modification. |
-| 21 |  | changed_at | TIMESTAMP | YES | Valid date and time | N/A | Date and time when the change of status of the ticket was made. |
-| 22 |  | changed_by | INT | YES | User identifier | N/A | User responsible for modifying the status of the ticket. (FK) |
-| 23 |  | reason | VARCHAR | YES | Descriptive text | 255 | Reason or justification of the change of status of the ticket. |
-| 25 |  | Entity: ticket |  |  |  |  |  |
-| 26 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 27 |  | ticket_id | INT | NO | Unique positive integers | N/A | Unique identifier of the ticket generated for an event. (PK) |
-| 28 |  | event_id | INT | NO | Positive integers existing in event | N/A | Identifier of the event to which the ticket belongs. (FK) |
-| 29 |  | user_id | INT | NO | Positive integers existing in user | N/A | User who owns the ticket. (FK) |
-| 30 |  | order_id | INT | NO | Positive integers existing in order | N/A | Order through which the ticket was acquired. (FK) |
-| 31 |  | code | VARCHAR | NO | Alphanumeric code | 20 | Unique code of the ticket used for validation. |
-| 32 |  | qr_code | VARCHAR | YES | Encoded string | 255 | QR code generated for the digital validation of the ticket. |
-| 33 |  | status | ENUM | YES | 'draft', 'payment pending', 'paid', 'cancelled', 'refunded', 'used' | N/A | Current status of the ticket within the purchase or use process. |
-| 34 |  | expiration_date | DATE | YES | Valid dates | N/A | Validity deadline of the ticket. |
-| 35 |  | total_price | DECIMAL | NO | Positive monetary values | 10.2 | Total price paid for the ticket. |
-| 37 |  | Entity: order |  |  |  |  |  |
-| 38 |  | Field name | Data type | Accepts null values? | Acceptable values | Character length | Description |
-| 39 |  | order_id | INT | NO | Unique positive integers | N/A | Unique identifier of the purchase order. (PK) |
-| 40 |  | user_id | INT | NO | Positive integers existing in user | N/A | User who placed the order. (FK) |
-| 41 |  | event_id | INT | NO | Positive integers existing in event | N/A | Event associated with the order. (FK) |
-| 42 |  | total_amount | DECIMAL | NO | Positive monetary values | 10.2 | Total amount of the purchase made in the order. |
-| 43 |  | currency | VARCHAR | YES | ISO currency code | 3 | Currency used in the transaction (COP by default). |
-| 44 |  | status | ENUM | YES | 'pending', 'processing', 'paid', 'failed', 'refunded' | N/A | Current status of the order's payment process. |
-| 45 |  | created_at | TIMESTAMP | YES | Valid date and time | N/A | Date and time when the order was generated. |
-
-**Merged cells** (the value appears only in the top-left cell): `B8:C8`
+# Data dictionary — Tu Evento
+
+> **Draft generated from the implemented schema.** This dictionary was generated on 2026-10-24 from [`Script_BD_implementado.sql`](Script_BD_implementado.sql): the 171 Liquibase 4.31.1 changesets of `lozano2303/TuEvento` (`origin/develop` / `2d259e7`) applied to a temporary PostgreSQL 17.10. Names, types, nullability, keys and default values come from the schema. Descriptions come from database comments and code comments (Javadoc); where there is none, it says **PENDING** for the team to complete. Each table's module comes from the JPA entity that maps it.
+>
+> Summary: 75 tables, 570 columns, 555 pending column descriptions.
+>
+> The previous version of this document (design dictionary converted from the XLSX `04_Diseno_Software/Diccionario de datos Tu-Evento.xlsx`) is kept in the Git history: `git show 5e68501:en/06_Base_Datos/Diccionario_Datos.md`.
 
+**Key column legend:** PK = primary key · FK → `table.column` = foreign key · UQ = part of a UNIQUE constraint.
+
+**Contents**
+
+1. [`category`](#mod-category) — 2 tables
+2. [`event`](#mod-event) — 7 tables
+3. [`geolocation`](#mod-geolocation) — 3 tables
+4. [`language`](#mod-language) — 16 tables
+5. [`notification`](#mod-notification) — 4 tables
+6. [`payment`](#mod-payment) — 4 tables
+7. [`profile`](#mod-profile) — 2 tables
+8. [`seat`](#mod-seat) — 3 tables
+9. [`section`](#mod-section) — 2 tables
+10. [`sectiontype`](#mod-sectiontype) — 0 tables
+11. [`security`](#mod-security) — 16 tables
+12. [`storage`](#mod-storage) — 4 tables
+13. [`theme`](#mod-theme) — 4 tables
+14. [`ticket`](#mod-ticket) — 5 tables
+15. [`wallet`](#mod-wallet) — 3 tables
+
+<a id="mod-category"></a>
+
+## 1. Module `category`
+
+### 1.1 `category`
+
+**Description:** PENDING
+
+**Created in changeset:** `047-create-category.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `category_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `name` | `character varying(50)` | NO | UQ | — | PENDING |
+| `description` | `character varying(100)` | NO | — | — | PENDING |
+| `active` | `boolean` | NO | — | `true` | PENDING |
+| `visible` | `boolean` | NO | — | `true` | PENDING |
+| `dad_id` | `integer` | YES | FK → `category.category_id` | — | Parent category; null for a root category. |
+| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_by` | `character varying(100)` | NO | — | — | PENDING |
+| `updated_by` | `character varying(100)` | NO | — | — | PENDING |
+
+### 1.2 `category_event`
+
+**Description:** PENDING
+
+**Created in changeset:** `048-create-category-event.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `category_event_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `category_id` | `integer` | NO | UQ, FK → `category.category_id` | — | Category linked to the event. |
+| `event_id` | `integer` | NO | UQ, FK → `event.event_id` | — | Event linked to the category. |
+
+<a id="mod-event"></a>
+
+## 2. Module `event`
+
+### 2.1 `event`
+
+**Description:** PENDING
+
+**Created in changeset:** `039-create-event.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `event_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `bigint` | NO | FK → `app_user.user_id` | — | PENDING |
+| `site_id` | `bigint` | NO | UQ, FK → `site.site_id` | — | PENDING |
+| `event_name` | `character varying(100)` | NO | UQ | — | PENDING |
+| `description` | `character varying(255)` | NO | — | — | PENDING |
+| `start_date` | `date` | NO | UQ | — | PENDING CHECK constraint: `CHECK ((finish_date > start_date))`. |
+| `finish_date` | `date` | NO | — | — | PENDING CHECK constraint: `CHECK ((finish_date > start_date))`. |
+| `status` | `character varying(20)` | NO | — | `'DRAFT'::character varying` | PENDING Allowed values (CHECK): `DRAFT`, `PENDING_REVIEW`, `PUBLISHED`, `REJECTED`, `CANCELLED`, `COMPLETED`. |
+| `is_public` | `boolean` | NO | — | `true` | PENDING |
+| `available_seats` | `integer` | NO | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_by` | `character varying(100)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+| `rejection_reason` | `text` | YES | — | — | Rejection reason; filled when the status is REJECTED and cleared when it returns to DRAFT. |
+
+### 2.2 `event_layout`
+
+**Description:** PENDING
+
+**Created in changeset:** `041-create-event-layout.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `event_layout_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
+| `layout_data` | `jsonb` | NO | — | — | PENDING |
+
+### 2.3 `event_log`
+
+**Description:** PENDING
+
+**Created in changeset:** `093-create-event-log-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
+| `action` | `character varying(100)` | NO | — | — | PENDING |
+| `old_value` | `text` | YES | — | — | PENDING |
+| `new_value` | `text` | YES | — | — | PENDING |
+| `occurred_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
+
+### 2.4 `event_media`
+
+**Description:** PENDING
+
+**Created in changeset:** `042-create-event-media.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `media_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
+| `img_url` | `character varying(255)` | NO | — | — | PENDING |
+
+### 2.5 `event_media_log`
+
+**Description:** PENDING
+
+**Created in changeset:** `043-create-event-media-log.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `media_log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
+| `media_id` | `bigint` | NO | FK → `event_media.media_id` | — | PENDING |
+| `img_url` | `character varying(255)` | NO | — | — | PENDING |
+| `version` | `integer` | NO | — | — | PENDING |
+| `is_visible` | `boolean` | NO | — | `true` | PENDING |
+
+### 2.6 `event_rating`
+
+**Description:** PENDING
+
+**Created in changeset:** `044-create-event-rating.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `rating_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
+| `user_id` | `bigint` | NO | FK → `app_user.user_id` | — | PENDING |
+| `rating` | `integer` | YES | — | — | PENDING CHECK constraint: `CHECK (((rating IS NULL) OR ((rating >= 1) AND (rating <= 5))))`. |
+| `comment` | `character varying()` | NO | — | — | PENDING |
+| `is_visible` | `boolean` | NO | — | `true` | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
+| `parent_rating_id` | `bigint` | YES | FK → `event_rating.rating_id` | — | Comment being replied to; null for a top-level comment (cascade delete). |
+| `edited_at` | `timestamp without time zone` | YES | — | — | Date and time of the last comment edit. |
+| `reply_to_user_id` | `bigint` | YES | — | — | ID of the user being replied to directly (for mentions). |
+| `reply_to_user_name` | `character varying(100)` | YES | — | — | Name of the user being replied to (to display @Name). |
+
+### 2.7 `event_status_log`
+
+**Description:** PENDING
+
+**Created in changeset:** `040-create-event-status-log.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `status_log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
+| `old_status` | `character varying(20)` | YES | — | — | PENDING |
+| `new_status` | `character varying(20)` | NO | — | — | PENDING |
+| `changed_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
+| `changed_by` | `bigint` | YES | FK → `app_user.user_id` | — | PENDING |
+| `reason` | `text` | YES | — | — | Administrator rejection reason when the new status is REJECTED; null otherwise. |
+
+<a id="mod-geolocation"></a>
+
+## 3. Module `geolocation`
+
+### 3.1 `city`
+
+**Description:** PENDING
+
+**Created in changeset:** `026-create-city-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `city_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `department_id` | `integer` | NO | FK → `department.department_id` | — | PENDING |
+| `name` | `character varying(100)` | NO | — | — | PENDING |
+| `code` | `character varying(10)` | NO | UQ | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_by` | `character varying(50)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+
+### 3.2 `department`
+
+**Description:** PENDING
+
+**Created in changeset:** `025-create-department-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `department_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `name` | `character varying(100)` | NO | — | — | PENDING |
+| `code` | `character varying(10)` | NO | UQ | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_by` | `character varying(50)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+
+### 3.3 `site`
+
+**Description:** PENDING
+
+**Created in changeset:** `027-create-site-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `site_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `city_id` | `integer` | NO | FK → `city.city_id` | — | PENDING |
+| `name` | `character varying(150)` | NO | — | — | PENDING |
+| `address` | `character varying(200)` | NO | — | — | PENDING |
+| `capacity` | `integer` | NO | — | — | PENDING |
+| `latitude` | `numeric(9,6)` | NO | — | — | PENDING |
+| `longitude` | `numeric(9,6)` | NO | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_by` | `character varying(50)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+
+<a id="mod-language"></a>
+
+## 4. Module `language`
+
+### 4.1 `action_translation`
+
+**Description:** PENDING
+
+**Created in changeset:** `091-create-final-translation-tables.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `action` | `character varying(100)` | NO | UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `translated_description` | `character varying(255)` | NO | — | — | PENDING |
+| `source` | `character varying(50)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
+
+### 4.2 `category_translation`
+
+**Description:** PENDING
+
+**Created in changeset:** `088-create-translation-tables.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `translation_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `category_id` | `integer` | NO | UQ, FK → `category.category_id` | — | PENDING |
+| `language_id` | `bigint` | NO | UQ, FK → `language.language_id` | — | PENDING |
+| `translated_name` | `character varying(100)` | NO | — | — | PENDING |
+| `translated_description` | `character varying(255)` | YES | — | — | PENDING |
+| `source` | `character varying(50)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'DRAFT'::character varying` | PENDING Allowed values (CHECK): `DRAFT`, `PUBLISHED`, `PENDING_REVIEW`. |
+| `created_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
+| `updated_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
+| `created_by` | `character varying(255)` | NO | — | `'system'::character varying` | PENDING |
+| `updated_by` | `character varying(255)` | NO | — | `'system'::character varying` | PENDING |
+
+### 4.3 `channel_translation`
+
+**Description:** PENDING
+
+**Created in changeset:** `091-create-final-translation-tables.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `channel_id` | `integer` | NO | UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `translated_name` | `character varying(100)` | YES | — | — | PENDING |
+| `translated_description` | `character varying(255)` | NO | — | — | PENDING |
+| `source` | `character varying(50)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
+
+### 4.4 `event_comment_reply_translation`
+
+**Description:** PENDING
+
+**Created in changeset:** `091-create-final-translation-tables.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `reply_id` | `integer` | NO | UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `translated_reply_text` | `character varying(255)` | YES | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
+
+### 4.5 `event_rating_translation`
+
+**Description:** PENDING
+
+**Created in changeset:** `090-create-more-translation-tables.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `rating_id` | `integer` | NO | UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `translated_comment` | `character varying(255)` | YES | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
+
+### 4.6 `event_translation`
+
+**Description:** PENDING
+
+**Created in changeset:** `088-create-translation-tables.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `translation_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `event_id` | `bigint` | NO | UQ, FK → `event.event_id` | — | PENDING |
+| `language_id` | `bigint` | NO | UQ, FK → `language.language_id` | — | PENDING |
+| `translated_name` | `character varying(100)` | YES | — | — | PENDING |
+| `translated_description` | `character varying(255)` | YES | — | — | PENDING |
+| `source` | `character varying(50)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'DRAFT'::character varying` | PENDING Allowed values (CHECK): `DRAFT`, `PUBLISHED`, `PENDING_REVIEW`. |
+| `created_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
+| `updated_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
+| `created_by` | `character varying(255)` | NO | — | `'system'::character varying` | PENDING |
+| `updated_by` | `character varying(255)` | NO | — | `'system'::character varying` | PENDING |
+
+### 4.7 `language`
+
+**Description:** PENDING
+
+**Created in changeset:** `084-create-language-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `language_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `code` | `character varying(10)` | NO | UQ | — | PENDING |
+| `name` | `character varying(50)` | NO | — | — | PENDING |
+| `is_active` | `boolean` | NO | — | `true` | PENDING |
+| `is_default` | `boolean` | NO | — | `false` | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_by` | `character varying(50)` | NO | — | — | PENDING |
+| `updated_by` | `character varying(50)` | NO | — | — | PENDING |
+
+### 4.8 `module_translation`
+
+**Description:** PENDING
+
+**Created in changeset:** `091-create-final-translation-tables.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `module` | `character varying(50)` | NO | UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `translated_name` | `character varying(100)` | NO | — | — | PENDING |
+| `source` | `character varying(50)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
+
+### 4.9 `notification_translation`
+
+**Description:** Notification translations (Javadoc of `NotificationTranslation`).
+
+**Created in changeset:** `089-create-additional-translation-tables.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `notification_id` | `integer` | NO | UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `translated_subject` | `text` | YES | — | — | PENDING |
+| `translated_body` | `text` | YES | — | — | PENDING |
+| `source` | `character varying(50)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
+
+### 4.10 `notification_type_translation`
+
+**Description:** PENDING
+
+**Created in changeset:** `091-create-final-translation-tables.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `notification_type_id` | `integer` | NO | UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `translated_name` | `character varying(100)` | NO | — | — | PENDING |
+| `translated_description` | `character varying(255)` | NO | — | — | PENDING |
+| `source` | `character varying(50)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
+
+### 4.11 `profile_translation`
+
+**Description:** PENDING
+
+**Created in changeset:** `089-create-additional-translation-tables.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `profile_id` | `integer` | NO | UQ | — | PENDING |
+| `language_id` | `integer` | NO | UQ, FK → `language.language_id` | — | PENDING |
+| `translated_bio` | `character varying(255)` | NO | — | — | PENDING |
+| `source` | `character varying(50)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
+
+### 4.12 `review_translation`
+
+**Description:** PENDING
+
+**Created in changeset:** `090-create-more-translation-tables.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `review_id` | `integer` | NO | UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `translated_comment` | `character varying(255)` | NO | — | — | PENDING |
+| `source` | `character varying(50)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
+
+### 4.13 `seat_block_translation`
+
+**Description:** PENDING
+
+**Created in changeset:** `090-create-more-translation-tables.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `seat_block_id` | `integer` | NO | UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `translated_name` | `character varying(100)` | NO | — | — | PENDING |
+| `source` | `character varying(50)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
+
+### 4.14 `section_type_translation`
+
+**Description:** PENDING
+
+**Created in changeset:** `091-create-final-translation-tables.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `section_type_id` | `integer` | NO | UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `translated_name` | `character varying(100)` | NO | — | — | PENDING |
+| `source` | `character varying(50)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
+
+### 4.15 `theme_translation`
+
+**Description:** PENDING
+
+**Created in changeset:** `089-create-additional-translation-tables.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `translation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `theme_id` | `integer` | NO | UQ | — | PENDING |
+| `language_id` | `integer` | NO | FK → `language.language_id`, UQ | — | PENDING |
+| `translated_name` | `character varying(100)` | NO | — | — | PENDING |
+| `translated_description` | `character varying(255)` | NO | — | — | PENDING |
+| `source` | `character varying(50)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'draft'::character varying` | PENDING |
+
+### 4.16 `translation_job`
+
+**Description:** PENDING
+
+**Created in changeset:** `087-translation-job-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `job_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `entity_type` | `character varying(50)` | NO | UQ | — | PENDING |
+| `entity_id` | `bigint` | NO | UQ | — | PENDING |
+| `source_language_id` | `bigint` | NO | FK → `language.language_id` | — | PENDING |
+| `target_language_id` | `bigint` | NO | UQ, FK → `language.language_id` | — | PENDING |
+| `source_hash` | `character varying(64)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | — | PENDING Allowed values (CHECK): `PENDING`, `PROCESSING`, `COMPLETED`, `FAILED`. |
+| `provider` | `character varying(20)` | NO | — | — | PENDING |
+| `attempts` | `integer` | NO | — | `0` | PENDING |
+| `last_error` | `character varying(1000)` | YES | — | — | PENDING |
+| `next_retry_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `completed_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
+| `updated_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
+| `created_by` | `character varying(255)` | NO | — | `'system'::character varying` | PENDING |
+| `updated_by` | `character varying(255)` | NO | — | `'system'::character varying` | PENDING |
+
+<a id="mod-notification"></a>
+
+## 5. Module `notification`
+
+### 5.1 `channel`
+
+**Description:** PENDING
+
+**Created in changeset:** `079-create-channel-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `channel_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `name` | `character varying(50)` | NO | UQ | — | PENDING |
+| `description` | `character varying(100)` | NO | — | — | PENDING |
+| `active` | `boolean` | NO | — | `true` | PENDING |
+| `config` | `jsonb` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_by` | `character varying(100)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+
+### 5.2 `notification`
+
+**Description:** PENDING
+
+**Created in changeset:** `081-create-notification-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `notification_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `channel_id` | `bigint` | NO | FK → `channel.channel_id` | — | PENDING |
+| `notification_type_id` | `bigint` | NO | FK → `notification_type.notification_type_id` | — | PENDING |
+| `entity_type` | `character varying(30)` | NO | — | — | PENDING |
+| `entity_id` | `bigint` | NO | — | — | PENDING |
+| `subject` | `character varying(150)` | NO | — | — | PENDING |
+| `body` | `text` | NO | — | — | PENDING |
+| `sent_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `idempotency_key` | `character varying(150)` | NO | UQ | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_by` | `character varying(100)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+
+### 5.3 `notification_type`
+
+**Description:** PENDING
+
+**Created in changeset:** `080-create-notification-type-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `notification_type_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `name` | `character varying(50)` | NO | UQ | — | PENDING |
+| `description` | `character varying(100)` | NO | — | — | PENDING |
+| `active` | `boolean` | NO | — | `true` | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_by` | `character varying(100)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+
+### 5.4 `notification_user`
+
+**Description:** PENDING
+
+**Created in changeset:** `082-create-notification-user-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `notification_user_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `notification_id` | `bigint` | NO | UQ, FK → `notification.notification_id` | — | PENDING |
+| `user_id` | `integer` | NO | UQ, FK → `app_user.user_id` | — | PENDING |
+| `email_address` | `character varying(255)` | YES | — | — | PENDING |
+| `delivered_status` | `character varying(20)` | NO | — | — | PENDING Allowed values (CHECK): `PENDING`, `SENT`, `DELIVERED`, `FAILED`. |
+| `error_message` | `text` | YES | — | — | PENDING |
+| `read_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_by` | `character varying(100)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+
+<a id="mod-payment"></a>
+
+## 6. Module `payment`
+
+### 6.1 `payment`
+
+**Description:** PENDING
+
+**Created in changeset:** `069-create-payment-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `payment_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `order_id` | `bigint` | NO | FK → `order.order_id` | — | PENDING |
+| `gateway` | `character varying(20)` | NO | — | — | PENDING Allowed values (CHECK): `FAKE`, `WOMPI`. |
+| `gateway_transaction_id` | `character varying(100)` | NO | UQ | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'PENDING'::character varying` | PENDING Allowed values (CHECK): `PENDING`, `APPROVED`, `REJECTED`, `ERROR`, `REFUNDED`. |
+| `amount` | `numeric(19,4)` | NO | — | — | PENDING |
+| `currency` | `character varying(3)` | NO | — | `'COP'::character varying` | PENDING |
+| `payment_method` | `character varying(20)` | YES | — | — | PENDING Allowed values (CHECK): `CARD`, `PSE`, `NEQUI`, `CASH`, `QR`. |
+| `processed_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_by` | `character varying(100)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+| `wallet_amount_applied` | `numeric(19,4)` | NO | — | `0` | PENDING CHECK constraint: `CHECK ((wallet_amount_applied >= (0)::numeric))`. |
+| `wallet_transaction_id` | `bigint` | YES | FK → `wallet_transaction.transaction_id` | — | PENDING |
+
+### 6.2 `payment_log`
+
+**Description:** Audit of payment status changes (Javadoc of `PaymentLogEntity`).
+
+**Created in changeset:** `070-create-payment-log-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `payment_log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `payment_id` | `bigint` | NO | FK → `payment.payment_id` | — | PENDING |
+| `old_status` | `character varying(20)` | NO | — | — | PENDING |
+| `new_status` | `character varying(20)` | NO | — | — | PENDING |
+| `changed_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `reason` | `character varying(500)` | YES | — | — | PENDING |
+
+### 6.3 `refund`
+
+**Description:** PENDING
+
+**Created in changeset:** `072-create-refund-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `refund_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `payment_id` | `bigint` | NO | FK → `payment.payment_id` | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'REQUESTED'::character varying` | PENDING Allowed values (CHECK): `REQUESTED`, `APPROVED`, `PROCESSED`, `FAILED`. |
+| `reason` | `character varying(500)` | YES | — | — | PENDING |
+| `requested_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `processed_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_by` | `character varying(100)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+
+### 6.4 `transaction_webhook`
+
+**Description:** Audit of received webhooks (Javadoc of `TransactionWebhookEntity`).
+
+**Created in changeset:** `071-create-transaction-webhook-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `webhook_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `payment_id` | `bigint` | NO | FK → `payment.payment_id` | — | PENDING |
+| `gateway_event_id` | `character varying(100)` | NO | UQ | — | PENDING |
+| `payload` | `text` | NO | — | — | PENDING |
+| `received_at` | `timestamp without time zone` | NO | — | — | PENDING |
+
+<a id="mod-profile"></a>
+
+## 7. Module `profile`
+
+### 7.1 `profile`
+
+**Description:** PENDING
+
+**Created in changeset:** `032-create-profile-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `profile_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `integer` | NO | FK → `app_user.user_id`, UQ | — | PENDING |
+| `city_id` | `integer` | YES | FK → `city.city_id` | — | PENDING |
+| `stored_file_id` | `integer` | YES | FK → `stored_file.stored_file_id` | — | Profile picture file (integer, no JPA relation to the storage module). |
+| `full_name` | `character varying(30)` | NO | — | — | PENDING |
+| `bio` | `character varying(255)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_by` | `character varying(50)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+| `name_changed_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `preferred_language_id` | `bigint` | YES | FK → `language.language_id` | — | User's preferred language for displaying content. |
+
+### 7.2 `profile_log`
+
+**Description:** PENDING
+
+**Created in changeset:** `033-create-profile-log-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `profile_id` | `bigint` | NO | FK → `profile.profile_id` | — | PENDING |
+| `action` | `character varying(50)` | YES | — | — | PENDING |
+| `old_value` | `character varying(255)` | YES | — | — | PENDING |
+| `new_value` | `character varying(255)` | YES | — | — | PENDING |
+| `occurred_at` | `timestamp without time zone` | YES | — | — | PENDING |
+
+<a id="mod-seat"></a>
+
+## 8. Module `seat`
+
+### 8.1 `seat`
+
+**Description:** PENDING
+
+**Created in changeset:** `056-create-seat.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `seat_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `seat_block_id` | `integer` | NO | FK → `seat_block.seat_block_id` | — | PENDING |
+| `event_section_id` | `integer` | NO | UQ, FK → `event_section.event_section_id` | — | PENDING |
+| `code` | `character varying(20)` | NO | UQ | — | PENDING |
+| `row` | `integer` | NO | — | — | PENDING |
+| `position` | `integer` | NO | — | — | PENDING |
+| `type` | `character varying(20)` | NO | — | — | PENDING Allowed values (CHECK): `REGULAR`, `COURTESY`. |
+| `status` | `character varying(20)` | NO | — | `'available'::character varying` | PENDING Allowed values (CHECK): `AVAILABLE`, `RESERVED`, `SOLD`, `COURTESY`. |
+| `reserved_by` | `integer` | YES | FK → `app_user.user_id` | — | PENDING |
+| `reserved_until` | `timestamp without time zone` | YES | — | — | PENDING |
+
+### 8.2 `seat_block`
+
+**Description:** PENDING
+
+**Created in changeset:** `055-create-seat-block.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `seat_block_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `event_section_id` | `integer` | NO | FK → `event_section.event_section_id` | — | PENDING |
+| `name` | `character varying(100)` | NO | — | — | PENDING |
+| `capacity` | `integer` | NO | — | — | PENDING CHECK constraint: `CHECK ((capacity > 0))`. |
+
+### 8.3 `seat_log`
+
+**Description:** PENDING
+
+**Created in changeset:** `057-create-seat-log.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `seat_log_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `seat_id` | `integer` | NO | FK → `seat.seat_id` | — | PENDING |
+| `old_status` | `character varying(20)` | YES | — | — | PENDING Allowed values (CHECK): `AVAILABLE`, `RESERVED`, `SOLD`, `COURTESY`. |
+| `new_status` | `character varying(20)` | NO | — | — | PENDING Allowed values (CHECK): `AVAILABLE`, `RESERVED`, `SOLD`, `COURTESY`. |
+| `changed_at` | `timestamp without time zone` | NO | — | `now()` | PENDING |
+| `changed_by` | `integer` | YES | FK → `app_user.user_id` | — | PENDING |
+| `reason` | `character varying(255)` | YES | — | — | PENDING |
+
+<a id="mod-section"></a>
+
+## 9. Module `section`
+
+### 9.1 `event_section`
+
+**Description:** PENDING
+
+**Created in changeset:** `053-create-event-section.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `event_section_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `event_id` | `integer` | NO | FK → `event.event_id`, UQ | — | PENDING |
+| `section_type_id` | `integer` | NO | UQ, FK → `section_type.section_type_id` | — | PENDING |
+| `capacity` | `integer` | NO | — | — | PENDING CHECK constraint: `CHECK ((capacity > 0))`. CHECK constraint: `CHECK ((available_seats <= capacity))`. |
+| `available_seats` | `integer` | NO | — | — | PENDING CHECK constraint: `CHECK ((available_seats <= capacity))`. |
+| `price` | `numeric(10,2)` | NO | — | — | PENDING CHECK constraint: `CHECK ((price >= (0)::numeric))`. |
+| `is_active` | `boolean` | NO | — | `true` | PENDING |
+
+### 9.2 `section_type`
+
+**Description:** PENDING
+
+**Created in changeset:** `052-create-section-type.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `section_type_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `name` | `character varying(100)` | NO | — | — | PENDING |
+| `active` | `boolean` | NO | — | `true` | PENDING |
+
+<a id="mod-sectiontype"></a>
+
+## 10. Module `sectiontype`
+
+The `sectiontype` module has no tables of its own: the section type is stored in `section_type` (`section` module) and its translations in `section_type_translation` (`language` module).
+
+<a id="mod-security"></a>
+
+## 11. Module `security`
+
+### 11.1 `account_activation`
+
+**Description:** PENDING
+
+**Created in changeset:** `007-create-account-activation-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `account_activation_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `activation_code` | `character varying(8)` | NO | — | — | PENDING |
+| `expires_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `activated` | `boolean` | NO | — | `false` | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+
+### 11.2 `account_lockout`
+
+**Description:** PENDING
+
+**Created in changeset:** `008-create-account-lockout-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `account_lockout_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `failed_attempts` | `integer` | NO | — | `0` | PENDING |
+| `window_started_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `locked_until` | `timestamp without time zone` | YES | — | — | PENDING |
+
+### 11.3 `account_reactivation_token`
+
+**Description:** PENDING
+
+**Created in changeset:** `060-create-account-reactivation-token-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `reactivation_token_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `token` | `character varying(8)` | NO | — | — | PENDING |
+| `token_status` | `boolean` | NO | — | `false` | PENDING |
+| `expires_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+
+### 11.4 `app_user`
+
+**Description:** PENDING
+
+**Created in changeset:** `004-create-user-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `user_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_status_id` | `integer` | NO | FK → `user_status.user_status_id` | — | PENDING |
+| `role_id` | `integer` | NO | FK → `role.role_id` | — | PENDING |
+| `alias` | `character varying(50)` | NO | UQ | — | PENDING |
+| `activated` | `boolean` | NO | — | `false` | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_by` | `character varying(50)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+
+### 11.5 `auth_session`
+
+**Description:** PENDING
+
+**Created in changeset:** `009-create-auth-session-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `auth_session_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `access_token` | `character varying(512)` | NO | — | — | PENDING |
+| `issued_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `expires_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `ip_address` | `character varying(45)` | YES | — | — | PENDING |
+| `user_agent` | `character varying(200)` | YES | — | — | PENDING |
+| `revoked` | `boolean` | NO | — | `false` | PENDING |
+| `revoked_at` | `timestamp without time zone` | YES | — | — | PENDING |
+
+### 11.6 `login_credentials`
+
+**Description:** PENDING
+
+**Created in changeset:** `006-create-login-credentials-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `login_credentials_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `password_hash` | `character varying(255)` | NO | — | — | PENDING |
+| `email` | `character varying(255)` | NO | UQ | — | PENDING |
+| `last_login_at` | `timestamp without time zone` | YES | — | — | PENDING |
+
+### 11.7 `oauth_account`
+
+**Description:** PENDING
+
+**Created in changeset:** `013-create-oauth-account-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `oauth_account_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `integer` | NO | UQ, FK → `app_user.user_id` | — | PENDING |
+| `provider` | `character varying(30)` | NO | UQ | — | PENDING |
+| `provider_user_id` | `character varying(100)` | NO | UQ | — | PENDING |
+| `email` | `character varying(255)` | YES | — | — | PENDING |
+| `linked_at` | `timestamp without time zone` | YES | — | — | PENDING |
+
+### 11.8 `organizer_petition`
+
+**Description:** PENDING
+
+**Created in changeset:** `015-create-organizer-petition-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `organizer_petition_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `application_date` | `timestamp without time zone` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_by` | `character varying(50)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+| `stored_file_id` | `integer` | YES | FK → `stored_file.stored_file_id` | — | PENDING |
+| `document_type` | `character varying(50)` | YES | — | — | PENDING |
+
+### 11.9 `password_history`
+
+**Description:** PENDING
+
+**Created in changeset:** `012-create-password-history-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `password_history_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `password_hash` | `character varying(255)` | NO | — | — | PENDING |
+| `changed_at` | `timestamp without time zone` | NO | — | — | PENDING |
+
+### 11.10 `permission`
+
+**Description:** PENDING
+
+**Created in changeset:** `003-create-permission-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `permission_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `code` | `character varying(50)` | NO | UQ | — | PENDING |
+| `name` | `character varying(80)` | NO | — | — | PENDING |
+| `description` | `character varying(150)` | NO | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_by` | `character varying(50)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+
+### 11.11 `recover_password`
+
+**Description:** PENDING
+
+**Created in changeset:** `011-create-recover-password-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `recover_password_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `code` | `character varying(8)` | NO | — | — | PENDING |
+| `code_status` | `boolean` | NO | — | `false` | PENDING |
+| `expires_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `last_password_hash` | `character varying(255)` | YES | — | — | PENDING |
+
+### 11.12 `refresh_token`
+
+**Description:** PENDING
+
+**Created in changeset:** `010-create-refresh-token-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `refresh_token_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `auth_session_id` | `integer` | NO | FK → `auth_session.auth_session_id` | — | PENDING |
+| `token` | `character varying(512)` | NO | — | — | PENDING |
+| `issued_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `expires_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `revoked` | `boolean` | NO | — | `false` | PENDING |
+| `revoked_at` | `timestamp without time zone` | YES | — | — | PENDING |
+
+### 11.13 `role`
+
+**Description:** PENDING
+
+**Created in changeset:** `002-create-role-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `role_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `code` | `character varying(50)` | NO | UQ | — | PENDING |
+| `name` | `character varying(80)` | NO | — | — | PENDING |
+| `description` | `character varying(150)` | NO | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_by` | `character varying(50)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+
+### 11.14 `role_permission`
+
+**Description:** PENDING
+
+**Created in changeset:** `005-create-role-permission-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `role_permission_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `role_id` | `integer` | NO | FK → `role.role_id` | — | PENDING |
+| `permission_id` | `integer` | NO | FK → `permission.permission_id` | — | PENDING |
+
+### 11.15 `user_status`
+
+**Description:** PENDING
+
+**Created in changeset:** `001-create-user-status-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `user_status_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `code` | `character varying(30)` | NO | UQ | — | PENDING |
+| `name` | `character varying(80)` | NO | — | — | PENDING |
+| `description` | `character varying(150)` | NO | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_by` | `character varying(50)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+
+### 11.16 `user_status_history`
+
+**Description:** PENDING
+
+**Created in changeset:** `014-create-user-status-history-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `user_status_history_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `user_status_id` | `integer` | NO | FK → `user_status.user_status_id` | — | PENDING |
+| `reason` | `character varying(150)` | NO | — | — | PENDING |
+
+<a id="mod-storage"></a>
+
+## 12. Module `storage`
+
+### 12.1 `file_category`
+
+**Description:** PENDING
+
+**Created in changeset:** `019-create-file-category-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `file_category_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `storage_provider_id` | `integer` | NO | FK → `storage_provider.storage_provider_id` | — | PENDING |
+| `name` | `character varying(100)` | NO | — | — | PENDING |
+| `code` | `character varying(50)` | NO | UQ | — | PENDING |
+| `is_public` | `boolean` | NO | — | `false` | PENDING |
+| `allowed_extensions` | `character varying(100)` | NO | — | — | PENDING |
+| `max_size_mb` | `integer` | NO | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_by` | `character varying(50)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+
+### 12.2 `storage_operation_log`
+
+**Description:** Immutable log of storage operations: rows are only appended, never updated (Javadoc of `StorageOperationLogEntity`).
+
+**Created in changeset:** `021-create-storage-operation-log-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `log_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `stored_file_id` | `integer` | NO | FK → `stored_file.stored_file_id` | — | PENDING |
+| `performed_by` | `integer` | NO | FK → `app_user.user_id` | — | PENDING |
+| `operation` | `character varying(20)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | — | PENDING |
+| `error_message` | `character varying(500)` | YES | — | — | PENDING |
+| `occurred_at` | `timestamp without time zone` | NO | — | — | PENDING |
+
+### 12.3 `storage_provider`
+
+**Description:** PENDING
+
+**Created in changeset:** `018-create-storage-provider-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `storage_provider_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `name` | `character varying(100)` | NO | — | — | PENDING |
+| `code` | `character varying(20)` | NO | UQ | — | PENDING |
+| `is_active` | `boolean` | NO | — | `false` | PENDING |
+| `config` | `jsonb` | NO | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_by` | `character varying(50)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+
+### 12.4 `stored_file`
+
+**Description:** PENDING
+
+**Created in changeset:** `020-create-stored-file-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `stored_file_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `file_category_id` | `integer` | NO | FK → `file_category.file_category_id` | — | PENDING |
+| `uploaded_by` | `integer` | NO | FK → `app_user.user_id` | — | ID of the user who uploaded the file. |
+| `s3_key` | `character varying(512)` | NO | — | — | PENDING |
+| `original_filename` | `character varying(255)` | NO | — | — | PENDING |
+| `content_type` | `character varying(100)` | NO | — | — | PENDING |
+| `size_bytes` | `bigint` | NO | — | — | PENDING |
+| `public_url` | `character varying(512)` | YES | — | — | PENDING |
+| `owner_entity_id` | `integer` | YES | — | — | PENDING |
+| `owner_entity_type` | `character varying(50)` | YES | — | — | PENDING |
+| `deleted` | `boolean` | NO | — | `false` | PENDING |
+| `uploaded_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `created_by` | `character varying(50)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(50)` | YES | — | — | PENDING |
+
+<a id="mod-theme"></a>
+
+## 13. Module `theme`
+
+### 13.1 `theme`
+
+**Description:** PENDING
+
+**Created in changeset:** `034-create-theme-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `theme_id` | `integer` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `name` | `character varying(100)` | NO | UQ | — | PENDING |
+| `description` | `character varying(255)` | NO | — | — | PENDING |
+| `default_palette` | `jsonb` | NO | — | — | PENDING |
+
+### 13.2 `theme_customization`
+
+**Description:** PENDING
+
+**Created in changeset:** `036-create-theme-customization-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `customization_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_theme_id` | `bigint` | NO | UQ, FK → `user_theme.user_theme_id` | — | Customized user theme. |
+| `property` | `character varying(100)` | NO | UQ | — | PENDING |
+| `value` | `character varying(255)` | NO | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+
+### 13.3 `theme_log`
+
+**Description:** Theme audit log: rows are only appended, never updated (Javadoc of `ThemeLogEntity`).
+
+**Created in changeset:** `037-create-theme-log-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_theme_id` | `bigint` | NO | FK → `user_theme.user_theme_id` | — | PENDING |
+| `action` | `character varying(50)` | NO | — | — | PENDING |
+| `property` | `character varying(100)` | YES | — | — | PENDING |
+| `old_value` | `character varying(255)` | YES | — | — | PENDING |
+| `new_value` | `character varying(255)` | YES | — | — | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+
+### 13.4 `user_theme`
+
+**Description:** PENDING
+
+**Created in changeset:** `035-create-user-theme-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `user_theme_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `integer` | NO | UQ, FK → `app_user.user_id` | — | User the theme belongs to. |
+| `theme_id` | `integer` | NO | UQ, FK → `theme.theme_id` | — | Selected theme. |
+| `is_active` | `boolean` | NO | — | `true` | PENDING |
+| `created_at` | `timestamp without time zone` | YES | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | YES | — | — | PENDING |
+
+<a id="mod-ticket"></a>
+
+## 14. Module `ticket`
+
+### 14.1 `order`
+
+**Description:** PENDING
+
+**Created in changeset:** `064-create-order-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `order_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `bigint` | NO | FK → `app_user.user_id` | — | PENDING |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
+| `total_amount` | `numeric(19,4)` | NO | — | — | PENDING |
+| `currency` | `character varying(3)` | NO | — | `'COP'::character varying` | PENDING |
+| `status` | `character varying(20)` | NO | — | `'DRAFT'::character varying` | PENDING Allowed values (CHECK): `DRAFT`, `PAYMENT_PENDING`, `PAID`, `CANCELLED`, `REFUNDED`, `USED`. |
+| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_by` | `character varying(100)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+
+### 14.2 `seat_ticket`
+
+**Description:** N:M relationship between seat and ticket, with the price captured at purchase time (Javadoc of `SeatTicketEntity`).
+
+**Created in changeset:** `066-create-seat-ticket-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `seat_ticket_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `seat_id` | `integer` | NO | UQ, FK → `seat.seat_id` | — | PENDING |
+| `ticket_id` | `bigint` | NO | UQ, FK → `ticket.ticket_id` | — | PENDING |
+| `price` | `numeric(19,4)` | NO | — | — | PENDING |
+
+### 14.3 `ticket`
+
+**Description:** PENDING
+
+**Created in changeset:** `065-create-ticket-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `ticket_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `event_id` | `bigint` | NO | FK → `event.event_id` | — | PENDING |
+| `user_id` | `bigint` | NO | FK → `app_user.user_id` | — | PENDING |
+| `order_id` | `bigint` | NO | FK → `order.order_id` | — | PENDING |
+| `code` | `character varying(50)` | NO | UQ | — | PENDING |
+| `qr_code` | `character varying(500)` | NO | — | — | PENDING |
+| `status` | `character varying(20)` | NO | — | `'PENDING'::character varying` | PENDING Allowed values (CHECK): `PENDING`, `PROCESSING`, `PAID`, `REFUNDED`, `USED`, `CANCELLED`. |
+| `expiration_date` | `timestamp without time zone` | YES | — | — | PENDING |
+| `total_price` | `numeric(19,4)` | NO | — | — | PENDING |
+| `currency` | `character varying(3)` | NO | — | `'COP'::character varying` | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_by` | `character varying(100)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+
+### 14.4 `ticket_checkin`
+
+**Description:** PENDING
+
+**Created in changeset:** `067-create-ticket-checkin-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `checkin_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `ticket_id` | `bigint` | NO | FK → `ticket.ticket_id`, UQ | — | PENDING |
+| `checkin_time` | `timestamp without time zone` | NO | — | — | PENDING |
+| `validated_by` | `bigint` | NO | FK → `app_user.user_id` | — | PENDING |
+
+### 14.5 `ticket_log`
+
+**Description:** Immutable ticket audit (Javadoc of `TicketLogEntity`).
+
+**Created in changeset:** `068-create-ticket-log-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `ticket_log_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `ticket_id` | `bigint` | NO | FK → `ticket.ticket_id` | — | PENDING |
+| `old_status` | `character varying(20)` | YES | — | — | PENDING Allowed values (CHECK): `PENDING`, `PROCESSING`, `PAID`, `REFUNDED`, `USED`, `CANCELLED`. |
+| `new_status` | `character varying(20)` | NO | — | — | PENDING Allowed values (CHECK): `PENDING`, `PROCESSING`, `PAID`, `REFUNDED`, `USED`, `CANCELLED`. |
+| `changed_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `changed_by` | `character varying(100)` | YES | — | — | PENDING |
+| `reason` | `character varying(255)` | YES | — | — | PENDING |
+
+<a id="mod-wallet"></a>
+
+## 15. Module `wallet`
+
+### 15.1 `wallet`
+
+**Description:** Wallet. Uses optimistic locking (`@Version`): if two transactions modify the same wallet at once, the second one fails (Javadoc of `WalletEntity`).
+
+**Created in changeset:** `074-create-wallet-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `wallet_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `user_id` | `bigint` | NO | UQ | — | PENDING |
+| `balance` | `numeric(19,4)` | NO | — | `0` | PENDING CHECK constraint: `CHECK ((balance >= (0)::numeric))`. |
+| `currency` | `character varying(3)` | NO | — | `'COP'::character varying` | PENDING Allowed values (CHECK): `COP`. |
+| `version` | `bigint` | NO | — | `0` | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `updated_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_by` | `character varying(100)` | YES | — | — | PENDING |
+| `updated_by` | `character varying(100)` | YES | — | — | PENDING |
+
+### 15.2 `wallet_reference`
+
+**Description:** Wallet movement reference. Immutable: it has no audit or version columns (Javadoc of `WalletReferenceEntity`).
+
+**Created in changeset:** `076-create-wallet-reference-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `wallet_reference_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `transaction_id` | `bigint` | NO | FK → `wallet_transaction.transaction_id` | — | PENDING |
+| `entity_type` | `character varying(30)` | NO | — | — | PENDING Allowed values (CHECK): `EVENT_CANCELLATION`, `ORDER`, `TICKET`, `ADMIN_ADJUSTMENT`. |
+| `entity_id` | `bigint` | YES | — | — | PENDING |
+
+### 15.3 `wallet_transaction`
+
+**Description:** Wallet transaction. Immutable: it only has `created_at` and `created_by` (Javadoc of `WalletTransactionEntity`).
+
+**Created in changeset:** `075-create-wallet-transaction-table.yaml`
+
+| Column | Type | Null | Key | Default value | Description |
+|---|---|---|---|---|---|
+| `transaction_id` | `bigint` | NO | PK | `IDENTITY (BY DEFAULT)` | PENDING |
+| `wallet_id` | `bigint` | NO | FK → `wallet.wallet_id` | — | PENDING |
+| `type` | `character varying(20)` | NO | — | — | PENDING Allowed values (CHECK): `CREDIT`, `PAYMENT`, `REVERSAL`, `ADJUSTMENT`. |
+| `amount` | `numeric(19,4)` | NO | — | — | PENDING CHECK constraint: `CHECK ((amount > (0)::numeric))`. |
+| `status` | `character varying(20)` | NO | — | `'PENDING'::character varying` | PENDING Allowed values (CHECK): `PENDING`, `COMPLETED`, `FAILED`. |
+| `balance_after` | `numeric(19,4)` | YES | — | — | PENDING |
+| `idempotency_key` | `character varying(100)` | NO | UQ | — | PENDING |
+| `created_at` | `timestamp without time zone` | NO | — | — | PENDING |
+| `created_by` | `character varying(100)` | YES | — | — | PENDING |
