@@ -18,7 +18,7 @@ Programa de formación: Análisis y Desarrollo de Software (ADSO)
 
 Ficha 3145556
 
-[Nombre del instructor]
+Instructor: Carlos Julio Cadena
 
 Octubre de 2026
 
