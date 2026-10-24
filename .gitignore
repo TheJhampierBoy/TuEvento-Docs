@@ -42,3 +42,7 @@ secrets.*
 *.swp
 *.swo
 *~
+
+# Configuración local y herramientas internas de conversión
+.claude/
+_tools/
