@@ -157,6 +157,59 @@ The event viewing feature allows users to explore all the events available on th
 
 <img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image14.png" style="width:6.5in;height:2.48056in" />
 
+<a id="ticket-purchase"></a>
+
+- **Ticket purchase:**
+
+Tickets are bought from the events catalog. Each card shows the date, the site and the available seats; the search bar at the top filters by text and date. Clicking «View details» opens the event page.
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/en/01_catalogo.png" alt="Events catalog" style="width:6.5in" />
+
+The event page shows the image gallery, the description, the dates, the site, the available seats and the event status. Below is the «Select your Seats» section.
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/en/02_detalle.png" alt="Event details" style="width:6.5in" />
+
+To choose seats:
+
+1. Set how many seats you want with the − and + buttons of «How many seats do you want?».
+2. Choose a section in the «Sections» list, which shows the price and available seats of each one.
+3. In the «Seat Map», click the green seats, which are the available ones. Grey seats are already taken. The chosen seats turn blue and appear in «Your Cart» with their code, section, price and a countdown.
+4. The seat is held in your name for 10 minutes. If you do not pay within that time, it is released automatically. You can release it earlier with the ✕ button in the cart.
+5. Click «Continue to Payment».
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/en/03_seleccion_sillas.png" alt="Seat selection and cart" style="width:6.5in" />
+
+In «Confirm purchase» you review the seats and the total. If you have balance in the wallet, you can choose between «Normal payment» and «Use wallet». With «Use wallet», the balance is deducted from the total and the rest is paid through the gateway («Remaining via gateway»). The payment method is «QR Code». Click «Pay» to continue.
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/en/04_checkout.png" alt="Confirm purchase with wallet" style="width:6.5in" />
+
+While the gateway processes the payment, «Processing your payment» is shown. The payment is completed in the gateway window that opens; do not close the tab in the meantime. If the wallet covers the whole amount, the payment is approved immediately, without going through the gateway.
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/en/05_pago_pendiente.png" alt="Payment in progress" style="width:6.5in" />
+
+When the gateway confirms the payment, the same screen changes to «Payment approved!» and shows the purchased tickets, each with its code and the content of its QR code. If the gateway rejects the payment, the seats are released and the wallet balance that had been held becomes available again.
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/en/06_pago_confirmado.png" alt="Payment approved with tickets" style="width:6.5in" />
+
+- **Wallet (My Balance):**
+
+The «My Balance» page (`/wallet`) shows the current wallet balance, the «Use balance for a purchase» button and the «Transaction history», with the concept, date, status and amount of each transaction. The balance comes from credits made by the administrator and from refunds; it is used in the «Confirm purchase» step.
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/en/07_billetera.png" alt="My Balance page" style="width:6.5in" />
+
+- **Notifications:**
+
+The bell in the top bar shows how many unread notifications there are. The notifications page lists them with the «All» and «Unread» tabs, and lets you mark them one by one or all at once with «Mark all as read». Notifications include, among others, the welcome message, wallet credits, approved payments and refunds. These notifications also arrive by email.
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/en/08_notificaciones.png" alt="Notifications page" style="width:6.5in" />
+
+- **Profile, language and theme:**
+
+In the profile you edit your full name and bio (up to 255 characters), log out and can deactivate the account. In «Preferred Language» you choose the interface language: English, Spanish, French or Portuguese. In «Visual Theme» you browse the available themes with the arrows and apply one with «Apply theme».
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/en/09_perfil.png" alt="Profile with language and theme" style="width:6.5in" />
+
+
 # Organizer User
 
 - **Manage events:**

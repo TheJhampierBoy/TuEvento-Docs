@@ -152,6 +152,59 @@ La funcionalidad de visualización de eventos permite a los usuarios explorar de
 
 <img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image14.png" style="width:6.5in;height:2.48056in" />
 
+<a id="compra-de-entradas"></a>
+
+- **Compra de entradas:**
+
+La compra se hace desde el catálogo de eventos. Cada tarjeta muestra la fecha, el sitio y las sillas disponibles; el buscador de la parte superior filtra por texto y por fecha. Al pulsar «Ver detalles» se abre la página del evento.
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/01_catalogo.png" alt="Catálogo de eventos" style="width:6.5in" />
+
+La página del evento muestra la galería de imágenes, la descripción, las fechas, el sitio, las sillas disponibles y el estado del evento. Debajo está la sección «Selecciona tus Sillas».
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/02_detalle.png" alt="Detalle del evento" style="width:6.5in" />
+
+Para elegir las sillas:
+
+1. Indique cuántas sillas quiere con los botones − y + de «¿Cuántas sillas querés?».
+2. Elija una sección en la lista «Secciones», que muestra el precio y las sillas disponibles de cada una.
+3. En el «Mapa de Sillas», haga clic en las sillas verdes, que son las disponibles. Las grises ya están ocupadas. Las sillas elegidas se marcan en azul y aparecen en «Tu Carrito» con su código, su sección, su precio y un contador.
+4. La silla queda reservada a su nombre durante 10 minutos. Si no paga en ese tiempo, se libera sola. Con el botón ✕ del carrito puede liberarla antes.
+5. Pulse «Continuar al Pago».
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/03_seleccion_sillas.png" alt="Selección de sillas y carrito" style="width:6.5in" />
+
+En «Confirmar compra» se revisan las sillas y el total. Si tiene saldo en la cartera, puede elegir entre «Pago normal» y «Usar cartera». Con «Usar cartera», el saldo se descuenta del total y el resto se paga por la pasarela («Restante por pasarela»). El método de pago es «Código QR». Pulse «Pagar» para continuar.
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/04_checkout.png" alt="Confirmar compra con cartera" style="width:6.5in" />
+
+Mientras la pasarela procesa el pago, se muestra «Procesando tu pago». El pago se completa en la ventana de la pasarela que se abre; no cierre la pestaña mientras tanto. Si la cartera cubre todo el valor, el pago se aprueba de inmediato, sin pasar por la pasarela.
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/05_pago_pendiente.png" alt="Pago en proceso" style="width:6.5in" />
+
+Cuando la pasarela confirma el pago, la misma pantalla cambia a «¡Pago aprobado!» y muestra los tickets comprados, cada uno con su código y el contenido de su código QR. Si la pasarela rechaza el pago, las sillas se liberan y el saldo de la cartera que se había reservado vuelve a quedar disponible.
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/06_pago_confirmado.png" alt="Pago aprobado con los tickets" style="width:6.5in" />
+
+- **Cartera (Mi Saldo):**
+
+La página «Mi Saldo» (`/wallet`) muestra el saldo actual de la cartera, el botón «Usar saldo en una compra» y el «Historial de movimientos», con el concepto, la fecha, el estado y el monto de cada movimiento. El saldo proviene de los créditos que hace el administrador y de los reembolsos; se usa en el paso «Confirmar compra».
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/07_billetera.png" alt="Página Mi Saldo" style="width:6.5in" />
+
+- **Notificaciones:**
+
+La campana de la barra superior muestra cuántas notificaciones sin leer hay. La página de notificaciones las lista con las pestañas «Todas» y «No leídas», y permite marcarlas una por una o todas con «Marcar todas como leídas». Se notifican, entre otros, la bienvenida, los créditos en la cartera, los pagos aprobados y los reembolsos. Estas notificaciones también llegan por correo electrónico.
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/08_notificaciones.png" alt="Página de notificaciones" style="width:6.5in" />
+
+- **Perfil, idioma y tema:**
+
+En el perfil se editan el nombre completo y la biografía (hasta 255 caracteres), se cierra la sesión y se puede desactivar la cuenta. En «Idioma Preferido» se elige el idioma de la interfaz: inglés, español, francés o portugués. En «Tema Visual» se recorren los temas disponibles con las flechas y se aplica uno con «Aplicar tema».
+
+<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/09_perfil.png" alt="Perfil con idioma y tema" style="width:6.5in" />
+
+
 # Usuario Organizador
 
 - **Gestionar eventos:**
