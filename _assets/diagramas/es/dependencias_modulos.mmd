@@ -1,0 +1,42 @@
+%% Tu Evento — Dependencias entre módulos del backend
+%% Verificado en / Verified against lozano2303/TuEvento, origin/develop / 2d259e7 (2026-10-24)
+%% Imports entre módulos (solo 5 o más). Rojo: ciclo entre event, language, profile y category.
+flowchart LR
+  classDef ciclo fill:#fde2e1,stroke:#c0392b,stroke-width:2px,color:#000
+  category["category"]
+  event["event"]
+  geolocation["geolocation"]
+  language["language"]
+  notification["notification"]
+  payment["payment"]
+  profile["profile"]
+  seat["seat"]
+  section["section"]
+  sectiontype["sectiontype<br/>(paquete auxiliar)"]
+  security["security"]
+  storage["storage"]
+  ticket["ticket"]
+  wallet["wallet"]
+  payment -- "23" --> ticket
+  event -- "14" --> language
+  event -- "13" --> category
+  language -- "13" --> event
+  notification -- "12" --> language
+  ticket -- "11" --> seat
+  category -- "10" --> language
+  payment -- "10" --> wallet
+  security -- "10" --> event
+  ticket -- "10" --> event
+  profile -- "9" --> language
+  security -- "9" --> profile
+  security -- "9" --> storage
+  section -- "7" --> language
+  event -- "6" --> geolocation
+  event -- "6" --> seat
+  event -- "5" --> profile
+  language -- "5" --> profile
+  notification -- "5" --> profile
+  profile -- "5" --> geolocation
+  sectiontype -- "5" --> language
+  class category,event,language,profile ciclo
+  linkStyle 1,2,3,6,10,16,17 stroke:#c0392b,stroke-width:2.5px

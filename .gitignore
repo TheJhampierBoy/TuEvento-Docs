@@ -42,3 +42,10 @@ secrets.*
 *.swp
 *.swo
 *~
+
+# Configuración local y herramientas internas de conversión
+.claude/
+_tools/
+
+# Clon del repositorio de código (solo lectura; contiene .env con secretos)
+TuEvento/
