@@ -241,7 +241,24 @@ Each defect is recorded with: identifier, associated test case, description, ste
 
 Statuses of a defect: New, In correction, Fixed, Verified and Closed. Every fixed defect requires repeating the case that detected it and the related cases.
 
-# 12. References
+# 12. Results of the 2026-10-24 run
+
+The 151 cases were run on 2026-10-24 against commit `2d259e7` of `develop`, in an isolated local environment. The environment, the procedure and the defect details are in [Ejecucion_Pruebas_2026-10-24.md](Evidencias/Ejecucion_Pruebas_2026-10-24.md). The result of each case is in [Casos_de_Prueba_TuEvento.md](Evidencias/Casos_de_Prueba_TuEvento.md).
+
+| Result | Cases |
+|---|---|
+| Passed | 128 (84.8 %) |
+| Failed | 18 |
+| Blocked | 5 (Google OAuth, image moderation, machine translation and mobile app) |
+| Pending | 0 |
+
+The backend automated tests (`./mvnw verify`) ran 222 tests with no failures, with 15.0 % line coverage according to JaCoCo.
+
+The most serious defects are the double booking of the same seat with simultaneous requests (critical) and the already known authorization gaps in orders, tickets, check-in, storage and the development activation endpoint (high). Five of the seven findings of section 10 were confirmed: tickets by user, cancelling other users' orders, check-in without a role, public storage routes and the development activation endpoint. Actuator today only exposes `health`, but Swagger UI and `/api-docs` are public. The pending translation jobs list could not be checked because LibreTranslate was not running.
+
+Against the exit criteria of section 5: of the 72 High priority cases, 71 were run (CP-MED-02 was blocked) and 61 passed (84.7 %, below the required 95 %), and one critical defect remains open in seat reservation. The version does not yet meet the criteria to close the test cycle.
+
+# 13. References
 
 CapySoft. (2026). Inventario técnico de Tu Evento para pruebas [Internal document]. It is included in full as Annex A of this document.
 

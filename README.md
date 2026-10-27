@@ -38,7 +38,7 @@ Inside `es/` and `en/` (structure requested by the instructor):
 | `04_Propuesta_Tecnica.md` | Technical proposal and technical sheet |
 | `05_Diseno_Software.md` | Design patterns, architecture, package, process, flow and activity diagrams, checklist |
 | `06_Base_Datos/` | `Modelo_ER.md` (ERD and per-module ERMs), `Diccionario_Datos.md` (draft generated from the implemented schema), `Script_BD.sql` (design) and `Script_BD_implementado.sql` (implemented schema) |
-| `07_Pruebas/` | `Plan_Pruebas.md` and `Evidencias/` (test cases, backend and mobile tests) |
+| `07_Pruebas/` | `Plan_Pruebas.md` and `Evidencias/` (test cases with the 2026-10-24 run results, run report, backend and mobile tests) |
 | `08_Calidad_Mejoras.md` | Software quality and corrective, preventive and improvement actions |
 | `09_Implementacion.md` | Implementation manual |
 | `10_Manual_Tecnico.md` | Technical manual |
@@ -94,7 +94,7 @@ Dentro de `es/` y `en/` (estructura pedida por el instructor):
 | `04_Propuesta_Tecnica.md` | Propuesta técnica y ficha técnica |
 | `05_Diseno_Software.md` | Patrones de diseño, diagramas de arquitectura, paquetes, procesos, flujo y actividades, lista de chequeo |
 | `06_Base_Datos/` | `Modelo_ER.md` (DER y MER por módulo), `Diccionario_Datos.md` (borrador generado del esquema implementado), `Script_BD.sql` (diseño) y `Script_BD_implementado.sql` (esquema implementado) |
-| `07_Pruebas/` | `Plan_Pruebas.md` y `Evidencias/` (casos de prueba, pruebas del backend y de la app móvil) |
+| `07_Pruebas/` | `Plan_Pruebas.md` y `Evidencias/` (casos de prueba con los resultados de la ejecución del 2026-10-24, informe de ejecución, pruebas del backend y de la app móvil) |
 | `08_Calidad_Mejoras.md` | Calidad de software y acciones correctivas, preventivas y de mejora |
 | `09_Implementacion.md` | Manual de implementación |
 | `10_Manual_Tecnico.md` | Manual técnico |

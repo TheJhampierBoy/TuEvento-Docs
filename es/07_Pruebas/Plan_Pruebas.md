@@ -237,7 +237,24 @@ Cada defecto se registra con: identificador, caso de prueba asociado, descripci�
 
 Estados de un defecto: Nuevo, En corrección, Corregido, Verificado y Cerrado. Todo defecto corregido exige repetir el caso que lo detectó y los casos relacionados.
 
-# 12. Referencias
+# 12. Resultados de la ejecución del 2026-10-24
+
+Los 151 casos se ejecutaron el 2026-10-24 contra el commit `2d259e7` de `develop`, en un entorno local aislado. El entorno, el procedimiento y el detalle de los defectos están en [Ejecucion_Pruebas_2026-10-24.md](Evidencias/Ejecucion_Pruebas_2026-10-24.md). El resultado de cada caso está en [Casos_de_Prueba_TuEvento.md](Evidencias/Casos_de_Prueba_TuEvento.md).
+
+| Resultado | Casos |
+|---|---|
+| Aprobados | 128 (84,8 %) |
+| Fallidos | 18 |
+| Bloqueados | 5 (Google OAuth, moderación de imágenes, traducción automática y app móvil) |
+| Pendientes | 0 |
+
+Las pruebas automáticas del backend (`./mvnw verify`) ejecutaron 222 pruebas sin fallos, con una cobertura de líneas del 15,0 % según JaCoCo.
+
+Los defectos más graves son la doble reserva de una misma silla con peticiones simultáneas (crítico) y los huecos de autorización ya conocidos en órdenes, tickets, check-in, almacenamiento y el endpoint de desarrollo de activación (altos). De los siete hallazgos de la sección 10 se confirmaron cinco: tickets por usuario, cancelación de órdenes ajenas, check-in sin rol, rutas de storage públicas y endpoint de desarrollo de activación. Actuator hoy solo expone `health`, pero Swagger UI y `/api-docs` son públicos. El listado de jobs de traducción pendientes no se pudo comprobar porque LibreTranslate no estaba levantado.
+
+Frente a los criterios de salida de la sección 5: de los 72 casos de prioridad Alta se ejecutaron 71 (CP-MED-02 quedó bloqueado) y se aprobaron 61 (84,7 %, por debajo del 95 % exigido), y queda abierto un defecto crítico en la reserva de sillas. La versión no cumple todavía los criterios para cerrar el ciclo de pruebas.
+
+# 13. Referencias
 
 CapySoft. (2026). Inventario técnico de Tu Evento para pruebas [Documento interno]. Se incluye completo como Anexo A de este documento.
 
