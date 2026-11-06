@@ -24,7 +24,7 @@ id: TE-0158
 title: "User manual — web"
 lang: en
 source: Manual_Usuario_Web_v3.3.docx (version 3.3; editable source delivered in ADSO-3145556, 04-final-delivery/10-your-event/08-manuals)
-source_sha256: d1587376d3fb2310f5399b6047bc5a2610a7b8560571d5816ad71302afd1aedd
+source_sha256: 0046dfcfdd0d43e49878645d7af9c570e2675450f98debbd41aa003f222c9e06
 conversion: "own converter from the DOCX XML (Python 3.13); English translation of es/ following GLOSARIO_ES_EN.md"
 converted_on: 2026-11-05
 fidelity: completa
@@ -825,7 +825,7 @@ id: TE-0159
 title: "User manual — mobile app"
 lang: en
 source: Manual_Usuario_Movil_v1.0.docx (version 1.0; editable source delivered in ADSO-3145556, 04-final-delivery/10-your-event/08-manuals)
-source_sha256: 1e672afda2270bb2e16a549e93d060608cad07eb89b73de27782f414e36c38d1
+source_sha256: bcfcb9c50877398c257f797c8d4f2e7c6c4b1bc37029a3a124b2d3b87fbacc2d
 conversion: "own converter from the DOCX XML (Python 3.13); English translation of es/ following GLOSARIO_ES_EN.md"
 converted_on: 2026-11-05
 fidelity: completa
