@@ -2,710 +2,1276 @@
 title: "Manual de usuario"
 lang: es
 documents: [TE-0158, TE-0159]
-status: borrador
+status: revisado
 ---
 # Manual de usuario — Tu Evento
 
-> Documento consolidado de Tu Evento. Reúne los documentos siguientes, cuyo contenido se conserva sin cambios; los metadatos de conversión de cada uno van en un comentario HTML al inicio de su sección.
+> Documento consolidado de Tu Evento. Reúne el manual de usuario web (versión 3.3) y el manual de usuario de la aplicación móvil (versión 1.0), ambos del 5 de noviembre de 2026. Sus fuentes editables son los archivos Word entregados con el proyecto; los metadatos de cada documento van en un comentario HTML al inicio de su sección.
 
 **Contenido**
 
 1. [Manual de usuario — web](#doc-te-0158)
-2. [Manual de usuario — aplicación móvil e instalación](#doc-te-0159)
+2. [Manual de usuario — aplicación móvil](#doc-te-0159)
 
 ---
 
 <a id="doc-te-0158"></a>
 
 <!--
-ruta_anterior: es/09_Manuales/Manual_de_usuario/Manual_web.md
 id: TE-0158
-title: "Manual (web)"
+title: "Manual de usuario — web"
 lang: es
-source: 09_Manuales/Manual de usuario/Manual (web).docx
-source_sha256: 8522404d169774cdf8be50d77857b91e52ab77242a69e4a84706fb94bd793671
-conversion: "pandoc 3.9 (-t gfm --wrap=none --extract-media) + extracción de encabezados/pies; sin revisión manual"
-converted_on: 2026-10-23
-fidelity: parcial
+source: Manual_Usuario_Web_v3.3.docx (versión 3.3; fuente editable entregada en ADSO-3145556, 04-final-delivery/10-your-event/08-manuals)
+source_sha256: 0046dfcfdd0d43e49878645d7af9c570e2675450f98debbd41aa003f222c9e06
+conversion: "conversor propio desde el XML del DOCX (Python 3.13); con revisión manual"
+converted_on: 2026-11-05
+fidelity: completa
 losses:
-  - "El original no usa estilos de título; los títulos visuales quedan como texto en negrita, sin jerarquía #. Pendiente de marcar a mano."
-  - "Encabezados y pies de página extraídos aparte (pandoc no los convierte); en el original se repiten en cada página. Los campos se muestran como {PAGE}, {NUMPAGES}."
-status: borrador
-reviewed_by: ""
+  - "Presentación de Word adaptada a Markdown: la tabla de contenido automática, los saltos de página y el encabezado con el número de página no se reproducen."
+status: revisado
+reviewed_by: "Cristofer David Lozano Contreras"
 -->
 
 # Manual de usuario — web
 
-**Manual Web**
+<div align="center">
 
-Lozano Contreras Cristofer David
+**Tu Evento – Capysoft**
 
-Santos Ortiz Jhampier
+**Manual de Usuario versión WEB**
+
+**Versión 3.3**
+
+Desarrolladores de Capysoft:
+
+Cristofer David Lozano Contreras
+
+Jhampier Santos Ortiz
 
 Análisis y Desarrollo de Software
 
-\(3145556\)
+Ficha: 3145556
 
-Servicio Nacional de Aprendizaje
+Instructora: Karol Daniela Correa
 
-Octubre 1, 2025
+Servicio Nacional de Aprendizaje – SENA
 
-# **Contenido**
+CIES – Regional Huila
 
-[Usuario Web [5](#usuario-web)](#usuario-web)
+5 de noviembre de 2026
 
-[Usuario Organizador [22](#section)](#section)
+</div>
 
-[Usuario Administrador [23](#usuario-administrador)](#usuario-administrador)
+## Control de versiones
 
-**Introducción**
+A continuación, se presenta el historial de cambios realizados sobre este documento.
 
-El presente manual de usuario tiene como finalidad describir de manera clara y detallada las funcionalidades principales de la aplicación web "Tu Evento", desarrollada por CapySoft. Esta versión está diseñada como una plataforma integral que permite a los diferentes tipos de usuarios (asistentes, organizadores y administrador) interactuar con los eventos de manera sencilla y eficiente desde navegadores web como Google Chrome y Microsoft Edge.
+**Tabla 1**
+
+*Historial de cambios del manual*
+
+| Versión | Fecha | Descripción del cambio | Responsable |
+|---|---|---|---|
+| 1.0 | 01/10/2025 | Creación inicial del manual de usuario web de "Tu Evento". | Equipo desarrollador (Cristofer Lozano, Jhampier Ortiz) |
+| 2.0 | 23/07/2026 | Actualización de la estructura del documento (portada, control de versiones, alcance y glosario) conforme al formato institucional vigente. Ajuste del equipo desarrollador. Contenido principal pendiente de actualización. | Cristofer David Lozano Contreras |
+| 2.1 | 23/07/2026 | Se agrega contenido principal: apartados de inicio, nosotros, flujo de creación de cuenta y recuperación. | Cristofer David Lozano Contreras |
+| 3.0 | 07/10/2026 | Reestructuración conforme a los lineamientos del SENA y Normas APA 7. Actualización al nuevo diseño y a los módulos nuevos de la plataforma. | Cristofer David Lozano Contreras |
+| 3.1 | 08/10/2026 | Incorporación de capturas del nuevo diseño (acceso, asistente, organizador y administrador), organización de figuras y redacción de procedimientos. | Cristofer David Lozano Contreras |
+| 3.2 | 14/10/2026 | Ajustes por la revisión de la instructora: portada con CIES – Regional Huila, aclaración del alcance sobre la aplicación móvil, redacción de módulos pendientes, mensajes de error, glosario, referencias y nota de actualización continua del manual. | Cristofer David Lozano Contreras |
+| 3.3 | 05/11/2026 | Actualización a la versión entregada de la plataforma: capturas del detalle del evento, la cartera, las notificaciones, el perfil, la edición de eventos, las ganancias del organizador y el Dashboard del administrador; nuevas secciones de perfil, cartera y reembolsos por cancelación, ganancias del organizador y módulos del administrador; referencia al manual de la aplicación móvil. | Cristofer David Lozano Contreras |
+
+## Introducción
+
+El presente manual de usuario tiene como finalidad describir de forma clara y detallada las funcionalidades principales de la aplicación web "Tu Evento", desarrollada por Capysoft. Esta versión está diseñada como una plataforma integral que permite a los diferentes tipos de usuarios (asistentes, organizadores y administrador) interactuar con los eventos de manera sencilla y eficiente desde navegadores web actualizados.
 
 A diferencia de la aplicación móvil, la versión web incorpora un conjunto más amplio de funcionalidades que permiten no solo la participación de los asistentes en los eventos, sino también la gestión y supervisión de estos por parte de organizadores y administradores.
 
-En la versión web:
+Los términos técnicos usados en el documento se explican en el Glosario, ubicado al final del manual.
 
-1.  El usuario asistente puede crear una cuenta, iniciar sesión, gestionar su perfil, visualizar y filtrar eventos, registrarse en ellos y participar mediante comentarios.
+## Objetivo
 
-2.  El organizador dispone de herramientas avanzadas para crear, editar, publicar y eliminar eventos, además de realizar la maquetación de espacios y controlar la distribución de los mismos.
+Explicar paso a paso cómo el usuario final debe ingresar, navegar y utilizar las funcionalidades principales del sistema web "Tu Evento", según su rol (asistente, organizador o administrador), permitiendo que cualquier persona use la plataforma de forma autónoma, sin necesidad de conocimientos de programación, bases de datos o configuración técnica, ni asistencia directa del equipo desarrollador.
 
-3.  El administrador tiene la capacidad de supervisar la plataforma, gestionar usuarios y, de manera específica, aceptar o denegar solicitudes de registro para convertirse en organizador, asegurando así la transparencia y el correcto uso del sistema.
+## Alcance
 
-# Usuario Web
+Este manual cubre:
 
-1.  **Interfaz principal**
+- El registro, inicio de sesión y recuperación de contraseña en la plataforma web.
+- La navegación e interfaz principal disponible para el usuario asistente.
+- La visualización, filtrado, compra de tiquetes y comentarios en eventos por parte del asistente.
+- La solicitud para convertirse en organizador y las funcionalidades de creación, maquetación y publicación de eventos.
+- La revisión de solicitudes de organizador, la publicación de eventos y los demás módulos del panel del administrador.
+- La gestión del perfil (datos personales, idioma y tema), la cartera, las notificaciones y las ganancias del organizador.
+- Los mensajes de validación y errores más comunes que el usuario puede encontrar durante el uso del sistema.
 
-Al abrir la web "Tu Evento", el usuario será dirigido a una landing page de inicio, la cual presenta de manera clara y atractiva las opciones principales de la plataforma. En esta pantalla inicial, se muestran secciones destacadas como:
+Este manual no cubre:
 
-- **Nosotros:** Información sobre la plataforma y su propósito.
+- La instalación, configuración de servidores o despliegue del sistema (véase el Manual de Instalación; Santos Ortiz y Lozano Contreras, 2026a).
+- Aspectos técnicos de programación, arquitectura o base de datos (véase el Manual Técnico; Santos Ortiz y Lozano Contreras, 2026b).
+- La aplicación móvil de "Tu Evento", que complementa la plataforma web (por ejemplo, con el escáner de códigos QR para el ingreso con tickets); se describe en el Manual de usuario de la aplicación móvil (Santos Ortiz y Lozano Contreras, 2026c).
+- Procesos administrativos internos de Capysoft ajenos al funcionamiento de la plataforma.
 
-- **Crear:** Opción dinámica que varía según el estado del usuario:
+Este manual se actualiza de forma continua, de acuerdo con el desarrollo del proyecto. Las capturas de pantalla, los módulos y demás contenidos se irán incorporando y ajustando con el tiempo, por lo que algunas secciones pueden cambiar entre versiones. La versión vigente se identifica en el Control de versiones.
 
-1.  Si el usuario no ha iniciado sesión, será redirigido a la opción Crear cuenta.
+## Descripción general del sistema
 
-2.  Si el usuario ha iniciado sesión, pero aún no está registrado como organizador, será dirigido al formulario de registro de empresa (RUT u otros datos requeridos).
+### Presentación del sistema
 
-3.  Si el usuario ya está registrado como organizador, será llevado a la sección de creación y gestión de eventos.
+Tu Evento es un aplicativo web desarrollado por Capysoft, diseñado para la creación, organización y personalización de eventos. Permite a los organizadores gestionar fácilmente los espacios y la distribución de la silletería según la estructura y las necesidades de su auditorio, salón, hotel u otro recinto, asegurando una gestión flexible y eficiente del evento.
 
-- **Eventos:** Permite visualizar los eventos disponibles en la plataforma.
+Al mismo tiempo, los usuarios normales (asistentes) pueden navegar por la plataforma, filtrar y buscar eventos de su preferencia, comprar tiquetes, dejar comentarios y reseñas de los eventos e interactuar con otros usuarios.
 
-- **Iniciar Sesión:** Para acceder con credenciales previamente registradas.
+Nota sobre los pagos: en esta versión, el pago de tiquetes no se realiza directamente con la pasarela Wompi (Wompi, s. f.), sino de forma simulada mediante un microservicio desarrollado por el equipo de Capysoft. El flujo que ve el usuario es el mismo que tendría con Wompi, ya que ambos funcionan bajo la misma lógica de pago.
 
-> <img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image2.png" style="width:6.5in;height:3.51528in" />
+Esta versión incorpora nuevos módulos que se describen en las secciones de cada rol: Mis Eventos, la cartera, las notificaciones (ícono de campana de la barra superior) y el perfil para todos los usuarios; Mis ganancias para el organizador; y, en el panel del administrador, el Dashboard, el Control Financiero, los Reportes, los Reembolsos, los Usuarios, las Categorías, los Tipos de Sección y las Traducciones.
 
-- **Interfaz de inicio de sesión:**
+### Requisitos de uso
 
-La interfaz de inicio de sesión ofrece a los usuarios un acceso seguro y flexible a la plataforma, permitiendo ingresar mediante el método tradicional con correo electrónico y contraseña, crear una nueva cuenta en caso de no estar registrado, recuperar la contraseña en caso de olvido, o bien iniciar sesión de manera más ágil a través de credenciales de redes sociales vinculadas, brindando así varias alternativas de autenticación según la preferencia del usuario.
+- Un navegador web actualizado.
+- Una conexión estable a internet.
+- Un correo Gmail al que tenga acceso.
 
-> <img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image3.png" style="width:6.5in;height:3.24375in" />
+### Roles de usuario
 
-.
+La plataforma define tres roles. Cada rol determina las funcionalidades disponibles para el usuario, como se resume en la Tabla 2.
 
-- **Crear cuenta mediante redes sociales**
+**Tabla 2**
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image4.png" style="width:3.65972in;height:3.60417in" /><img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image5.png" style="width:4.36458in;height:3.32708in" />La aplicación web “Tu Evento” ofrece la opción de iniciar sesión mediante redes sociales, permitiendo a los usuarios acceder de forma rápida y sencilla utilizando sus credenciales de plataformas externas como Google o Facebook. Esta funcionalidad evita la necesidad de crear una nueva contraseña dentro del sistema, facilitando el ingreso con un solo clic y manteniendo la seguridad gracias a la validación directa realizada por cada red social. De esta manera, los usuarios cuentan con una alternativa práctica al inicio de sesión tradicional con correo y contraseña, agilizando el acceso a la plataforma.
+*Roles de usuario de Tu Evento*
 
-- **Creación de cuenta de manera tradicional:**
+| Rol | Descripción | Funcionalidades principales |
+|---|---|---|
+| Asistente | Usuario que se registra y participa en eventos publicados en la plataforma. | Explorar y buscar eventos, comprar tiquetes eligiendo sus sillas, comentar eventos y solicitar el rol de organizador. |
+| Organizador | Usuario habilitado para crear, maquetar y publicar eventos. | Crear eventos y sedes, diseñar la distribución del recinto y enviar el evento a revisión. |
+| Administrador | Usuario encargado de supervisar la plataforma, revisar las solicitudes de organizador y aprobar o rechazar la publicación de eventos. | Revisar solicitudes de organizador y publicar o rechazar eventos enviados a revisión. |
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image6.png" style="width:6.1875in;height:3.26042in" />La opción de crear cuenta permite a los nuevos usuarios registrarse en la plataforma mediante un formulario sencillo, en el cual deben ingresar datos básicos como nombre completo, correo electrónico y una contraseña segura. Una vez completado el registro, el sistema envía un código de verificación al correo proporcionado, el cual debe ser ingresado para validar y activar la cuenta. De esta manera, se garantiza que solo usuarios con correos válidos puedan acceder al sistema, brindando mayor seguridad y confiabilidad en el proceso de registro.
+*Nota.* El rol de asistente se obtiene al crear una cuenta. El rol de organizador requiere la aprobación del administrador.
 
-> <img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image7.png" style="width:6.19792in;height:2.89514in" />
->
-> <img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image8.png" style="width:3.55208in;height:3.15764in" />
+## Acceso al sistema
 
-# 
+Al ingresar al aplicativo web sin una sesión activa, el usuario encuentra las secciones descritas a continuación.
 
-# 
+### Interfaz inicial (sin sesión activa)
 
-# 
+#### Inicio
 
-# 
+Es el apartado principal y el primero que se muestra al abrir el sitio web.
 
-# 
+**Figura 1**
 
-# 
+*Pantalla de inicio de Tu Evento*
 
-- **Recuperar contraseña:**
+![Pantalla de inicio de Tu Evento](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_01.png)
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image9.png" style="width:5.66597in;height:2.57292in" />La opción de recuperar contraseña permite a los usuarios restablecer el acceso a su cuenta en caso de olvido. Para ello, deben ingresar el correo electrónico registrado, tras lo cual el sistema envía un código de verificación al mismo. Una vez validado el código, se habilita el formulario para definir una nueva contraseña, que reemplaza inmediatamente a la anterior y será la única válida para futuros inicios de sesión, garantizando así un acceso seguro y controlado a la plataforma.
+*Nota.* Vista de la página principal sin sesión activa.
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image10.png" style="width:5.28125in;height:2.79167in" />
+#### Nosotros
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image11.png" style="width:3.41736in;height:3.34444in" />
+Presenta información general sobre Tu Evento: misión, visión, historia, valores y los integrantes del equipo de desarrollo.
 
-# Inicio de sesión:
+**Figura 2**
 
-El inicio de sesión permite a los usuarios acceder a la plataforma utilizando las credenciales previamente registradas, compuestas por su correo electrónico y contraseña. Una vez validados los datos, el sistema redirige al usuario a la interfaz correspondiente según su rol, ya sea asistente, organizador o administrador, asegurando que cada perfil disponga únicamente de las funcionalidades que le corresponden. En caso de error en las credenciales, el sistema muestra un mensaje de advertencia e invita al usuario a reintentar o utilizar la opción de recuperación de contraseña.
+*Sección Nosotros*
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image12.png" style="width:6.5in;height:3.15139in" />
+![Sección Nosotros](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_02.png)
 
-- **Petición para ser organizador:**
+*Nota.* Información institucional del proyecto y del equipo.
 
-La opción de petición para ser organizador permite a un usuario registrado solicitar el rol de organizador dentro de la plataforma. Para ello, debe completar un formulario en el que se le solicita el RUT de la empresa, una vez enviada la solicitud, esta queda pendiente de revisión por parte del administrador, quien tendrá la facultad de aceptar o rechazar la petición. En caso de aprobación, el usuario adquiere el rol de organizador y accede a las funcionalidades exclusivas de creación, edición y gestión de eventos.
+#### Eventos
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image13.png" style="width:6.5in;height:3.29097in" />
+Muestra los eventos publicados y vigentes hasta la fecha.
 
-- **Visualización de eventos:**
+**Figura 3**
 
-La funcionalidad de visualización de eventos permite a los usuarios explorar de manera sencilla todos los eventos disponibles en la plataforma. Desde esta sección se muestran detalles básicos como el nombre del evento, fecha, lugar, descripción y cupos disponibles, lo que facilita al asistente identificar aquellos de su interés.
+*Listado público de eventos*
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image14.png" style="width:6.5in;height:2.48056in" />
+![Listado público de eventos](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_03.png)
 
-<a id="compra-de-entradas"></a>
+*Nota.* Eventos vigentes visibles antes de iniciar sesión.
 
-- **Compra de entradas:**
+### Inicio de sesión
 
-La compra se hace desde el catálogo de eventos. Cada tarjeta muestra la fecha, el sitio y las sillas disponibles; el buscador de la parte superior filtra por texto y por fecha. Al pulsar «Ver detalles» se abre la página del evento.
+Para acceder, presione el botón "Iniciar Sesión" ubicado arriba a la derecha. Allí puede elegir el método de ingreso: un correo ya registrado en la plataforma o una red social (Google o Facebook).
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/01_catalogo.png" alt="Catálogo de eventos" style="width:6.5in" />
+1. Abra Tu Evento desde un navegador actualizado.
+2. Presione el botón "Iniciar Sesión" (parte superior derecha).
+3. Elija el método de ingreso: correo registrado, Google o Facebook.
+4. Ingrese sus datos o autorice el acceso y confirme.
 
-La página del evento muestra la galería de imágenes, la descripción, las fechas, el sitio, las sillas disponibles y el estado del evento. Debajo está la sección «Selecciona tus Sillas».
+**Figura 4**
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/02_detalle.png" alt="Detalle del evento" style="width:6.5in" />
+*Pantalla de inicio de sesión*
 
-Para elegir las sillas:
+![Pantalla de inicio de sesión](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_04.png)
 
-1. Indique cuántas sillas quiere con los botones − y + de «¿Cuántas sillas querés?».
-2. Elija una sección en la lista «Secciones», que muestra el precio y las sillas disponibles de cada una.
-3. En el «Mapa de Sillas», haga clic en las sillas verdes, que son las disponibles. Las grises ya están ocupadas. Las sillas elegidas se marcan en azul y aparecen en «Tu Carrito» con su código, su sección, su precio y un contador.
-4. La silla queda reservada a su nombre durante 10 minutos. Si no paga en ese tiempo, se libera sola. Con el botón ✕ del carrito puede liberarla antes.
-5. Pulse «Continuar al Pago».
+*Nota.* Métodos disponibles: correo registrado, Google y Facebook.
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/03_seleccion_sillas.png" alt="Selección de sillas y carrito" style="width:6.5in" />
+### Términos y condiciones
 
-En «Confirmar compra» se revisan las sillas y el total. Si tiene saldo en la cartera, puede elegir entre «Pago normal» y «Usar cartera». Con «Usar cartera», el saldo se descuenta del total y el resto se paga por la pasarela («Restante por pasarela»). El método de pago es «Código QR». Pulse «Pagar» para continuar.
+Al registrarse e iniciar sesión, el usuario acepta los términos y condiciones de Tu Evento, por lo que se recomienda leerlos detenidamente. Pueden consultarse al final de la pantalla de inicio de sesión, en el texto "Al iniciar sesión, aceptas nuestros Términos y condiciones".
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/04_checkout.png" alt="Confirmar compra con cartera" style="width:6.5in" />
+**Figura 5**
 
-Mientras la pasarela procesa el pago, se muestra «Procesando tu pago». El pago se completa en la ventana de la pasarela que se abre; no cierre la pestaña mientras tanto. Si la cartera cubre todo el valor, el pago se aprueba de inmediato, sin pasar por la pasarela.
+*Términos y condiciones de uso*
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/05_pago_pendiente.png" alt="Pago en proceso" style="width:6.5in" />
+![Términos y condiciones de uso](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_05.png)
 
-Cuando la pasarela confirma el pago, la misma pantalla cambia a «¡Pago aprobado!» y muestra los tickets comprados, cada uno con su código y el contenido de su código QR. Si la pasarela rechaza el pago, las sillas se liberan y el saldo de la cartera que se había reservado vuelve a quedar disponible.
+*Nota.* Ventana con los términos y condiciones; se cierra con el botón "Entendido".
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/06_pago_confirmado.png" alt="Pago aprobado con los tickets" style="width:6.5in" />
+En el pie de página del sitio, en la sección Legal, también se pueden consultar los Términos de uso y la Política de privacidad, que explica cómo se tratan los datos personales y cómo solicitar su eliminación.
 
-- **Cartera (Mi Saldo):**
+### Registro de cuenta
 
-La página «Mi Saldo» (`/wallet`) muestra el saldo actual de la cartera, el botón «Usar saldo en una compra» y el «Historial de movimientos», con el concepto, la fecha, el estado y el monto de cada movimiento. El saldo proviene de los créditos que hace el administrador y de los reembolsos; se usa en el paso «Confirmar compra».
+Si es la primera vez que ingresa, deberá registrar un correo electrónico Gmail. Puede acceder al registro desde "Iniciar Sesión", debajo de los iconos de Google y Facebook, en el texto "¿No tienes una cuenta aún? Haz clic aquí".
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/07_billetera.png" alt="Página Mi Saldo" style="width:6.5in" />
+1. En la pantalla de inicio de sesión, haga clic en "¿No tienes una cuenta aún? Haz clic aquí".
+2. Complete el formulario con la información solicitada (Figura 6).
+3. Cree su contraseña cumpliendo los estándares de la plataforma y confírmela.
+4. Presione "Registrarse". Aparecerá el mensaje "¡Registro exitoso!" (Figura 7); continúe con el botón "Continuar a Verificación".
+5. Revise su correo: recibirá un mensaje con el código de verificación (Figura 8).
 
-- **Notificaciones:**
+**Figura 6**
 
-La campana de la barra superior muestra cuántas notificaciones sin leer hay. La página de notificaciones las lista con las pestañas «Todas» y «No leídas», y permite marcarlas una por una o todas con «Marcar todas como leídas». Se notifican, entre otros, la bienvenida, los créditos en la cartera, los pagos aprobados y los reembolsos. Estas notificaciones también llegan por correo electrónico.
+*Formulario de registro*
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/08_notificaciones.png" alt="Página de notificaciones" style="width:6.5in" />
+![Formulario de registro](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_06.png)
 
-- **Perfil, idioma y tema:**
+*Nota.* Formulario con los datos solicitados para crear la cuenta.
 
-En el perfil se editan el nombre completo y la biografía (hasta 255 caracteres), se cierra la sesión y se puede desactivar la cuenta. En «Idioma Preferido» se elige el idioma de la interfaz: inglés, español, francés o portugués. En «Tema Visual» se recorren los temas disponibles con las flechas y se aplica uno con «Aplicar tema».
+**Figura 7**
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/capturas_2026-10-24/es/09_perfil.png" alt="Perfil con idioma y tema" style="width:6.5in" />
+*Registro exitoso*
 
+![Registro exitoso](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_07.png)
 
-# Usuario Organizador
+*Nota.* Mensaje que confirma la creación de la cuenta e indica el correo al que se envió el código.
 
-- **Gestionar eventos:**
+**Figura 8**
 
-La función de gestión de eventos permite al usuario con rol de organizador controlar de manera integral sus eventos dentro de la plataforma. Mediante esta funcionalidad, el organizador puede crear nuevos eventos, maquetar la estructura del lugar, publicar los eventos para que sean visibles a los usuarios.
+*Correo de activación de la cuenta*
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image15.png" style="width:6.5in;height:3.05347in" /><img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image16.png" style="width:6.5in;height:2.72014in" />
+![Correo de activación de la cuenta](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_08.png)
 
-# Usuario Administrador
+*Nota.* Correo electrónico que llega a la bandeja del usuario registrado, con el código de verificación.
 
-La sección de administración de usuarios está destinada al administrador de la plataforma y permite supervisar y gestionar a todos los usuarios registrados. Desde esta funcionalidad, el administrador puede visualizar la información básica de cada usuario, su rol dentro del sistema (asistente, organizador o administrador), así como el estado de su cuenta. Además, tiene la capacidad de aprobar o rechazar solicitudes de organizador, asignar o revocar permisos y, en casos necesarios, suspender o eliminar usuarios. De esta manera, se garantiza un control adecuado de la comunidad y el correcto funcionamiento de la plataforma.
+Durante el registro, el formulario solicita los datos de la cuenta y una contraseña, que debe escribirse dos veces (contraseña y confirmación). Si la contraseña no cumple los requisitos de seguridad o no coincide con su confirmación, el formulario muestra un aviso indicando qué debe corregirse antes de continuar.
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image17.png" style="width:6.5in;height:2.75625in" />
+### Código de verificación
 
-# Errores del sistema
+1. Abra el correo recibido y copie el código.
+2. Escriba el código en el campo "Código de activación" de la pantalla Verificar Cuenta.
+3. Presione "Verificar". Si no recibió el correo, use "Reenviar código".
+4. Al confirmarse, aparece el mensaje "¡Cuenta Activada!"; presione "Continuar al Login".
 
-1.  Durante el proceso de inicio de sesión, el sistema puede mostrar mensajes de validación cuando los datos ingresados no cumplen con los requisitos establecidos. Estos errores ayudan a garantizar que la información del usuario sea correcta y segura antes de permitir el acceso a la plataforma.<img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image18.png" style="width:6.48889in;height:2.90417in" alt="login" />
+**Figura 9**
 
-### Descripción del Error – Inicio de Sesión
+*Pantalla de verificación de cuenta*
 
-Pantalla: Inicio de sesión del sistema\
-Ubicación: Formulario de autenticación de usuario\
-Tipo de error: Validación de datos de entrada
+![Pantalla de verificación de cuenta](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_09.png)
 
-#### Descripción
+*Nota.* Campo donde se ingresa el código enviado al correo, con las opciones "Reenviar código" y "Volver al inicio de sesión".
 
-Al intentar iniciar sesión, se muestra un mensaje de error debajo del campo de correo electrónico que indica:
+**Figura 10**
 
-> “Solo tenemos soporte para correos de Gmail”
+*Cuenta activada*
 
-Esto ocurre porque el usuario ingresó una dirección de correo que no pertenece al dominio de Gmail, en este caso: aaaaa@hotmal.com.
+![Cuenta activada](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_10.png)
 
-Además, el sistema muestra un segundo mensaje de validación bajo el campo de contraseña:
+*Nota.* Mensaje que confirma que la verificación fue completada.
 
-> “La contraseña debe tener al menos 8 caracteres”
+Al completar este paso, la cuenta como usuario asistente queda creada y el usuario puede acceder a más funcionalidades de la plataforma.
 
-Esto significa que la contraseña ingresada no cumple con la longitud mínima requerida por la plataforma.
+### Recuperación de contraseña
 
-#### Causa del error
+Si ya tiene una cuenta pero olvidó su contraseña, puede recuperarla desde "Iniciar Sesión", justo debajo del cuadro de texto de la contraseña, en el texto "¿No recuerdas tu contraseña? Recupérala."
 
-> El sistema está configurado para aceptar únicamente direcciones de correo con dominio @gmail.com.
->
-> La contraseña ingresada contiene menos de 8 caracteres, lo cual no cumple con las políticas de seguridad establecidas.
+1. En la pantalla de inicio de sesión, haga clic en "¿No recuerdas tu contraseña? Recupérala."
+2. Ingrese su correo electrónico y presione "Enviar" (Figura 11).
+3. Revise su correo: recibirá un código necesario para continuar.
+4. En la pantalla "Restablecer contraseña", ingrese el código, escriba la nueva contraseña y confírmela (Figura 12).
 
-####  Solución recomendada
+**Figura 11**
 
-> Verificar que el correo ingresado tenga un formato válido y que pertenezca al dominio permitido (@gmail.com).\
-> Ejemplo correcto: usuario@gmail.com
->
-> Asegurarse de que la contraseña contenga al menos 8 caracteres, combinando letras, números y símbolos si es posible.
+*Olvidé mi contraseña*
 
-2.  Durante el proceso de recuperación de contraseña, el sistema valida que el correo electrónico ingresado exista en la base de datos. Si la dirección no está registrada o contiene errores de escritura, se mostrará un mensaje de advertencia para evitar el envío de instrucciones a un correo inválido.
+![Olvidé mi contraseña](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_11.png)
 
-### Descripción del Error – Recuperación de Contraseña
+*Nota.* Pantalla donde se ingresa el correo para recibir el código de recuperación.
 
-Pantalla: Olvidé mi contraseña\
-Ubicación: Formulario de recuperación de acceso\
-Tipo de error: Validación de usuario
+**Figura 12**
 
-####  Descripción
+*Restablecer contraseña*
 
-Al intentar recuperar la contraseña, el sistema muestra el siguiente mensaje debajo del campo de correo electrónico:
+![Restablecer contraseña](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_12.png)
 
-> “Usuario no encontrado”
+*Nota.* Pantalla para ingresar el código, la nueva contraseña y su confirmación.
 
-Esto ocurre porque la dirección de correo ingresada no coincide con ningún usuario registrado en la plataforma o presenta un error tipográfico.\
-En este caso, el correo introducido es: aaaaaaaaaaaa@hotmaail.com, el cual contiene un error en el dominio (hotmaail.com en lugar de hotmail.com).
+Una vez completado, el usuario vuelve a tener acceso a su cuenta. La contraseña puede cambiarse varias veces, aunque se recomienda recordarla.
 
-####  Causa del error
+## Usuario Web (Asistente)
 
-> El correo electrónico ingresado no existe en la base de datos de usuarios registrados.
->
-> El correo tiene errores de escritura o no cumple con el formato correcto.
+### Flujo general del rol
 
-####  Solución recomendada
+El asistente crea su cuenta o inicia sesión y explora los eventos publicados. Al elegir uno, consulta su detalle, indica cuántas sillas necesita y las selecciona en el mapa del recinto. Luego confirma la compra y paga mediante el método disponible (código QR, a través de la pasarela simulada). Cuando el pago se aprueba, recibe sus tickets. También puede dejar comentarios en los eventos y solicitar el rol de organizador si desea crear sus propios eventos.
 
-> Verificar que el correo electrónico esté correctamente escrito y pertenezca a un usuario registrado.\
-> Ejemplo correcto: usuario@hotmail.com o usuario@gmail.com
->
-> Si el correo es correcto y aún se muestra el error, contactar con el soporte técnico para verificar el registro de la cuenta.
+### Descripción de la interfaz
 
-3.  Durante el proceso de registro, el sistema valida los datos ingresados para garantizar que la información del nuevo usuario cumpla con los requisitos de formato, seguridad y compatibilidad. Si alguno de los campos no cumple con las reglas establecidas, se muestran mensajes de error que indican el tipo de corrección necesaria antes de continuar con el registro.
+Una vez iniciada la sesión, la barra superior muestra las secciones Inicio, Nosotros, Eventos y Mis Eventos, además del ícono de notificaciones y el menú del usuario.
 
-    <img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image19.png" style="width:6.49861in;height:3.09306in" alt="login-3" />
+Cada elemento de la barra superior cumple una función: Inicio, Nosotros y Eventos permiten moverse entre las secciones públicas; Mis Eventos reúne los eventos y los tickets del usuario; la campana muestra las notificaciones de la cuenta; y el menú del usuario da acceso a las opciones de la cuenta, entre ellas cerrar la sesión.
 
-### Descripción del Error – Registro de Usuario
+### Módulos y funcionalidades
 
-Pantalla: Registro de nuevo usuario\
-Ubicación: Formulario de creación de cuenta\
-Tipo de error: Validación de datos de entrada
+#### Exploración, búsqueda y filtrado de eventos
 
-####  Descripción
+La sección Eventos lista los eventos publicados y vigentes. Desde ella puede buscar un evento y abrir su detalle.
 
-Al intentar registrarse, el sistema muestra varios mensajes de validación:
+1. Ingrese a "Eventos" desde la barra superior.
+2. Escriba el nombre del evento en la barra de búsqueda, aplique los filtros disponibles y presione "Buscar".
+3. En la tarjeta del evento elegido, presione "Ver detalles".
 
-> Debajo del campo de nombre, aparece el mensaje:
->
-> “Por favor ingresa nombre y apellido”\
-> Esto indica que el campo solo contiene un nombre y el sistema requiere nombre y apellido completos.
->
-> Debajo del campo de correo electrónico, aparece el mensaje:
->
-> “Solo tenemos soporte para correos de Gmail”\
-> Esto se debe a que la dirección ingresada (aaaaa@hotmal.com) no pertenece al dominio Gmail y además presenta un error tipográfico (“hotmal” en lugar de “hotmail”).
->
-> Debajo del campo de contraseña, el sistema muestra:
->
-> “La contraseña debe tener al menos 8 caracteres”\
-> Esto significa que la contraseña introducida no cumple con la longitud mínima requerida por las políticas de seguridad.
+**Figura 13**
 
-####  Causa del error
+*Búsqueda y listado de eventos con sesión iniciada*
 
-> El campo de nombre está incompleto (falta apellido).
->
-> El correo electrónico no pertenece al dominio permitido (@gmail.com) o tiene un error de escritura.
->
-> La contraseña contiene menos de 8 caracteres.
+![Búsqueda y listado de eventos con sesión iniciada](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_13.png)
 
-#### Solución recomendada
+*Nota.* Barra de búsqueda y tarjetas de los eventos publicados.
 
-> Ingresar nombre y apellido completos, por ejemplo: Ana López.
->
-> Verificar que el correo sea válido y termine en @gmail.com.\
-> Ejemplo correcto: usuario@gmail.com
->
-> Establecer una contraseña de al menos 8 caracteres, combinando letras, números y símbolos para mayor seguridad.
+Para buscar un evento, utilice la barra de búsqueda ubicada sobre el listado; los eventos publicados se muestran en tarjetas con sus datos principales y el botón "Ver detalles".
 
-4.  Durante la gestión y publicación de eventos, el sistema valida que todos los pasos previos al lanzamiento estén correctamente completados. Entre ellos, se encuentra la maquetación del evento, que define la estructura visual y los elementos que se mostrarán al público. Si este paso no se ha realizado, el sistema impide la publicación para evitar errores de visualización o información incompleta.
+#### Detalle del evento y compra de tiquetes
 
-    <img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image20.png" style="width:6.48889in;height:3.07222in" alt="maquetacion-1" />
+Para comprar, el asistente elige el número de sillas, las selecciona por sección en el mapa del recinto y paga. Las sillas quedan reservadas mientras se procesa el pago.
 
-### Descripción del Error – Publicación de Evento
+1. Desde "Ver detalles", ingrese a la selección de sillas ("Selecciona tus sillas").
+2. Indique cuántas sillas desea con los botones de más y menos.
+3. Elija la sección (General, VIP, Palco o Tribuna; cada una tiene su precio) y seleccione las sillas en el mapa. Se agregan a "Tu Carrito" junto con el total.
+4. Presione "Continuar al Pago".
+5. En "Confirmar compra", revise las sillas y el total, elija el método de pago (Código QR) y presione "Pagar".
+6. Cuando el pago se apruebe, aparece "¡Pago aprobado!" con sus tickets. Presione "Ver más eventos" para seguir explorando.
 
-Pantalla: Gestión de Eventos\
-Ubicación: Sección “Mis Eventos”\
-Tipo de error: Validación previa a la publicación
+**Figura 14**
 
-#### Descripción
+*Detalle del evento*
 
-Al intentar publicar un evento desde el panel de gestión, aparece una ventana emergente con el siguiente mensaje de error:
+![Detalle del evento](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_14.png)
 
-> “Error al publicar el evento: El evento debe tener una maquetación antes de publicarse.”
+*Nota.* Información del evento previa a la selección de sillas.
 
-Este mensaje indica que el evento seleccionado no cuenta con una maquetación asignada o completada, por lo que el sistema bloquea su publicación hasta que dicho requisito se cumpla.
+**Figura 15**
 
-#### Causa del error
+*Selección de sillas*
 
-> El evento no tiene una maquetación creada o guardada.
->
-> El proceso de maquetación no se finalizó correctamente o no se vinculó al evento actual.
+![Selección de sillas](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_15.png)
 
-#### Solución recomendada
+*Nota.* Mapa del recinto con las secciones, las sillas elegidas y el carrito de compra.
 
-> Hacer clic en el botón “Maquetación” correspondiente al evento.
->
-> Completar el proceso de diseño o estructura visual del evento.
->
-> Guardar los cambios y verificar que el estado del evento indique que está “Listo para publicar”
->
-> Una vez completado, volver a intentar la publicación.
+**Figura 16**
 
-5.  Durante el proceso de creación de un evento, el sistema valida que la información básica ingresada cumpla con los requisitos mínimos de longitud y coherencia de fechas. Esto garantiza que los eventos creados sean claros, completos y correctamente configurados antes de pasar a las siguientes etapas del registro.
+*Confirmación de compra*
 
-    <img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image21.png" style="width:6.48611in;height:3.27361in" alt="eventos-1" />
+![Confirmación de compra](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_16.png)
 
-###  Descripción del Error – Creación de Evento
+*Nota.* Resumen de sillas, total y método de pago (código QR) en la pasarela simulada.
 
-Pantalla: Creación de evento – Paso 1 (Información básica)\
-Ubicación: Formulario de registro de evento\
-Tipo de error: Validación de campos obligatorios
+**Figura 17**
 
-####  Descripción
+*Pago aprobado y tickets*
 
-Al intentar avanzar al siguiente paso del formulario, el sistema muestra varios mensajes de validación en color rojo.
+![Pago aprobado y tickets](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_17.png)
 
-> Campo “Nombre del Evento”
->
-> “El nombre del evento debe tener al menos 3 caracteres”\
-> Esto indica que el nombre ingresado (a) no cumple con la longitud mínima requerida para ser válido.
->
-> Campo “Descripción”
->
-> “La descripción del evento debe tener al menos 10 caracteres”\
-> El texto ingresado (a) es demasiado corto y no proporciona información suficiente sobre el evento.
->
-> Campo “Fecha de Inicio” y “Fecha de Fin”
->
-> “La fecha de inicio no puede ser anterior a hoy”\
-> Además, las fechas seleccionadas (30/09/2025 y 29/09/2025) son inválidas, ya que la fecha de fin es anterior a la fecha de inicio, lo cual no es permitido.
+*Nota.* Pantalla de confirmación con los tickets generados para la compra.
 
-#### Causa del error
+Mientras el pago se procesa, las sillas quedan reservadas a nombre del usuario y junto a cada una se muestra un cronómetro con el tiempo restante (la reserva dura hasta 10 minutos). Si el tiempo termina, o si el pago es rechazado o cancelado, las sillas pueden volver a quedar disponibles para otros usuarios y será necesario seleccionarlas de nuevo en el mapa del recinto.
 
-> El nombre del evento no cumple la longitud mínima de 3 caracteres.La descripción es menor a 10 caracteres.
->
-> Las fechas ingresadas son incorrectas o incoherentes (la fecha de fin no puede ser antes de la fecha de inicio).
+Si tiene saldo en su cartera, en "Confirmar compra" puede elegir "Usar cartera" para descontarlo del total; el valor restante se paga por la pasarela (véase la sección Cartera).
 
-#### Solución recomendada
+#### Comentarios y reseñas
 
-> Escribir un nombre de evento claro y descriptivo (mínimo 3 caracteres).\
-> Ejemplo: Festival de Música.
->
-> Redactar una descripción completa que explique el propósito o detalles del evento (mínimo 10 caracteres).\
-> Ejemplo: Concierto de bandas locales en el centro de la ciudad.
->
-> Asegurar que la fecha de inicio sea igual o posterior al día actual, y que la fecha de fin sea posterior a la de inicio.
+Cada evento tiene una sección de comentarios donde los usuarios escriben su opinión, califican con estrellas y responden a otros comentarios. Los comentarios del organizador se identifican con la etiqueta "Organizador".
 
-6.  En la etapa final de la creación de un evento, el sistema requiere que el usuario seleccione una categoría principal y una subcategoría que describan correctamente el tipo de evento. Estas categorías permiten clasificar los eventos de forma adecuada y facilitan su búsqueda dentro de la plataforma.
+1. Ubíquese en la sección "Comentarios" del evento.
+2. Escriba su comentario en el cuadro de texto y presione el botón de enviar.
+3. Para contestar a otro comentario, presione "Responder".
 
-    <img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image22.png" style="width:6.48889in;height:2.78125in" alt="categoria" />
+**Figura 18**
 
-### Descripción del Error – Selección de Categorías
+*Comentarios del evento*
 
-Pantalla: Creación de evento – Paso 2 (Selección de categorías)\
-Ubicación: Formulario de selección de categoría y subcategoría\
-Tipo de error: Validación de campos obligatorios
+![Comentarios del evento](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_18.png)
 
-#### Descripción
+*Nota.* Comentarios con calificación en estrellas, respuestas y etiqueta de organizador.
 
-Al intentar hacer clic en el botón “Crear Evento” sin haber seleccionado una categoría, el sistema muestra un mensaje emergente de advertencia:
+La calificación va de 1 a 5 estrellas y se asigna al enviar el comentario. Para comentar o responder es necesario haber iniciado sesión, y cada usuario puede editar o eliminar sus propios comentarios.
 
-> “Selecciona un elemento de la lista”
+#### Solicitud para ser organizador
 
-Este mensaje indica que no se ha seleccionado ninguna categoría principal ni subcategoría, por lo que el sistema no puede continuar con la creación del evento.
+Un asistente puede pedir el rol de organizador enviando un documento de identidad. La solicitud la revisa el administrador.
 
-#### Causa del error
+1. Presione "Solicitud Organizador" en la barra superior.
+2. Revise los documentos requeridos. Obligatorios: cédula de ciudadanía o ID, pasaporte válido (extranjeros) o documento de identidad oficial. Opcionales: certificado de antecedentes, certificados de cursos y referencias laborales.
+3. Arrastre el archivo al recuadro o presione "Seleccionar archivo".
+4. Presione "Enviar solicitud".
+5. La pantalla pasa a "Tu solicitud está en revisión". El equipo procesa la información en un plazo de 24 a 48 horas hábiles.
 
-> El usuario no seleccionó una categoría principal del menú desplegable.
->
-> En consecuencia, la subcategoría no puede cargarse ni seleccionarse.
->
-> El sistema requiere ambos campos completados antes de continuar.
+**Figura 19**
 
-- 
+*Solicitud de organizador*
 
-#### Solución recomendada
+![Solicitud de organizador](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_19.png)
 
-> Abrir el menú desplegable “Categoría Principal” y seleccionar una opción de la lista.
->
-> Esperar a que se carguen las opciones correspondientes en el campo “Subcategoría”.
->
-> Seleccionar una subcategoría válida.
->
-> Una vez seleccionados ambos campos, hacer clic en “Crear Evento” para completar el registro.
+*Nota.* Pantalla para cargar el documento de identidad y lista de documentos requeridos.
 
-7.  En la sección de Solicitud de Organizador, los usuarios deben cargar un documento que respalde su solicitud para ser aprobados como organizadores de eventos dentro de la plataforma. Este proceso asegura que la información presentada cumpla con los requisitos formales establecidos.
+**Figura 20**
 
-    <img src="../_assets/09_Manuales/Manual_de_usuario/Manual_web/media/image23.png" style="width:6.49861in;height:3.18819in" alt="erro pdf" />
+*Solicitud en revisión*
 
-#### Descripción del Error – Tipo de archivo no permitido
+![Solicitud en revisión](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_20.png)
 
-**Pantalla:** Solicitud de Organizador\
-**Ubicación:** Formulario de carga de documentos\
-**Tipo de error:** Validación de formato de archivo
+*Nota.* Estado de la solicitud después de enviarla, con el archivo cargado.
 
-#### Descripción
+Cuando el administrador revisa la solicitud, su estado se actualiza en la pantalla de solicitud (por ejemplo, Aprobada o Rechazada). Si fue aprobada, el usuario pasa a tener el rol de organizador y en su barra superior aparece la opción "+ Crear Evento".
 
-Al intentar subir un archivo con formato **.jpeg**, el sistema muestra una alerta roja con el mensaje:
+#### Módulos nuevos del asistente
 
-> “Error inesperado: Solo se permiten archivos PDF”
+#### Mis Eventos
 
-Esto indica que el sistema **únicamente acepta documentos en formato PDF**, ya que es el estándar requerido para validar solicitudes oficiales.
+Este módulo reúne los tickets de las compras realizadas por el asistente.
 
-#### Causa del error
+- Presione "Mis Eventos" en la barra superior.
+- Consulte los tickets de sus compras.
 
-> El usuario intenta subir un archivo con una extensión **no permitida** (por ejemplo: .jpeg, .png, .jpg, .docx, etc.).
->
-> La validación del backend detecta el tipo de archivo y bloquea el proceso de carga.
+En la versión web se consultan las compras y sus tickets. El código QR que se presenta en la entrada del evento se genera desde la aplicación móvil (véase el Manual de usuario de la aplicación móvil).
 
-#### Solución recomendada
+#### Cartera
 
-> Convertir el documento o imagen al formato **.PDF** antes de cargarlo.
->
-> Asegurarse de que el archivo cumpla con los requisitos de tamaño máximo establecidos (si aplica).
->
-> Volver a subir el documento usando el botón **“Cambiar archivo”**.
->
-> Verificar que en la barra de estado aparezca el mensaje **“Archivo válido”** antes de continuar con el envío de la solicitud.
+La cartera muestra el saldo disponible del usuario y el historial de sus movimientos.
 
+1. Abra el menú del usuario (arriba a la derecha) y elija "Cartera".
+2. Consulte el saldo disponible y el historial de movimientos, con su fecha, estado y monto.
+3. Para usar el saldo, presione "Usar saldo en una compra" o elija "Usar cartera" al confirmar una compra.
 
----
+**Figura 21**
 
-## Encabezados y pies de página del original
+*Cartera del usuario*
 
-- **Encabezado** (`word/header1.xml`): texto «0»<br>![Encabezado del original](../_assets/09_Manuales/Manual_de_usuario/Manual_web/header_footer/image1.png)
+![Cartera del usuario](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_21.png)
+
+*Nota.* Saldo disponible e historial de movimientos (compras pagadas con la cartera y créditos recibidos).
+
+Si un evento se cancela, el valor pagado por cada ticket se reembolsa como crédito en la cartera del comprador, incluida la parte pagada por la pasarela. Los tickets de ese evento quedan marcados como cancelados y ya no pueden usarse; el saldo acreditado puede usarse en compras futuras.
+
+#### Notificaciones
+
+El sistema avisa al usuario de los eventos relacionados con su cuenta mediante notificaciones.
+
+- Presione el ícono de campana de la barra superior.
+- Lea las notificaciones recibidas.
+
+**Figura 22**
+
+*Notificaciones*
+
+![Notificaciones](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_22.png)
+
+*Nota.* Notificaciones de la cuenta, con las pestañas "Todas" y "No leídas" y la opción "Marcar todas como leídas".
+
+Las notificaciones informan, por ejemplo, sobre pagos aprobados, créditos en la cartera y cambios en las solicitudes. También se puede acceder a ellas desde la opción "Notificaciones" del menú del usuario.
+
+#### Perfil, idioma y tema
+
+El perfil reúne los datos personales del usuario y las preferencias de la plataforma.
+
+1. Abra el menú del usuario y elija "Perfil".
+2. En "Información Personal", edite su nombre completo y su biografía (hasta 255 caracteres) y presione "Guardar cambios".
+3. En "Idioma Preferido", elija el idioma de la interfaz: español, inglés, francés o portugués.
+4. En "Tema Visual", recorra los temas con las flechas y presione "Aplicar tema".
+
+**Figura 23**
+
+*Perfil del usuario*
+
+![Perfil del usuario](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_23.png)
+
+*Nota.* Información personal, idioma preferido, tema visual y seguridad de la cuenta.
+
+En "Seguridad de la Cuenta" se cierra la sesión y se puede desactivar la cuenta; el sistema pide confirmar esta acción antes de aplicarla. Si el usuario ingresó por primera vez con Google o Facebook, la plataforma le pide completar los datos de su perfil antes de continuar.
+
+## Usuario Organizador
+
+### Flujo general del rol
+
+Cuando el administrador aprueba su solicitud, el usuario ve en la barra de navegación la opción "+ Crear Evento". El organizador crea el evento en tres pasos (información general, sede e imágenes), diseña la distribución del recinto en el editor de layout y, desde Mis Eventos, envía el evento a revisión. El administrador lo revisa y decide si lo publica o lo rechaza.
+
+### Descripción de la interfaz
+
+**Figura 24**
+
+*Interfaz principal del organizador*
+
+![Interfaz principal del organizador](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_24.png)
+
+*Nota.* Cuando se ingresa como organizador aparece en la barra de navegación la opción "+ Crear Evento", que redirige al apartado de creación de eventos.
+
+### Módulos y funcionalidades
+
+#### Creación de eventos
+
+La creación se divide en tres pasos guiados: Información general, Sede e Imágenes. Una barra de progreso muestra en qué paso está el organizador.
+
+1. Presione "+ Crear Evento" en la barra de navegación.
+2. Paso 1, Información general: escriba el nombre y la descripción, defina las fechas de inicio y fin, indique si el evento es público y seleccione categoría, departamento y ciudad. Presione "Siguiente".
+3. Paso 2, Sede: seleccione una sede de la lista desplegable. Si la ciudad no tiene sedes, presione "Crear nueva sede", complete nombre, dirección, capacidad máxima y ubicación en el mapa, y presione "Registrar sede".
+4. Con la sede seleccionada, presione "Crear evento".
+5. Paso 3, Imágenes: presione "Seleccionar imágenes" y luego "Subir y continuar". Este paso es opcional: puede presionar "Omitir por ahora" y agregar las imágenes más tarde desde "Mis Eventos".
+
+**Figura 25**
+
+*Creación de evento, paso 1: información general*
+
+![Creación de evento, paso 1: información general](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_25.png)
+
+*Nota.* Formulario con los datos básicos del evento.
+
+**Figura 26**
+
+*Creación de evento, paso 2: ciudad sin sedes*
+
+![Creación de evento, paso 2: ciudad sin sedes](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_26.png)
+
+*Nota.* Cuando la ciudad no tiene sedes registradas, se ofrece el botón para crear una nueva.
+
+**Figura 27**
+
+*Registro de una nueva sede*
+
+![Registro de una nueva sede](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_27.png)
+
+*Nota.* Formulario de la sede con su ubicación en el mapa.
+
+**Figura 28**
+
+*Selección de una sede existente*
+
+![Selección de una sede existente](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_28.png)
+
+*Nota.* Cuando existen sedes, se listan en una barra desplegable y se muestra la capacidad de la sede elegida.
+
+**Figura 29**
+
+*Creación de evento, paso 3: imágenes*
+
+![Creación de evento, paso 3: imágenes](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_29.png)
+
+*Nota.* Carga opcional de imágenes del evento.
+
+#### Edición de eventos
+
+Para modificar un evento, ingrese a Mis Eventos y presione el ícono con forma de lápiz en las acciones del evento. En la ventana "Editar evento" puede cambiar el nombre, la descripción, las fechas de inicio y fin, las sillas disponibles y la categoría; luego presione "Guardar cambios". Un evento no puede editarse mientras está en revisión: primero debe retirarlo de revisión.
+
+**Figura 30**
+
+*Edición de un evento*
+
+![Edición de un evento](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_30.png)
+
+*Nota.* Ventana "Editar evento" con el nombre, la descripción, las fechas, las sillas disponibles y la categoría.
+
+#### Maquetación del recinto y secciones
+
+El editor de layout permite dibujar la distribución del recinto. A la izquierda están los elementos disponibles: las secciones (General, VIP, Palco y Tribuna) y la infraestructura (escenario, pantalla, pista de baile, entrada, salida, bar y baños). En el centro está el lienzo y a la derecha el listado "Secciones del mapa", donde se ven las propiedades de lo seleccionado. En la parte superior hay herramientas de zoom, deshacer, rehacer, limpiar y guardar.
+
+1. Ingrese al editor de layout de su evento.
+2. Arrastre las secciones al lienzo y ubíquelas según el recinto.
+3. Agregue los elementos de infraestructura que necesite, como el escenario o las entradas.
+4. Seleccione cada sección para ver sus propiedades en el panel derecho.
+5. Presione "Guardar" para conservar la maquetación.
+
+**Figura 31**
+
+*Editor de layout con el lienzo vacío*
+
+![Editor de layout con el lienzo vacío](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_31.png)
+
+*Nota.* Punto de partida: paneles de elementos, lienzo y secciones del mapa.
+
+**Figura 32**
+
+*Maquetación del recinto terminada*
+
+![Maquetación del recinto terminada](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_32.png)
+
+*Nota.* Ejemplo de recinto con secciones General, VIP, Palco y Tribuna distribuidas en el lienzo.
+
+El botón "Cómo usar el editor" muestra la guía de uso del editor de recintos, y el botón "Ver JSON" muestra la estructura del plano diseñado en formato JSON.
+
+#### Publicación de eventos
+
+La publicación no es inmediata: el organizador envía el evento a revisión y el administrador decide si lo publica.
+
+1. Ingrese a "Mis Eventos". Allí aparecen los eventos en los que trabaja, con su estado (por ejemplo, Borrador) y filtros por estado.
+2. En la columna "Estado" del evento, despliegue la lista y elija la opción de publicar.
+3. Confirme en la ventana "¿Enviar este evento a revisión?" presionando "Sí, enviar a revisión".
+
+**Figura 33**
+
+*Mis Eventos del organizador*
+
+![Mis Eventos del organizador](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_33.png)
+
+*Nota.* Este apartado muestra los eventos en los que el organizador está trabajando; se puede solicitar la publicación desde la columna "Estado", con la opción desplegable de publicar.
+
+**Figura 34**
+
+*Enviar un evento a revisión*
+
+![Enviar un evento a revisión](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_34.png)
+
+*Nota.* Mientras el evento está en revisión no se puede editar ni modificar sus imágenes; el organizador puede retirarlo en cualquier momento para hacer cambios.
+
+Cuando el administrador publica el evento, este queda visible para los asistentes. Si lo rechaza, el evento no se publica y el organizador puede revisarlo, ajustarlo y volver a enviarlo a revisión. Mientras el evento está en revisión, el organizador puede retirarlo en cualquier momento.
+
+#### Ganancias del organizador
+
+El panel "Tus ganancias" resume lo recaudado por el organizador en sus eventos. Es de solo lectura: el cobro real lo gestiona la plataforma directamente.
+
+1. Ingrese a "Mis Eventos".
+2. Presione el botón "Mis ganancias", en la parte superior.
+3. Revise los indicadores y el desglose por evento.
+
+**Figura 35**
+
+*Panel de ganancias del organizador*
+
+![Panel de ganancias del organizador](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_35.png)
+
+*Nota.* Indicadores de total recaudado, ganancia potencial, tickets vendidos y eventos con ventas, y desglose por evento.
+
+Los indicadores muestran el **total recaudado** en todos los eventos, la **ganancia potencial** si se vendieran todas las sillas, los **tickets vendidos** y los **eventos con ventas**. El desglose por evento detalla los tickets vendidos, lo recaudado, el potencial y las cortesías de cada evento; desde allí, "Gestionar eventos" lleva de vuelta a Mis Eventos.
+
+#### Módulos nuevos del organizador
+
+El organizador dispone también de Mis Eventos, la cartera, las notificaciones y el perfil, que funcionan igual que para el asistente (véase la sección Módulos nuevos del asistente), además del panel de ganancias descrito en la sección anterior.
+
+## Usuario Administrador
+
+### Flujo general del rol
+
+El administrador ingresa a un panel con menú lateral (Dashboard, Control Financiero, Eventos, Reportes, Reembolsos, Solicitudes, Usuarios, Categorías, Tipos de Sección y Traducciones). Revisa las solicitudes de los usuarios que quieren ser organizadores, verificando su documentación, revisa los eventos enviados a revisión para publicarlos o rechazarlos y administra los catálogos de la plataforma.
+
+### Descripción de la interfaz
+
+**Figura 36**
+
+*Interfaz principal del administrador*
+
+![Interfaz principal del administrador](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_36.png)
+
+*Nota.* Panel de administración con el menú lateral de módulos.
+
+El Dashboard es la pantalla inicial del panel de administración y resume la actividad de la plataforma: usuarios registrados, total de eventos, eventos activos, eventos en revisión, boletas vendidas y solicitudes pendientes. Debajo, el bloque "Control Financiero y Reembolsos" muestra los ingresos totales, las ventas activas, los reembolsos pendientes y el saldo compensatorio total, y al final aparece la actividad reciente. El menú lateral da acceso a los siguientes módulos:
+
+- Dashboard: resumen general del panel.
+- Control Financiero: seguimiento económico de la plataforma.
+- Eventos: revisión y publicación de los eventos.
+- Reportes: reportes de la plataforma.
+- Reembolsos: gestión de los reembolsos de pagos.
+- Solicitudes: revisión de las solicitudes para ser organizador.
+- Usuarios: consulta de los usuarios registrados, sus roles y los organizadores.
+- Categorías y Tipos de Sección: catálogos que usan los organizadores al crear y maquetar eventos.
+- Traducciones: textos de eventos, categorías, tipos de sección, comentarios y perfiles en otros idiomas.
+
+### Módulos y funcionalidades
+
+#### Solicitudes de organizador
+
+Este módulo lista las solicitudes enviadas por los usuarios que desean crear eventos. Permite filtrarlas por estado: Todas, Pendientes, Aprobadas y Rechazadas. La tabla muestra usuario, correo, documento, fecha, estado y acciones.
+
+1. Presione "Solicitudes" en el menú lateral.
+2. Filtre por estado, por ejemplo "Pendientes".
+3. Abra la solicitud con el ícono de la columna "Acciones" y revise el documento enviado.
+4. Apruebe o rechace la solicitud.
+
+**Figura 37**
+
+*Solicitudes de organizador*
+
+![Solicitudes de organizador](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_37.png)
+
+*Nota.* Listado de solicitudes con su estado y filtros.
+
+Al abrir una solicitud, el administrador revisa el documento adjunto y decide con los botones para aprobarla o rechazarla. Después de la decisión, el estado de la solicitud se actualiza en el listado.
+
+#### Publicación de eventos
+
+Los eventos que los organizadores envían a revisión aparecen en "Eventos" con el estado "En revisión". El administrador revisa su información y decide si lo publica.
+
+1. Presione "Eventos" en el menú lateral y filtre por "En revisión".
+2. Abra el detalle del evento: modalidad, estado, estructura de secciones con capacidad y precios, organizador y boletas disponibles.
+3. Presione "Publicar" para aprobarlo o "Rechazar" para devolverlo.
+
+**Figura 38**
+
+*Gestión de eventos*
+
+![Gestión de eventos](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_38.png)
+
+*Nota.* Listado de eventos de la plataforma, con filtros por estado como "En revisión".
+
+**Figura 39**
+
+*Aceptar la publicación de un evento*
+
+![Aceptar la publicación de un evento](../_assets/09_Manuales/Manual_de_usuario/web/web_figura_39.png)
+
+*Nota.* Detalle del evento en revisión con los botones "Publicar" y "Rechazar".
+
+#### Módulos nuevos del administrador
+
+Además de la revisión de solicitudes y eventos, el menú lateral incluye los siguientes módulos de gestión:
+
+- Control Financiero: permite hacer seguimiento al movimiento económico de la plataforma.
+- Reportes: reúne los reportes de la plataforma.
+- Reembolsos: permite gestionar los reembolsos de los pagos realizados.
+- Usuarios: permite consultar los usuarios, sus roles y los organizadores aprobados.
+- Categorías: permite crear y editar las categorías con las que se clasifican los eventos.
+- Tipos de Sección: permite gestionar los tipos de sección (por ejemplo, General, VIP, Palco o Tribuna) del editor de layout.
+- Traducciones: permite revisar y ajustar las traducciones de eventos, categorías, tipos de sección, comentarios y perfiles.
+
+## Mensajes de validación y errores frecuentes
+
+La siguiente tabla reúne los mensajes que el sistema puede mostrar y cómo resolverlos.
+
+**Tabla 3**
+
+*Mensajes de validación y errores frecuentes*
+
+| Situación | Mensaje mostrado | Causa | Solución |
+|---|---|---|---|
+| Código de verificación incorrecto o vencido | El sistema indica que el código no es válido o ha vencido. | El código se escribió con algún error o superó su tiempo de vigencia. | Revise el código del correo recibido; si venció, solicite uno nuevo. |
+| Contraseña que no cumple los estándares | El formulario indica que la contraseña no cumple los requisitos de seguridad. | La contraseña no reúne todos los requisitos solicitados. | Ajuste la contraseña según lo que indica el formulario y vuelva a intentarlo. |
+| Contraseña y confirmación no coinciden | El formulario indica que la contraseña y su confirmación no coinciden. | Los dos campos se escribieron de forma diferente. | Escriba la contraseña y su confirmación de nuevo, de forma idéntica. |
+| Pago rechazado o cancelado | La pasarela informa que el pago fue rechazado o cancelado. | El pago no fue aprobado en la pasarela o el usuario lo canceló. | Repita el proceso de compra desde la selección de sillas. |
+| Sillas ya no disponibles | El sistema informa que alguna de las sillas ya no está disponible. | Otro usuario reservó o compró la silla antes de finalizar la compra. | Vuelva al mapa del recinto y elija otras sillas. |
+| Archivo no válido en la solicitud de organizador | El sistema indica que el archivo no es válido. | El archivo no tiene un formato admitido o no puede leerse. | Cargue de nuevo el documento de identidad en un archivo legible y de formato admitido. |
+| Evento cancelado | El ticket aparece como cancelado y no puede usarse. | El organizador o el administrador canceló el evento. | Revise su cartera: el valor pagado se reembolsa como crédito. |
+
+## Recomendaciones de uso
+
+- Utilice un navegador actualizado y una conexión estable a internet.
+- Use un correo Gmail al que tenga acceso, pues allí recibirá los códigos de verificación.
+- Lea los términos y condiciones antes de registrarse.
+- Cree una contraseña que pueda recordar; si la olvida, puede recuperarla desde el inicio de sesión.
+- Cierre su sesión al terminar si usa un equipo compartido.
+- Asistente: complete el pago sin demora, pues las sillas solo quedan reservadas mientras se procesa.
+- Organizador: revise los datos, la sede y las imágenes antes de enviar el evento a revisión, ya que no podrá editarlo mientras esté en revisión.
+- Administrador: verifique la documentación del solicitante y la información del evento antes de aprobar.
+
+## Glosario
+
+**Tabla 4**
+
+*Glosario de términos*
+
+| Término | Definición |
+|---|---|
+| Administrador | Usuario encargado de supervisar la plataforma, revisar las solicitudes de organizador y aprobar o rechazar la publicación de eventos. |
+| Asistente | Usuario que se registra y participa en eventos publicados en la plataforma. |
+| Código de verificación | Número que el sistema envía al correo para confirmar que la cuenta o el cambio de contraseña es del usuario. |
+| Código QR | Imagen que se escanea con la aplicación del banco para realizar un pago. |
+| Evento | Actividad creada por un organizador a la que los asistentes pueden registrarse. |
+| Layout | Plano del recinto que el organizador dibuja en el editor, con sus secciones y elementos. |
+| Maquetación | Proceso de diseño visual de la distribución de un espacio o evento (secciones, capacidad y ubicación de asistentes). |
+| Mensaje de validación | Texto que muestra el sistema para indicar errores o confirmar acciones realizadas por el usuario. |
+| Microservicio | Programa pequeño e independiente que cumple una función específica dentro del sistema, como procesar los pagos simulados. |
+| Navegador | Programa para abrir sitios web, como Chrome, Edge o Firefox. |
+| Organizador | Usuario habilitado para crear, maquetar y publicar eventos. |
+| Pago simulado | Proceso de pago que reproduce el funcionamiento de una pasarela real sin conectarse a ella. |
+| Pasarela de pagos | Servicio que procesa los pagos en línea. En esta versión, Tu Evento usa una pasarela simulada propia; Wompi (s. f.) es la pasarela real prevista. |
+| Rol | Perfil que determina las funcionalidades disponibles para un usuario dentro del sistema (asistente, organizador o administrador). |
+| Sección | Área definida dentro de la maquetación de un evento (por ejemplo, VIP, General, Palco, Tribuna). |
+| Sede | Lugar físico donde se realiza un evento, con su dirección, ubicación en el mapa y capacidad máxima. |
+| Sesión | Periodo de tiempo en el que un usuario permanece autenticado dentro de la plataforma. |
+| Solicitud de organizador | Petición realizada por un usuario para obtener el rol de organizador, sujeta a aprobación del administrador. |
+| Ticket | Comprobante digital de la compra de una silla para un evento. |
+| Cartera | Módulo que muestra el saldo disponible del usuario y el historial de sus movimientos. |
+| Reembolso | Devolución del dinero de un pago ya realizado, gestionada desde el panel del administrador. |
+| Dashboard | Pantalla inicial del panel de administración, que resume la actividad de la plataforma. |
+| Notificación | Aviso que el sistema muestra al usuario, mediante el ícono de campana, sobre eventos relacionados con su cuenta. |
+| Ganancias | Panel del organizador que resume lo recaudado y lo vendido en sus eventos. |
+| Tema visual | Combinación de colores de la interfaz que cada usuario puede elegir desde su perfil. |
+| Traducción | Versión en otro idioma de los textos creados en la plataforma, como eventos o categorías. |
+
+## Referencias
+
+Santos Ortiz, J., y Lozano Contreras, C. D. (2026a). *TuEvento: Manual de instalación* (Versión 1.0). CapySoft.
+
+Santos Ortiz, J., y Lozano Contreras, C. D. (2026b). *TuEvento: Manual técnico*. CapySoft.
+
+Santos Ortiz, J., y Lozano Contreras, C. D. (2026c). *TuEvento: Manual de usuario de la aplicación móvil* (Versión 1.0). CapySoft.
+
+Wompi. (s. f.). *Documentación de Wompi*. https://docs.wompi.co/
 
 ---
 
 <a id="doc-te-0159"></a>
 
 <!--
-ruta_anterior: es/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion.md
 id: TE-0159
-title: "manual mobile e instalacion"
+title: "Manual de usuario — aplicación móvil"
 lang: es
-source: 09_Manuales/Manual de usuario/manual mobile e instalacion.docx
-source_sha256: a92e3107d13fab5b6fc476da03be20d311f2cd59517b8f333b1a69cdbca59ef4
-conversion: "pandoc 3.9 (-t gfm --wrap=none --extract-media) + extracción de encabezados/pies; sin revisión manual"
-converted_on: 2026-10-23
-fidelity: parcial
+source: Manual_Usuario_Movil_v1.0.docx (versión 1.0; fuente editable entregada en ADSO-3145556, 04-final-delivery/10-your-event/08-manuals)
+source_sha256: bcfcb9c50877398c257f797c8d4f2e7c6c4b1bc37029a3a124b2d3b87fbacc2d
+conversion: "conversor propio desde el XML del DOCX (Python 3.13); con revisión manual"
+converted_on: 2026-11-05
+fidelity: completa
 losses:
-  - "El original no usa estilos de título; los títulos visuales quedan como texto en negrita, sin jerarquía #. Pendiente de marcar a mano."
-  - "Encabezados y pies de página extraídos aparte (pandoc no los convierte); en el original se repiten en cada página. Los campos se muestran como {PAGE}, {NUMPAGES}."
-status: borrador
-reviewed_by: ""
+  - "Presentación de Word adaptada a Markdown: la tabla de contenido automática, los saltos de página y el encabezado con el número de página no se reproducen."
+status: revisado
+reviewed_by: "Cristofer David Lozano Contreras"
 -->
 
-# Manual de usuario — aplicación móvil e instalación
+# Manual de usuario — aplicación móvil
 
-**Manual de aplicación Mobile**
+<div align="center">
 
-Lozano Contreras Cristofer David
+**Tu Evento – Capysoft**
 
-Santos Ortiz Jhampier
+**Manual de Usuario aplicación móvil**
+
+**Versión 1.0**
+
+Desarrolladores de Capysoft:
+
+Cristofer David Lozano Contreras
+
+Jhampier Santos Ortiz
 
 Análisis y Desarrollo de Software
 
-\(3145556\)
+Ficha: 3145556
 
-Servicio Nacional de Aprendizaje
+Instructora: Karol Daniela Correa
 
-Octubre 1, 2025
+Servicio Nacional de Aprendizaje – SENA
 
-**Introducción**
+CIES – Regional Huila
 
-El presente manual de usuario tiene como finalidad describir de manera clara y detallada las funcionalidades principales de la aplicación móvil "Tu Evento", desarrollada por CapySoft. Esta aplicación está diseñada para brindar a los asistentes una herramienta práctica, sencilla y accesible, que facilite la interacción con los eventos de manera rápida y eficiente desde sus dispositivos móviles.
+5 de noviembre de 2026
 
-A diferencia de la versión web, la aplicación móvil se centra en ofrecer las funcionalidades esenciales para los usuarios finales, tales como: creación de cuenta, inicio de sesión, visualización de los eventos disponibles, participación mediante comentarios y validación de pago a través del escaneo de códigos QR. Con estas herramientas, se garantiza una experiencia ágil, intuitiva y adaptada a la portabilidad de los dispositivos Android.
+</div>
 
-**Requisitos del sistema**
+## Control de versiones
 
-- **Sistema operativo:**
+A continuación, se presenta el historial de cambios realizados sobre este documento.
 
-> **Mínimo:** Android 11
->
-> **Recomendado:** Android 13 o superior
+**Tabla 1**
 
-- **Memoria RAM:**
+*Historial de cambios del manual*
 
-> **Mínimo:** 3 GB
->
-> **Recomendado:** 4 GB o más
+| Versión | Fecha | Descripción del cambio | Responsable |
+|---|---|---|---|
+| 1.0 | 05/11/2026 | Creación del manual de usuario de la aplicación móvil de "Tu Evento": instalación, acceso, funcionalidades por rol, mensajes frecuentes y evidencia de funcionamiento en iOS. | Cristofer David Lozano Contreras |
 
-- **Almacenamiento interno disponible:**
+## Introducción
 
-> **Mínimo:** 200 MB libres para la instalación y datos temporales
+El presente manual de usuario describe de forma clara y detallada el uso de la aplicación móvil de "Tu Evento", desarrollada por Capysoft. La aplicación complementa la plataforma web: permite a los asistentes explorar eventos, comprar entradas y presentarlas en la puerta del evento mediante un código QR, y permite a los organizadores validar esas entradas con la cámara del teléfono.
 
-- **Conectividad:**
+La creación, la maquetación y la publicación de eventos se realizan desde la plataforma web y se describen en el Manual de usuario web (Santos Ortiz y Lozano Contreras, 2026c). Los términos técnicos usados en este documento se explican en el Glosario, al final del manual.
 
-> Conexión a Internet estable (Wi-Fi o datos móviles).
->
-> Acceso a la cámara trasera para el escaneo de códigos QR.
+## Objetivo
 
-**Instalación**
+Explicar paso a paso cómo instalar la aplicación móvil de "Tu Evento" y cómo usar sus funcionalidades según el rol del usuario (asistente, organizador o administrador), de modo que cualquier persona pueda utilizarla de forma autónoma, sin conocimientos técnicos ni asistencia directa del equipo desarrollador.
 
-Para instalar la aplicación móvil, el usuario debe ingresar desde su dispositivo Android al sitio web oficial del sistema mediante su navegador móvil. Una vez dentro, deberá seleccionar la opción “Descargar APK”, ubicada en la sección de compatibilidad de dispositivos.
+## Alcance
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image1.png" style="width:3.44792in;height:2.58333in" /><img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image2.png" style="width:3.80486in;height:2.59364in" />
+Este manual cubre:
 
-Una vez descargado el archivo APK, el usuario debe proceder a habilitar la opción “Instalar apps desconocidas” en su dispositivo Android. Para ello, debe acceder a la configuración del sistema y permitir la instalación desde la fuente, luego, al abrir el archivo descargado, el sistema solicitará confirmación para instalar la aplicación\
-Tras aceptar, se iniciará el proceso de instalación, y una vez finalizado, se mostrará un mensaje indicando que la aplicación se ha instalado correctamente. Finalmente, el usuario podrá seleccionar la opción “Abrir” para ejecutar la aplicación o “Listo” para cerrarla y acceder posteriormente desde el menú principal del dispositivo.
+- La descarga e instalación de la aplicación en dispositivos Android.
+- El registro, el inicio de sesión y la recuperación de la contraseña desde la aplicación.
+- La exploración de eventos, la selección de sillas y la compra de entradas.
+- La consulta de las entradas compradas y la generación de su código QR.
+- La cartera, las notificaciones y el perfil del usuario (idioma y tema).
+- La validación de entradas por parte del organizador.
+- El panel de administración disponible en la aplicación.
+- La evidencia de funcionamiento de la aplicación en iOS.
 
-1.  <img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image3.png" style="width:2.33333in;height:3.875in" /><img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image4.png" style="width:2.30208in;height:3.88542in" />
+Este manual no cubre:
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image5.png" style="width:2.34408in;height:2.07321in" />
+- La creación, edición, maquetación y publicación de eventos, que se realizan desde la plataforma web (véase el Manual de usuario web; Santos Ortiz y Lozano Contreras, 2026c).
+- La instalación de servidores o el despliegue del sistema (véase el Manual de instalación; Santos Ortiz y Lozano Contreras, 2026a).
+- Aspectos técnicos de programación, arquitectura o base de datos (véase el Manual técnico; Santos Ortiz y Lozano Contreras, 2026b).
+- La publicación de la aplicación en las tiendas de aplicaciones (Google Play o App Store).
 
-**Acceso y uso de la aplicación**
+## Descripción general de la aplicación
 
-1.  **Interfaz principal**
+### Presentación de la aplicación
 
-Al abrir la aplicación móvil "Tu Evento", el usuario será dirigido a la pantalla de inicio de sesión. En este apartado, el sistema solicitará las credenciales previamente registradas (correo electrónico y contraseña) para permitir el acceso seguro a la plataforma.
+La aplicación móvil de "Tu Evento" usa la misma cuenta y la misma información que la plataforma web: los eventos, las compras, la cartera y las notificaciones se sincronizan entre ambas. Su barra inferior tiene tres accesos: Inicio, Eventos (botón central) y Perfil. Desde Inicio, los accesos rápidos llevan a Buscar eventos, Mis tickets, Mi billetera y Notificaciones.
 
-Asimismo, desde esta pantalla el usuario tendrá disponibles opciones adicionales como:
+Nota sobre los pagos: al igual que en la versión web, el pago de las entradas se realiza de forma simulada mediante un microservicio desarrollado por el equipo de Capysoft, que reproduce el flujo de la pasarela Wompi (Wompi, s. f.).
 
-1.  Crear una nueva cuenta, en caso de no estar registrado.
+### Requisitos de uso
 
-2.  Recuperar contraseña, en caso de haberla olvidado.
+- Un teléfono Android con conexión estable a internet.
+- Espacio libre para instalar la aplicación (el instalador ocupa cerca de 165 MB).
+- Permiso para instalar aplicaciones de origen desconocido, ya que la aplicación se distribuye como archivo APK.
+- Permiso de cámara, solo para el organizador que valida entradas.
+- Un correo Gmail al que tenga acceso, para recibir los códigos de verificación.
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image6.png" style="width:2.76042in;height:4.71875in" />De esta manera, se garantiza que cada usuario pueda acceder de forma personalizada a las funcionalidades principales de la aplicación.
+### Roles de usuario
 
-1.  **Interfaz de crear cuenta**
+La aplicación respeta los mismos roles de la plataforma web, como se resume en la Tabla 2.
 
-La aplicación móvil permite a los nuevos usuarios registrarse de manera rápida y sencilla para acceder a todas las funcionalidades disponibles. Al seleccionar la opción “Crear cuenta” desde la pantalla de inicio de sesión, se abrirá el formulario de registro, en el cual el sistema solicitará los siguientes datos:
+**Tabla 2**
 
-1.  Nombre completo: Información personal que identificará al usuario dentro de la plataforma.
+*Roles de usuario en la aplicación móvil*
 
-2.  Correo electrónico: Dato único utilizado como medio de contacto y nombre de usuario para iniciar sesión.
+| Rol | Descripción | Funcionalidades en la aplicación |
+|---|---|---|
+| Asistente | Usuario que se registra y participa en los eventos publicados. | Explorar eventos, elegir sillas, comprar entradas, mostrar el QR de sus entradas, usar la cartera y gestionar su perfil. |
+| Organizador | Usuario habilitado para crear eventos (desde la web). | Todo lo del asistente, más la validación de las entradas de sus eventos con la cámara. |
+| Administrador | Usuario que supervisa la plataforma. | Panel de administración con los mismos módulos de la versión web. |
 
-3.  Contraseña: Clave personal que garantizará la seguridad del acceso a la cuenta.
+*Nota.* El rol de organizador requiere la aprobación del administrador, que se solicita desde la plataforma web.
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image7.png" style="width:2.37403in;height:4.25581in" />Una vez diligenciados los campos, el usuario deberá pulsar el botón “Siguiente” para enviar la información.
+## Instalación de la aplicación
 
-1.  **Código de verificación de creación de cuenta**
+La aplicación se distribuye como un archivo de instalación APK que se descarga desde el sitio web de "Tu Evento".
 
-Una vez completado el proceso de creación de cuenta, el sistema enviará de manera automática un código de verificación al correo electrónico registrado por el usuario. Este paso es obligatorio para validar la autenticidad de la cuenta y habilitar su uso dentro de la aplicación móvil. En la pantalla de verificación, el usuario deberá:
+1. Desde el navegador del teléfono, ingrese a tuevento-capysoft.tech.
+2. Abra la opción de descarga de la aplicación y presione "Descargar APK" (Figura 1).
+3. Cuando termine la descarga, abra el archivo desde la carpeta Descargas del teléfono.
+4. Si el teléfono lo solicita, permita instalar aplicaciones de origen desconocido para el navegador.
+5. Presione "Instalar" en la ventana "¿Deseas instalar esta app?" (Figura 2).
+6. Al terminar, abra la aplicación desde el ícono de TuEvento.
 
-1.  Ingresar el código de verificación recibido en su correo electrónico.
+**Figura 1**
 
-2.  Pulsar el botón “Verificar” para confirmar la validez del código.
+*Descarga de la aplicación*
 
-**Resultados posibles:**
+![Descarga de la aplicación](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_01.jpeg)
 
-**Verificación exitosa:**\
-Si el código ingresado es correcto y aún está dentro del tiempo de validez, el sistema confirmará la activación de la cuenta y permitirá el acceso inmediato a la aplicación.
+*Nota.* Ventana "Aplicación Móvil TuEvento" del sitio web, con el botón "Descargar APK".
 
-> <img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image8.png" style="width:2.34408in;height:4.12558in" /><img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image9.png" style="width:2.5316in;height:4.34436in" />
+**Figura 2**
 
-1.  **Recuperación de contraseña**
+*Instalación del archivo APK*
 
-La aplicación móvil "Tu Evento" ofrece la opción de recuperar el acceso en caso de que el usuario olvide su contraseña. Para ello, desde la pantalla de inicio de sesión se debe seleccionar el enlace “¿Olvidó su contraseña?”, lo cual habilitará el proceso de recuperación.
+![Instalación del archivo APK](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_02.jpeg)
 
-**Pasos del proceso:**
+*Nota.* Confirmación de Android para instalar la aplicación descargada.
 
-**Ingreso de correo electrónico:**\
-El sistema solicitará al usuario digitar el correo electrónico asociado a su cuenta.
+Android puede mostrar una advertencia porque la aplicación no proviene de Google Play. Es un comportamiento normal para las aplicaciones que se instalan desde un archivo APK.
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image10.png" style="width:2.10417in;height:4.69767in" /><img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image11.png" style="width:2.32324in;height:4.68815in" />
+## Acceso a la aplicación
 
-2.  **Código de verificación y renovación**
+### Inicio de sesión
 
-Cuando se solicita la recuperación de acceso, el sistema envía un código de verificación único al correo electrónico registrado. Este código cumple la función de confirmar la identidad del usuario antes de permitir la modificación de la clave de acceso.
+Al abrir la aplicación sin una sesión activa se muestra la pantalla "Iniciar Sesión". El botón con la bandera, arriba a la derecha, permite cambiar el idioma de la aplicación.
 
-Una vez validado el código, el sistema habilita el formulario para que el usuario registre su nueva contraseña. La contraseña anterior queda invalidada, y a partir de ese momento solo será posible acceder con la nueva clave definida.
+1. Escriba su correo electrónico y su contraseña.
+2. Presione "Iniciar Sesión". También puede ingresar con "Iniciar sesión con Google".
+3. Si olvidó su contraseña, presione "¿No recuerdas tu contraseña?" y siga los pasos: ingrese su correo, escriba el código que recibirá y defina la nueva contraseña.
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image12.png" style="width:2.27972in;height:3.4645in" /><img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image13.png" style="width:2.13403in;height:3.40698in" />
+**Figura 3**
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image14.png" style="width:2.22917in;height:2.70833in" />
+*Inicio de sesión*
 
-3.  **Inicio de sesión**
+![Inicio de sesión](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_03.jpeg)
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image15.png" style="width:2.76119in;height:4.74583in" />Si las credenciales ingresadas son correctas, el sistema validará los datos y redirigirá al usuario a la pantalla principal, donde podrá visualizar los eventos disponibles y acceder a las funcionalidades ofrecidas.
+*Nota.* Ingreso con correo y contraseña o con Google, y enlaces para recuperar la contraseña y crear una cuenta.
 
-4.  **Filtrar evento por el nombre**
+Al iniciar sesión o crear una cuenta, el usuario acepta los Términos y condiciones de "Tu Evento", que pueden consultarse desde el enlace ubicado al final de la pantalla.
 
-permite al usuario realizar la búsqueda de eventos de manera rápida y precisa mediante un filtro por nombre. Esta funcionalidad facilita la localización de un evento específico sin necesidad de recorrer toda la lista disponible.
+### Registro de cuenta
 
-**Proceso de uso:**
+1. En la pantalla de inicio de sesión, presione "Crear cuenta".
+2. Escriba su nombre completo, su correo electrónico y una contraseña de mínimo 8 caracteres que incluya mayúsculas y números.
+3. Presione "Crear cuenta".
+4. Revise su correo, copie el código de activación y escríbalo en la pantalla de verificación para activar la cuenta. Si no lo recibió, use "Reenviar correo de activación".
 
-1.  El usuario accede a la pantalla de eventos disponibles.
+**Figura 4**
 
-2.  En la barra de búsqueda, digita el nombre completo o parcial del evento que desea localizar.
+*Registro de cuenta*
 
-3.  <img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image16.png" style="width:2.20864in;height:4.51105in" /><img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image17.png" style="width:2.15655in;height:4.53188in" />El sistema procesa la consulta y muestra en pantalla únicamente los eventos que coincidan con el texto ingresado.
+![Registro de cuenta](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_04.jpeg)
 
-    1.  **Comentar evento**
+*Nota.* Formulario "Crear cuenta" con el nombre completo, el correo y la contraseña.
 
-El sistema permite a los usuarios comentar en los eventos disponibles dentro de la aplicación, fomentando la interacción y el intercambio de opiniones entre los asistentes. Para ello, el usuario debe acceder al evento de su interés, seleccionar la opción Comentar e ingresar el texto en el campo habilitado. Una vez escrito su comentario, debe presionar el botón guardar, con lo cual su aporte quedará registrado y visible para otros usuarios de la plataforma.
+## Usuario asistente
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image18.png" style="width:2.64998in;height:4.22292in" /><img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image19.png" style="width:2.30208in;height:4.33333in" />
+### Flujo general del rol
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image20.png" style="width:2.125in;height:3.75412in" />
+El asistente explora los eventos publicados, abre el detalle de un evento, elige sus sillas en el mapa del recinto y paga. Sus entradas quedan en "Mis entradas", desde donde genera el código QR que presenta en la entrada del evento.
 
-2.  **Renovación de datos personales**
+### Exploración de eventos
 
-El sistema ofrece a los usuarios la posibilidad de renovar o actualizar sus datos personales de manera sencilla y segura, con el fin de mantener su información siempre vigente dentro de la plataforma. Para ello, el usuario accede al menú de Perfil, donde se habilita un formulario que le permite modificar campos como número de teléfono, fecha de nacimiento y dirección; una vez realizados los cambios, debe presionar el botón Guardar cambios para que la actualización se registre exitosamente
+1. Presione el botón central de la barra inferior o el acceso rápido "Buscar eventos".
+2. Escriba el nombre del evento en "Buscar eventos..." o filtre por categoría (por ejemplo, Populares, Todas o Deportes).
+3. En la tarjeta del evento, presione "Ver detalles".
 
-> <img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image21.png" style="width:2.3024in;height:4.7715in" /> <img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image22.png" style="width:2.21906in;height:4.75066in" />
+**Figura 5**
 
-3.  **Cerrar sesión**
+*Listado de eventos*
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image23.png" style="width:2.36491in;height:4.80275in" />El sistema brinda a los usuarios la opción de cerrar sesión, garantizando la protección de la cuenta. Para hacerlo, el usuario debe acceder al menú principal o de Perfil, seleccionar la opción Cerrar sesión y confirmar la acción. Una vez realizada, la aplicación redirigirá automáticamente a la pantalla de inicio de sesión, asegurando que el acceso quede restringido hasta que se ingresen nuevamente las credenciales correctas.
+![Listado de eventos](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_05.jpeg)
 
-1.  **Desactivación de cuenta**
+*Nota.* Búsqueda, filtros por categoría y tarjeta del evento con sus fechas, lugar y sillas disponibles.
 
-El sistema ofrece a los usuarios la posibilidad de desactivar su cuenta de manera voluntaria en caso de que ya no deseen utilizar la aplicación. Para ello, el usuario debe ingresar al menú de Perfil y seleccionar la opción Desactivar cuenta. Una vez confirmada la acción, la cuenta quedará inhabilitada, lo que implica que no podrá acceder a las funcionalidades de la aplicación ni aparecer en los eventos activos.
+### Selección de sillas y compra
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image24.png" style="width:2.37533in;height:4.85484in" />
+1. En el detalle del evento, revise la galería y la información del evento.
+2. En "Mapa de Sillas", indique cuántas sillas necesita con los botones de más y menos.
+3. Elija la sección (cada una muestra su precio y las sillas disponibles) y toque las sillas en el mapa. Las sillas disponibles se muestran en verde.
+4. Revise "Tu Carrito" y presione "Ir al pago".
+5. En "Confirmar compra", revise las sillas y el total, elija "Pago normal" o "Usar cartera" y el método de pago "Código QR".
+6. Presione "Pagar" y complete el pago.
 
-2.  **Escaneo y validación de ticket QR**
+**Figura 6**
 
-La aplicación incorpora una funcionalidad que permite a los usuarios escanear el código QR asociado a su ticket de evento, con el fin de validar su acceso de manera rápida y segura. Al utilizar la opción de escaneo, el sistema comprueba la autenticidad del ticket en tiempo real, verificando que este se encuentre registrado y que el pago haya sido confirmado previamente por el organizador.
+*Detalle del evento y mapa de sillas*
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image25.png" style="width:2.2399in;height:4.37561in" /><img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image26.png" style="width:2.31282in;height:3.88596in" />
+![Detalle del evento y mapa de sillas](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_06.jpeg)
 
-2.  **Casos de error**
+*Nota.* Galería del evento, cantidad de sillas, secciones con su precio y mapa del recinto.
 
-- **Interfaz de Inicio de sesión**
+**Figura 7**
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image27.png" style="width:2.73125in;height:5.01493in" />En caso de que el usuario introduzca credenciales incorrectas (correo o contraseña), el sistema mostrará un mensaje de error indicando “email no registrado”.
+*Confirmación de compra*
 
-- **Interfaz de recuperar contraseña**
+![Confirmación de compra](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_07.jpeg)
 
-En caso de que el usuario introduzca una cuenta inexistente o no registrada en la plataforma, el sistema mostrará un mensaje de error indicando:\
-**“Usuario no encontrado”**.
+*Nota.* Resumen de las sillas, total, uso de la cartera y método de pago.
 
-De esta manera, se garantiza que únicamente los usuarios previamente registrados puedan recuperar su acceso, manteniendo la seguridad e integridad de la aplicación.
+Las sillas elegidas quedan reservadas por un tiempo limitado (hasta 10 minutos) mientras se completa el pago. Si el tiempo termina o el pago es rechazado, las sillas vuelven a estar disponibles y deben elegirse de nuevo.
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image28.png" style="width:2.39617in;height:3.22962in" />
+### Mis entradas y código QR
 
-- **Iniciar sesión en una cuenta desactivada**
+Cada compra genera una orden con una o varias entradas. El código QR de la orden es el que se presenta al organizador en la entrada del evento.
 
-En caso de que un usuario intente iniciar sesión con una cuenta previamente desactivada, el sistema mostrará un mensaje informando que la cuenta se encuentra inactiva y que no es posible acceder a las funcionalidades de la aplicación.
+1. Desde Inicio, presione "Mis tickets".
+2. Ubique la orden del evento. Cada entrada muestra su código y su estado (por ejemplo, "Válido").
+3. Presione "QR orden" para mostrar el código de toda la orden, o "QR" para una entrada individual.
+4. Muestre el código al organizador en la entrada del evento.
 
-> <img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image29.png" style="width:2.78734in;height:3.99884in" />
+**Figura 8**
 
-- **Actualizar datos**
+*Mis entradas*
 
-<img src="../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/media/image30.png" style="width:2.21875in;height:4.90625in" />En caso de que no se haya modificado ningún dato, el sistema mostrará un mensaje informativo indicando: “No hay cambios para guardar”, garantizando que solo se almacenen datos nuevos o actualizados. De esta manera, se asegura que la información del usuario en la plataforma se mantenga siempre vigente y coherente con la realidad.
+![Mis entradas](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_08.jpeg)
 
+*Nota.* Órdenes con sus entradas y estados; las entradas de un evento cancelado no pueden usarse.
 
----
+**Figura 9**
 
-## Encabezados y pies de página del original
+*Código QR de la orden*
 
-- **Encabezado** (`word/header1.xml`): texto «0»<br>![Encabezado del original](../_assets/09_Manuales/Manual_de_usuario/manual_mobile_e_instalacion/header_footer/image31.png)
+![Código QR de la orden](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_09.jpeg)
+
+*Nota.* Código QR de un solo uso, con el tiempo de vigencia y el botón "Regenerar".
+
+Por seguridad, el código QR caduca a los pocos segundos y se renueva automáticamente; también puede generarse uno nuevo con "Regenerar". Si el evento fue cancelado, la orden lo indica y no es posible generar su código.
+
+### Cartera
+
+La cartera muestra el saldo disponible del usuario y el historial de sus movimientos.
+
+1. Desde Inicio, presione "Mi billetera".
+2. Consulte el saldo disponible y el historial de créditos y compras.
+3. Para usar el saldo, presione "Usar saldo en una compra" o elija "Usar cartera" al confirmar una compra.
+
+**Figura 10**
+
+*Cartera del usuario*
+
+![Cartera del usuario](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_10.jpeg)
+
+*Nota.* Saldo disponible e historial de movimientos.
+
+Si un evento se cancela, el valor pagado por cada entrada se reembolsa como crédito en la cartera del comprador.
+
+### Notificaciones
+
+El ícono de campana de la pantalla de Inicio, o el acceso rápido "Notificaciones", muestra los avisos de la cuenta, como pagos aprobados, créditos en la cartera o la validación de una entrada en la puerta del evento.
+
+### Perfil, idioma y tema
+
+1. Presione "Perfil" en la barra inferior.
+2. En "Información Personal", edite su nombre completo y su biografía y presione "Guardar cambios".
+3. En "Idioma Preferido", elija español, inglés, francés o portugués.
+4. En "Personalizar tema", elija y personalice los colores de la aplicación.
+
+**Figura 11**
+
+*Perfil del usuario*
+
+![Perfil del usuario](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_11.jpeg)
+
+*Nota.* Información personal, idioma preferido y personalización del tema.
+
+En "Seguridad de la Cuenta" se encuentran las opciones para cerrar la sesión y desactivar la cuenta.
+
+## Usuario organizador
+
+### Flujo general del rol
+
+El organizador crea y publica sus eventos desde la plataforma web. En la aplicación móvil, además de las funcionalidades del asistente, dispone de "Validar entradas" para controlar el ingreso al evento con la cámara del teléfono.
+
+### Validación de entradas
+
+1. Presione "Perfil" en la barra inferior y, en la sección Organizador, elija "Validar entradas".
+2. La primera vez, presione "Permitir cámara" para dar acceso a la cámara.
+3. Apunte la cámara al código QR que muestra el asistente.
+4. Espere el resultado: "¡Entrada válida! Puedes ingresar" indica que la entrada se validó.
+5. Presione "Escanear otra" para continuar con el siguiente asistente.
+
+**Figura 12**
+
+*Escaneo del código QR*
+
+![Escaneo del código QR](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_12.jpeg)
+
+*Nota.* La cámara lee el código QR de la orden que muestra el asistente.
+
+**Figura 13**
+
+*Entrada validada*
+
+![Entrada validada](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_13.jpeg)
+
+*Nota.* Resultado de una validación correcta, con el número de entradas validadas y la orden.
+
+Cada código QR solo puede usarse una vez. Si se escanea de nuevo, la aplicación muestra "Entrada ya escaneada"; si el código no corresponde a una entrada válida, muestra "QR no válido". Al validar, el asistente recibe la confirmación en su aplicación.
+
+## Usuario administrador
+
+Al iniciar sesión como administrador, la aplicación muestra el "Panel de administración", con los mismos módulos de la plataforma web adaptados al teléfono.
+
+**Figura 14**
+
+*Panel de administración*
+
+![Panel de administración](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_14.jpeg)
+
+*Nota.* Módulos disponibles para el administrador en la aplicación.
+
+- Dashboard: vista general de la plataforma.
+- Control Financiero: pagos y reembolsos.
+- Eventos: gestión y revisión de los eventos.
+- Reportes: estadísticas de la plataforma.
+- Reembolsos: gestión de los reembolsos.
+- Solicitudes: solicitudes para ser organizador; el número indica las pendientes.
+- Usuarios: roles y organizadores.
+- Categorías y Tipos de Sección: catálogos que usan los organizadores.
+- Traducciones: textos de eventos, categorías, comentarios y perfiles en otros idiomas.
+
+El funcionamiento de cada módulo se describe en el Manual de usuario web (Santos Ortiz y Lozano Contreras, 2026c).
+
+## Evidencia de funcionamiento en iOS
+
+La aplicación se desarrolló con React Native y Expo, tecnologías que permiten ejecutarla tanto en Android como en iOS. Para verificar su funcionamiento en iOS, el equipo la ejecutó en el simulador de iOS de Xcode, en un equipo Mac facilitado por el instructor Carlos Julio Cadena Sarasty. Las condiciones de la prueba se resumen en la Tabla 3.
+
+**Tabla 3**
+
+*Condiciones de la prueba en iOS*
+
+| Aspecto | Detalle |
+|---|---|
+| Dispositivo simulado | iPhone SE (3.ª generación) |
+| Sistema operativo | iOS 18.3 |
+| Herramienta | Simulador de iOS (Xcode) en macOS |
+| Flujos verificados | Inicio, detalle del evento con comentarios, carrito de compra y Mis entradas |
+| Resultado | La aplicación funcionó correctamente en los flujos verificados |
+| Distribución | No se distribuye para iOS; la distribución oficial es el archivo APK para Android |
+
+La aplicación no se publica para iOS porque instalarla en iPhone fuera del simulador exige una membresía paga del programa Apple Developer. Desde la Figura 15 hasta la Figura 18 se muestra la aplicación en ejecución; el nombre del dispositivo y la versión de iOS aparecen en la esquina superior izquierda de cada captura.
+
+**Figura 15**
+
+*Pantalla de inicio en iOS*
+
+![Pantalla de inicio en iOS](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_15.jpeg)
+
+*Nota.* Saludo al usuario, accesos rápidos e indicadores de la pantalla de Inicio.
+
+**Figura 16**
+
+*Detalle del evento en iOS*
+
+![Detalle del evento en iOS](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_16.jpeg)
+
+*Nota.* Sección de comentarios del evento con su calificación.
+
+**Figura 17**
+
+*Carrito de compra en iOS*
+
+![Carrito de compra en iOS](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_17.jpeg)
+
+*Nota.* Silla seleccionada en el mapa del recinto y carrito con el total y el botón "Ir al pago".
+
+**Figura 18**
+
+*Mis entradas en iOS*
+
+![Mis entradas en iOS](../_assets/09_Manuales/Manual_de_usuario/movil/movil_figura_18.jpeg)
+
+*Nota.* Órdenes y entradas del usuario. Esta captura se tomó con la aplicación configurada en inglés, uno de los idiomas que ofrece la aplicación.
+
+## Mensajes de validación y errores frecuentes
+
+La Tabla 4 reúne los mensajes que la aplicación puede mostrar y cómo resolverlos.
+
+**Tabla 4**
+
+*Mensajes de validación y errores frecuentes*
+
+| Situación | Mensaje mostrado | Causa | Solución |
+|---|---|---|---|
+| Instalación bloqueada | Android impide instalar el archivo descargado. | El teléfono no permite instalar aplicaciones de origen desconocido. | Permita la instalación de origen desconocido para el navegador o el gestor de archivos y abra de nuevo el APK. |
+| Código QR vencido | El organizador no puede validar el código. | El código QR caducó antes de escanearse. | Presione "Regenerar" y muestre el nuevo código. |
+| Entrada ya usada | "Entrada ya escaneada". | El código de esa entrada ya se validó. | Verifique con el organizador; cada entrada solo permite un ingreso. |
+| Código no reconocido | "QR no válido". | El código no corresponde a una entrada de "Tu Evento". | Pida al asistente abrir el código desde "Mis tickets". |
+| Cámara sin permiso | "Necesitamos la cámara". | No se ha dado permiso de cámara a la aplicación. | Presione "Permitir cámara" o habilítelo en los ajustes del teléfono. |
+| Evento cancelado | La orden indica que el evento fue cancelado. | El organizador o el administrador canceló el evento. | Revise su cartera: el valor pagado se reembolsa como crédito. |
+| Sillas no disponibles | Las sillas elegidas ya no aparecen disponibles. | Otro usuario las reservó o terminó el tiempo de reserva. | Vuelva al mapa del recinto y elija otras sillas. |
+
+## Recomendaciones de uso
+
+- Descargue la aplicación solo desde el sitio oficial de "Tu Evento".
+- Mantenga una conexión estable a internet durante la compra y la validación de entradas.
+- Complete el pago sin demora, pues las sillas solo quedan reservadas por un tiempo limitado.
+- Abra el código QR en el momento de ingresar al evento y suba el brillo de la pantalla para facilitar la lectura.
+- Organizador: valide las entradas en un lugar con buena iluminación.
+- Cierre la sesión si comparte el teléfono con otras personas.
+
+## Glosario
+
+**Tabla 5**
+
+*Glosario de términos*
+
+| Término | Definición |
+|---|---|
+| APK | Archivo de instalación de aplicaciones para Android. |
+| Asistente | Usuario que se registra y participa en los eventos publicados. |
+| Cartera | Módulo que muestra el saldo disponible del usuario y el historial de sus movimientos. |
+| Código QR | Código que identifica una orden o una entrada y que el organizador escanea en el ingreso al evento. |
+| Entrada | Comprobante digital de la compra de una silla para un evento; también se denomina ticket. |
+| Orden | Compra realizada por el usuario, que agrupa una o varias entradas. |
+| Organizador | Usuario habilitado para crear eventos y validar sus entradas. |
+| Origen desconocido | Aplicación que se instala desde un archivo y no desde una tienda oficial. |
+| Simulador de iOS | Herramienta de Xcode que ejecuta aplicaciones de iPhone en un computador Mac. |
+| Validación | Lectura del código QR que confirma que una entrada es válida y registra el ingreso. |
+
+## Referencias
+
+Santos Ortiz, J., y Lozano Contreras, C. D. (2026a). *TuEvento: Manual de instalación* (Versión 1.0). CapySoft.
+
+Santos Ortiz, J., y Lozano Contreras, C. D. (2026b). *TuEvento: Manual técnico*. CapySoft.
+
+Santos Ortiz, J., y Lozano Contreras, C. D. (2026c). *TuEvento: Manual de usuario web* (Versión 3.3). CapySoft.
+
+Wompi. (s. f.). *Documentación de Wompi*. https://docs.wompi.co/
